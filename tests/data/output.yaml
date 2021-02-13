@@ -1,0 +1,23 @@
+-
+    request:
+        method:
+        url:
+        headers:
+            Host:
+            Content-Type:
+            SOAPAction:
+        body:
+    response:
+        status:
+            http_version:
+            code:
+            message:
+        headers:
+            Cache-Control:
+            Content-Length:
+            Content-Type:
+            Server:
+            X-AspNet-Version:
+            X-Powered-By:
+            Date:
+        body:
