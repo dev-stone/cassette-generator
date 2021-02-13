@@ -10,6 +10,7 @@
         }
     ],
     "require": {
+        "php": ">=7.4",
         "phpunit/phpunit": "^9.5"
     },
     "autoload": {
@@ -21,5 +22,7 @@
         "psr-4": {
             "Acg\\Tests\\": "tests/"
         }
-    }
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true
 }
