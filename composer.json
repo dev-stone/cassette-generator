@@ -11,7 +11,7 @@
     ],
     "require": {
         "php": ">=7.4",
-        "phpunit/phpunit": "^9.5"
+        "phpunit/phpunit": "8.5"
     },
     "autoload": {
         "psr-4": {
