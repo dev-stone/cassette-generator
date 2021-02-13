@@ -1,0 +1,25 @@
+{
+    "name": "arlauskas/cassette-generator",
+    "description": "Generate files for vcr cassette",
+    "type": "library",
+    "license": "mit",
+    "authors": [
+        {
+            "name": "Kestutis Arlauskas",
+            "email": "kestutisa@gmail.com"
+        }
+    ],
+    "require": {
+        "phpunit/phpunit": "^9.5"
+    },
+    "autoload": {
+        "psr-4": {
+            "Acg\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Acg\\Tests\\": "tests/"
+        }
+    }
+}
