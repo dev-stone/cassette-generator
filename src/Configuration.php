@@ -33,6 +33,17 @@ class Configuration
         return $this->getSettings('tests-settings');
     }
 
+    public function getFixturesSettings()
+    {
+        $testsSettings = $this->getTestsSettings();
+
+        if (!array_key_exists('fixtures', $testsSettings)) {
+            throw new \RuntimeException('Fixtures items not set.');
+        }
+
+        return $testsSettings['fixtures'];
+    }
+
     private function getSettings(string $key): array
     {
         $this->validateSettings($key);

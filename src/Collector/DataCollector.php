@@ -8,10 +8,14 @@ use Acg\Configuration;
 class DataCollector
 {
     private Configuration $configuration;
+    private AppendModifier $appendModifier;
+    private BodyModifier $bodyModifier;
 
     public function __construct(Configuration $configuration)
     {
         $this->configuration = $configuration;
+        $this->appendModifier = new AppendModifier();
+        $this->bodyModifier = new BodyModifier($configuration);
     }
 
     public function getData(): array
@@ -20,25 +24,13 @@ class DataCollector
         $testsSettings = $this->configuration->getTestsSettings();
 
         $data = [];
-        foreach ($testsSettings['fixtures'] as $testItem) {
+        foreach ($testsSettings['fixtures'] as $fixturesItem) {
             $cassette = $cassetteSettings;
-            $cassette['request']['body'] = null;
-            $cassette['response']['body'] = null;
+            $cassette['outputFile'] = $testsSettings['namespace_out'] . $fixturesItem['output'];
+            $cassette['request']['body'] = $this->bodyModifier->getRequestBody($fixturesItem);
+            $cassette['response']['body'] = $this->bodyModifier->getResponseBody($fixturesItem);
 
-            foreach ($testItem['append'] as $append => $value) {
-                [$root, $list, $key] = explode('|', $append);
-                $cassetteItem = $cassette[$root][$list][$key];
-
-                $addQuote = '';
-                if (strrpos($cassetteItem, "'") === strlen($cassetteItem)-1) {
-                    $addQuote = "'";
-                    $cassetteItem = substr($cassetteItem, 0, -1);
-                }
-
-                $cassetteItem = $cassetteItem . $value . $addQuote;
-
-                $cassette[$root][$list][$key] = $cassetteItem;
-            }
+            $this->appendModifier->modifyItems($cassette, $fixturesItem);
 
             $data[] = $cassette;
         }

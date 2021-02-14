@@ -1,12 +1,34 @@
 #!/usr/bin/env php
 <?php
 
-use Acg\Init;
+use Acg\Collector\DataCollector;
+use Acg\Configuration;
+use Acg\Parser\YamlParser;
+use Acg\Writer\OutputWriter;
 
 require 'vendor/autoload.php';
 
-$init = new Init();
+if (1 === $argc) {
+    echo 'Please provide configuration file path!' . PHP_EOL;
+    return 1;
+}
 
-$status = $init->feature() ? 'ok' : 'failure';
+$configPath = $argv[1];
 
-echo 'Project setup status: ' . $status . PHP_EOL;
+if (!file_exists($configPath) || !is_file($configPath)) {
+    echo 'Config file not exist!' . PHP_EOL;
+    return 1;
+}
+
+$config = new Configuration($configPath);
+$data = (new DataCollector($config))->getData();
+$yamlParser = new YamlParser($data);
+$yamlParserData = $yamlParser->getData();
+$file = $yamlParserData[0]['outputFile'];
+$outputWriter = (new OutputWriter())
+    ->setParser($yamlParser)
+    ->setOutputFile($file);
+
+$outputWriter->writeOutput();
+
+echo 'Success.' . PHP_EOL;

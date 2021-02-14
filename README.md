@@ -1,1 +1,1 @@
-# Cassette generator to generate VCR cassetes
+# Cassette generator to generate [PHP-VCR](https://php-vcr.github.io/) cassettes

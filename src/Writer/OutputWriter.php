@@ -7,12 +7,13 @@ use Acg\Parser\ParserInterface;
 
 class OutputWriter
 {
-    private ?string $outputFile = null;
     private ParserInterface $parser;
+    private ?string $outputFile = null;
 
     public function writeOutput()
     {
-        file_put_contents($this->outputFile, $this->parser->parse());
+        $data = $this->parser->parse();
+        file_put_contents($this->outputFile, $data);
     }
 
     public function setOutputFile(string $outputFile): self

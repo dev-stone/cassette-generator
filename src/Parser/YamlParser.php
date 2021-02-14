@@ -30,6 +30,11 @@ class YamlParser implements ParserInterface
         return $this->yaml;
     }
 
+    public function getData(): array
+    {
+        return $this->data;
+    }
+
     private function parseData()
     {
         foreach ($this->data as $datum) {
