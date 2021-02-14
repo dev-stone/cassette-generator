@@ -1,16 +1,18 @@
 <?php
 declare(strict_types=1);
 
-namespace Acg;
+namespace Acg\Writer;
+
+use Acg\Parser\ParserInterface;
 
 class OutputWriter
 {
     private ?string $outputFile = null;
-    private Frame $frame;
+    private ParserInterface $parser;
 
     public function writeOutput()
     {
-        file_put_contents($this->outputFile, $this->frame->yaml());
+        file_put_contents($this->outputFile, $this->parser->parse());
     }
 
     public function setOutputFile(string $outputFile): self
@@ -20,9 +22,9 @@ class OutputWriter
         return $this;
     }
 
-    public function setFrame(Frame $frame): self
+    public function setParser(ParserInterface $parser): self
     {
-        $this->frame = $frame;
+        $this->parser = $parser;
 
         return $this;
     }

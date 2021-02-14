@@ -1,12 +1,12 @@
 <?php
 declare(strict_types=1);
 
-namespace Acg;
+namespace Acg\Parser;
 
 use Acg\Exceptions\MissingRequestKeyException;
 use Acg\Exceptions\MissingResponseKeyException;
 
-class Frame
+class YamlParser implements ParserInterface
 {
     private array $data;
     private string $yaml = '';
@@ -22,7 +22,7 @@ class Frame
         $this->tab3 = $this->tab1 . $this->tab1 . $this->tab1;
     }
 
-    public function yaml(): string
+    public function parse(): string
     {
         $this->resetYaml();
         $this->parseData();
@@ -34,24 +34,7 @@ class Frame
     {
         foreach ($this->data as $datum) {
             $this->validateDatum($datum);
-            $this->markBegin();
-
-            $request = $datum['request'];
-            $response = $datum['response'];
-
-            $this->addRequest();
-            $this->addMethod($request['method']);
-            $this->addUrl($request['url']);
-            $this->addHeaders();
-            $this->addList($request['headers']);
-            $this->addBody($request['body']);
-
-            $this->addResponse();
-            $this->addStatus();
-            $this->addList($response['status']);
-            $this->addHeaders();
-            $this->addList($response['headers']);
-            $this->addBody($response['body']);
+            $this->writeLines($datum);
         }
     }
 
@@ -145,5 +128,27 @@ class Frame
     private function resetYaml()
     {
         $this->yaml = '';
+    }
+
+    private function writeLines(array $datum): void
+    {
+        $this->markBegin();
+
+        $request = $datum['request'];
+        $response = $datum['response'];
+
+        $this->addRequest();
+        $this->addMethod($request['method']);
+        $this->addUrl($request['url']);
+        $this->addHeaders();
+        $this->addList($request['headers']);
+        $this->addBody($request['body']);
+
+        $this->addResponse();
+        $this->addStatus();
+        $this->addList($response['status']);
+        $this->addHeaders();
+        $this->addList($response['headers']);
+        $this->addBody($response['body']);
     }
 }

@@ -1,3 +1,30 @@
+<?php
+declare(strict_types=1);
+
+namespace Acg\Tests;
+
+use Acg\Collector\DataCollector;
+use Acg\Configuration;
+use Acg\Parser\YamlParser;
+use PHPUnit\Framework\TestCase;
+
+class CreateYamlParserTest extends TestCase
+{
+    public function testCreateFrame()
+    {
+
+        $config = new Configuration(__DIR__.'/data/acg_config.yaml');
+        $data = (new DataCollector($config))->getData();
+        $frame = new YamlParser($data);
+        $actual = $frame->parse();
+        $expected = $this->expectedFrame();
+
+        $this->assertEquals($expected, $actual);
+    }
+
+    private function expectedFrame(): string
+    {
+        return <<< YAML
 -
     request:
         method: POST
@@ -21,3 +48,7 @@
             X-Powered-By: ASP.NET
             Date: 'Wed, 10 Feb 2021 07:35:56 GMT'
         body:
+
+YAML;
+    }
+}
