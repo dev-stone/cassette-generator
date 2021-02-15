@@ -32,3 +32,12 @@ tests-settings:
                 'request|headers|SOAPAction': 'IAppService/FindUser'
             rewrite:
                 'response|headers|Date':
+        -
+            name: 'user_login'
+            request: 'user_login_request.xml'
+            response: 'user_login_response.xml'
+            output: 'user_login.yaml'
+            append:
+                'request|headers|SOAPAction': 'IAppService/Login'
+            rewrite:
+                'response|headers|Date':

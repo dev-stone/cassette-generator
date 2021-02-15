@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-namespace Acg\Parser;
+namespace Vcg\Parser;
 
 interface ParserInterface
 {

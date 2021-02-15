@@ -1,10 +1,10 @@
 <?php
 declare(strict_types=1);
 
-namespace Acg\Parser;
+namespace Vcg\Parser;
 
-use Acg\Exceptions\MissingRequestKeyException;
-use Acg\Exceptions\MissingResponseKeyException;
+use Vcg\Exceptions\MissingRequestKeyException;
+use Vcg\Exceptions\MissingResponseKeyException;
 
 class YamlParser implements ParserInterface
 {

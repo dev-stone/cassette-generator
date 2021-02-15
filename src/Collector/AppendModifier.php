@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-namespace Acg\Collector;
+namespace Vcg\Collector;
 
 class AppendModifier
 {

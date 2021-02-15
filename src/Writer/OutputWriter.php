@@ -1,9 +1,9 @@
 <?php
 declare(strict_types=1);
 
-namespace Acg\Writer;
+namespace Vcg\Writer;
 
-use Acg\Parser\ParserInterface;
+use Vcg\Parser\ParserInterface;
 
 class OutputWriter
 {

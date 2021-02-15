@@ -16,12 +16,12 @@
     },
     "autoload": {
         "psr-4": {
-            "Acg\\": "src/"
+            "Vcg\\": "src/"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "Acg\\Tests\\": "tests/"
+            "Vcg\\Tests\\": "tests/"
         }
     },
     "bin": ["bin/acg"],

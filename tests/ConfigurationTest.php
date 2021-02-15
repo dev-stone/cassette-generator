@@ -1,9 +1,9 @@
 <?php
 declare(strict_types=1);
 
-namespace Acg\Tests;
+namespace Vcg\Tests;
 
-use Acg\Configuration;
+use Vcg\Configuration;
 use PHPUnit\Framework\TestCase;
 
 class ConfigurationTest extends TestCase
@@ -24,7 +24,7 @@ class ConfigurationTest extends TestCase
 
     protected function setUp(): void
     {
-        $configFile = __DIR__.'/data/acg_config.yaml';
+        $configFile = __DIR__.'/data/vcg_config.yaml';
         $this->configuration = (new Configuration($configFile))->loadConfiguration();
     }
 
@@ -72,6 +72,18 @@ class ConfigurationTest extends TestCase
                     'output' => 'find_user.yaml',
                     'append' => [
                         'request|headers|SOAPAction' => 'IAppService/FindUser'
+                    ],
+                    'rewrite' => [
+                        'response|headers|Date' => null
+                    ]
+                ],
+                [
+                    'name' => 'user_login',
+                    'request' => 'user_login_request.xml',
+                    'response' => 'user_login_response.xml',
+                    'output' => 'user_login.yaml',
+                    'append' => [
+                        'request|headers|SOAPAction' => 'IAppService/Login'
                     ],
                     'rewrite' => [
                         'response|headers|Date' => null

@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-namespace Acg\Exceptions;
+namespace Vcg\Exceptions;
 
 class MissingResponseKeyException extends MissingKeyException
 {

@@ -1,10 +1,10 @@
 #!/usr/bin/env php
 <?php
 
-use Acg\Collector\DataCollector;
-use Acg\Configuration;
-use Acg\Parser\YamlParser;
-use Acg\Writer\OutputWriter;
+use Vcg\Collector\DataCollector;
+use Vcg\Configuration;
+use Vcg\Parser\YamlParser;
+use Vcg\Writer\OutputWriter;
 
 require 'vendor/autoload.php';
 

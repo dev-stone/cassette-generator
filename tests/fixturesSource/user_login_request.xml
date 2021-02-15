@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <SOAP-ENV:Envelope xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/" xmlns:ns1="http://tempuri.org/">
     <SOAP-ENV:Body>
-        <ns1:FindUser>
+        <ns1:Login>
             <ns1:User>test@example.com</ns1:User>
-        </ns1:FindUser>
+            <ns1:Password>Pass123</ns1:Password>
+        </ns1:Login>
     </SOAP-ENV:Body>
 </SOAP-ENV:Envelope>

@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<SOAP-ENV:Envelope xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/" xmlns:ns1="http://tempuri.org/">
+    <SOAP-ENV:Body>
+        <LoginResponse>
+            <LoginResult>
+                eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZGVudGlmaWVyIjoiNzkyOTkwMzcwMDgzMDAwMTM1MyJ9.e-0RCfQM2R92-FwCaQqjbo_aPHU3otcLaNqPgDgjxDU
+            </LoginResult>
+        </LoginResponse>
+    </SOAP-ENV:Body>
+</SOAP-ENV:Envelope>

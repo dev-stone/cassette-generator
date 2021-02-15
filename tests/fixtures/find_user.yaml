@@ -6,7 +6,7 @@
             Host: '127.0.0.1:8080'
             Content-Type: 'text/xml; charset=utf-8;'
             SOAPAction: 'http://tempuri.org/IAppService/FindUser'
-        body: "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<SOAP-ENV:Envelope xmlns:SOAP-ENV=\"http://schemas.xmlsoap.org/soap/envelope/\" xmlns:ns1=\"http://tempuri.org/\"><SOAP-ENV:Body><ns1:FindUser><ns1:User>test@acg.com</ns1:User></ns1:FindUser></SOAP-ENV:Body></SOAP-ENV:Envelope>\n"
+        body: "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<SOAP-ENV:Envelope xmlns:SOAP-ENV=\"http://schemas.xmlsoap.org/soap/envelope/\" xmlns:ns1=\"http://tempuri.org/\"><SOAP-ENV:Body><ns1:FindUser><ns1:User>test@example.com</ns1:User></ns1:FindUser></SOAP-ENV:Body></SOAP-ENV:Envelope>\n"
     response:
         status:
             http_version: '1.1'
@@ -21,3 +21,26 @@
             X-Powered-By: ASP.NET
             Date: 'Wed, 10 Feb 2021 07:35:56 GMT'
         body: '<?xml version="1.0" encoding="UTF-8"?>\n<SOAP-ENV:Envelope xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/" xmlns:ns1="http://tempuri.org/"><SOAP-ENV:Body><ns1:FindUserResponse><ns1:FindUserResult>true</ns1:FindUserResult></ns1:FindUserResponse></SOAP-ENV:Body></SOAP-ENV:Envelope>'
+-
+    request:
+        method: POST
+        url: 'http://127.0.0.1:8080/soap'
+        headers:
+            Host: '127.0.0.1:8080'
+            Content-Type: 'text/xml; charset=utf-8;'
+            SOAPAction: 'http://tempuri.org/IAppService/Login'
+        body: "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<SOAP-ENV:Envelope xmlns:SOAP-ENV=\"http://schemas.xmlsoap.org/soap/envelope/\" xmlns:ns1=\"http://tempuri.org/\"><SOAP-ENV:Body><ns1:Login><ns1:User>test@example.com</ns1:User><ns1:Password>Pass123</ns1:Password></ns1:Login></SOAP-ENV:Body></SOAP-ENV:Envelope>\n"
+    response:
+        status:
+            http_version: '1.1'
+            code: '200'
+            message: OK
+        headers:
+            Cache-Control: private
+            Content-Length: '196'
+            Content-Type: 'text/xml; charset=utf-8'
+            Server: Microsoft-IIS/8.0
+            X-AspNet-Version: 4.0.30319
+            X-Powered-By: ASP.NET
+            Date: 'Wed, 10 Feb 2021 07:35:56 GMT'
+        body: '<?xml version="1.0" encoding="UTF-8"?>\n<SOAP-ENV:Envelope xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/" xmlns:ns1="http://tempuri.org/"><SOAP-ENV:Body><LoginResponse><LoginResult>                eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZGVudGlmaWVyIjoiNzkyOTkwMzcwMDgzMDAwMTM1MyJ9.e-0RCfQM2R92-FwCaQqjbo_aPHU3otcLaNqPgDgjxDU            </LoginResult></LoginResponse></SOAP-ENV:Body></SOAP-ENV:Envelope>'

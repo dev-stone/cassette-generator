@@ -1,9 +1,9 @@
 <?php
 declare(strict_types=1);
 
-namespace Acg\Collector;
+namespace Vcg\Collector;
 
-use Acg\Configuration;
+use Vcg\Configuration;
 
 class BodyModifier
 {
