@@ -19,8 +19,10 @@ class WriteYamlOutputTest extends TestCase
         $config = new Configuration($configPath);
         $data = (new DataCollector($config))->getData();
         $yamlParser = new YamlParser($data);
+
         $yamlParserData = $yamlParser->getData();
         $file = $yamlParserData[0]['outputFile'];
+
         $outputWriter = (new OutputWriter())
             ->setParser($yamlParser)
             ->setOutputFile($file);
