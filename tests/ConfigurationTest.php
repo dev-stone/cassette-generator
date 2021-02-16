@@ -25,7 +25,7 @@ class ConfigurationTest extends TestCase
     protected function setUp(): void
     {
         $configFile = __DIR__.'/data/vcg_config.yaml';
-        $this->configuration = (new Configuration($configFile))->loadConfiguration();
+        $this->configuration = new Configuration($configFile);
     }
 
     private function expectedSettings(): array
