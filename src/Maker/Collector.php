@@ -5,7 +5,7 @@ namespace Vcg\Maker;
 
 use Vcg\Configuration\Configuration;
 
-class Maker
+class Collector
 {
     private Configuration $configuration;
     /**
@@ -18,8 +18,9 @@ class Maker
         $this->configuration = $configuration;
     }
 
-    public function make()
+    public function collect()
     {
+        $recordDefaultsModel = $this->configuration->getRecordDefaults();
         foreach ($this->configuration->getCassettesSettings() as $cassettesHolderModel) {
             $cassettesHolder = new CassettesHolder();
             $this->cassettesHolder[] = $cassettesHolder;
@@ -31,9 +32,17 @@ class Maker
                 foreach ($cassetteModel->getRecordsModels() as $recordModel) {
                     $requestBodyPath = $cassettesHolderModel->getInputDir() . $recordModel->getRequestBodyPath();
                     $responseBodyPath = $cassettesHolderModel->getInputDir() . $recordModel->getResponseBodyPath();
+                    $recordDefaultCloned = clone $recordDefaultsModel;
                     $record = (new Record())
+                        ->setRecordDefaultsModel($recordDefaultCloned)
                         ->setRequestBodyPath($requestBodyPath)
                         ->setResponseBodyPath($responseBodyPath);
+                    foreach ($recordModel->getAppendItems() as $key => $value) {
+                        $record->addAppendItem($key, $value);
+                    }
+                    foreach ($recordModel->getRewriteItems() as $key => $value) {
+                        $record->addRewriteItem($key, $value);
+                    }
                     $cassette->addRecord($record);
                 }
             }
