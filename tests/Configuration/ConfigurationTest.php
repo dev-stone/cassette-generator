@@ -4,12 +4,13 @@ declare(strict_types=1);
 namespace Vcg\Tests\Configuration;
 
 use Vcg\Configuration\Configuration;
+use Vcg\Tests\RecordTestCase;
 
-class ConfigurationTest extends ConfigurationTestCase
+class ConfigurationTest extends RecordTestCase
 {
     public function testConfigurationLoadsModels()
     {
-        $configuration = new Configuration(__DIR__ . '/../data/models_config.yaml');
+        $configuration = $this->createModelsConfiguration();
 
         $expectedRecordDefaults = $this->createRecordDefaults();
         $expectedCassettesSettings = $this->createCassettesSettings();

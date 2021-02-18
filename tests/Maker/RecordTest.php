@@ -5,9 +5,10 @@ namespace Vcg\Tests\Maker;
 
 use Vcg\Configuration\Configuration;
 use Vcg\Maker\Record;
-use Vcg\Maker\RecordMaker;
+use Vcg\Maker\RecordOutputMaker;
+use Vcg\Tests\RecordTestCase;
 
-class RecordMakerTest extends MakerTestCase
+class RecordTest extends RecordTestCase
 {
     private Configuration $configuration;
 
@@ -20,11 +21,8 @@ class RecordMakerTest extends MakerTestCase
             ->setResponseBodyPath('/var/www/cassette-generator/tests/fixturesSource/find_user_response.xml')
             ->addAppendItem('request|headers|SOAPAction', 'IAppService/FindUser')
             ->addRewriteItem('response|headers|Date');
-        $recordMaker = new RecordMaker();
-        $recordMaker->makeOutputData($record);
-        $recordMaker->appendData($record);
-        $recordMaker->makeRequestBody($record);
-        $recordMaker->makeResponseBody($record);
+        $recordMaker = new RecordOutputMaker();
+        $recordMaker->make($record);
 
         $expected = $this->expectedRecord();
         $this->assertEquals($expected, $record);

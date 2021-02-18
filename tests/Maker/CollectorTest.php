@@ -5,8 +5,9 @@ namespace Vcg\Tests\Maker;
 
 use Vcg\Configuration\Configuration;
 use Vcg\Maker\Collector;
+use Vcg\Tests\RecordTestCase;
 
-class CollectorTest extends MakerTestCase
+class CollectorTest extends RecordTestCase
 {
     public function testMake()
     {

@@ -5,9 +5,9 @@ namespace Vcg\Tests\Configuration\Model;
 
 use Vcg\Configuration\RawConfig;
 use Vcg\Configuration\Model\ModelsLoader;
-use Vcg\Tests\Configuration\ConfigurationTestCase;
+use Vcg\Tests\RecordTestCase;
 
-class ModelLoaderTest extends ConfigurationTestCase
+class ModelLoaderTest extends RecordTestCase
 {
     public function testModelsLoaded(): void
     {

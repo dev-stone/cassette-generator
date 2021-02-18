@@ -3,11 +3,19 @@ declare(strict_types=1);
 
 namespace Vcg\Maker;
 
-use Vcg\Collector\AppendModifier;
-
-class RecordMaker
+class RecordOutputMaker
 {
-    public function makeOutputData(Record $record): void
+    public function make(Record $record): self
+    {
+        $this->makeOutputData($record)
+            ->appendData($record)
+            ->makeRequestBody($record)
+            ->makeResponseBody($record);
+
+        return $this;
+    }
+
+    private function makeOutputData(Record $record): self
     {
         $recordDefaults = $record->getRecordDefaultsModel();
         $requestModel = $recordDefaults->getRequestModel();
@@ -30,9 +38,11 @@ class RecordMaker
         }
 
         $record->setOutputData($outputData);
+
+        return $this;
     }
 
-    public function appendData(Record $record)
+    private function appendData(Record $record): self
     {
         $outputData = $record->getOutputData();
         foreach ($record->getAppendItems() as $append => $value) {
@@ -50,9 +60,11 @@ class RecordMaker
         }
 
         $record->setOutputData($outputData);
+
+        return $this;
     }
 
-    public function makeRequestBody(Record $record)
+    private function makeRequestBody(Record $record): self
     {
 
         $xmlContent = file_get_contents($record->getRequestBodyPath());
@@ -64,9 +76,11 @@ class RecordMaker
         $outputData = $record->getOutputData();
         $outputData['request']['body'] = $xmlContent;
         $record->setOutputData($outputData);
+
+        return $this;
     }
 
-    public function makeResponseBody(Record $record)
+    private function makeResponseBody(Record $record): self
     {
         $xmlContent = file_get_contents($record->getResponseBodyPath());
         $xmlContent = $this->trimSpaces($xmlContent);
@@ -75,6 +89,8 @@ class RecordMaker
         $outputData = $record->getOutputData();
         $outputData['response']['body'] = $xmlContent;
         $record->setOutputData($outputData);
+
+        return $this;
     }
 
     private function trimSpaces(string $xmlContent)
