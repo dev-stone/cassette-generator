@@ -2,7 +2,7 @@
     "name": "arlauskas/cassette-generator",
     "description": "Generate files for vcr cassette",
     "type": "library",
-    "license": "mit",
+    "license": "MIT",
     "authors": [
         {
             "name": "Kestutis Arlauskas",
@@ -24,6 +24,6 @@
             "Vcg\\Tests\\": "tests/"
         }
     },
-    "bin": ["bin/acg"],
+    "bin": ["bin/vcg"],
     "prefer-stable": true
 }
