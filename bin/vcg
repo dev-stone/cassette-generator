@@ -1,10 +1,11 @@
 #!/usr/bin/env php
 <?php
 
-use Vcg\Collector\DataCollector;
-use Vcg\Configuration;
-use Vcg\Parser\YamlParser;
-use Vcg\Writer\OutputWriter;
+use Vcg\Configuration\Configuration;
+use Vcg\Maker\Collector;
+use Vcg\Maker\RecordOutputMaker;
+use Vcg\Writer\CassetteWriter;
+use Vcg\Writer\WriterPreprocessor;
 
 require 'vendor/autoload.php';
 
@@ -20,15 +21,17 @@ if (!file_exists($configPath) || !is_file($configPath)) {
     return 1;
 }
 
-$config = new Configuration($configPath);
-$data = (new DataCollector($config))->getData();
-$yamlParser = new YamlParser($data);
-$yamlParserData = $yamlParser->getData();
-$file = $yamlParserData[0]['outputFile'];
-$outputWriter = (new OutputWriter())
-    ->setParser($yamlParser)
-    ->setOutputFile($file);
+$configuration = new Configuration($configPath);
+$collector = new Collector($configuration);
+$collector->collect();
+$cassettesHolders = $collector->getCassettesHolders();
+$recordOutputMaker = new RecordOutputMaker();
 
-$outputWriter->writeOutput();
+$preprocessor = new WriterPreprocessor($recordOutputMaker);
+$cassettesOutputs = $preprocessor->prepareCassettes($cassettesHolders);
+
+$cassettesWriter = new CassetteWriter();
+$cassettesWriter->write($cassettesOutputs);
+
 
 echo 'Success.' . PHP_EOL;

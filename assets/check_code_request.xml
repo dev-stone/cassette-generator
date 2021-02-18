@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <SOAP-ENV:Envelope xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/" xmlns:ns1="http://tempuri.org/">
     <SOAP-ENV:Body>
-        <ns1:FindUserResponse>
-            <ns1:FindUserResult>true</ns1:FindUserResult>
-        </ns1:FindUserResponse>
+        <ns1:CheckCode>
+            <ns1:Code>45787</ns1:Code>
+        </ns1:CheckCode>
     </SOAP-ENV:Body>
 </SOAP-ENV:Envelope>

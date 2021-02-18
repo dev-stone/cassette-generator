@@ -1,0 +1,46 @@
+-
+    request:
+        method: POST
+        url: 'http://127.0.0.1:8080/soap'
+        headers:
+            Host: '127.0.0.1:8080'
+            Content-Type: 'text/xml; charset=utf-8;'
+            SOAPAction: 'http://tempuri.org/IAppService/CheckCode'
+        body: "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<SOAP-ENV:Envelope xmlns:SOAP-ENV=\"http://schemas.xmlsoap.org/soap/envelope/\" xmlns:ns1=\"http://tempuri.org/\"><SOAP-ENV:Body><ns1:CheckCode><ns1:Code>45787</ns1:Code></ns1:CheckCode></SOAP-ENV:Body></SOAP-ENV:Envelope>\n"
+    response:
+        status:
+            http_version: '1.1'
+            code: '200'
+            message: OK
+        headers:
+            Cache-Control: private
+            Content-Length: '196'
+            Content-Type: 'text/xml; charset=utf-8'
+            Server: Microsoft-IIS/8.0
+            X-AspNet-Version: 4.0.30319
+            X-Powered-By: ASP.NET
+            Date: 'Wed, 10 Feb 2021 07:35:56 GMT'
+        body: '<?xml version="1.0" encoding="UTF-8"?>\n<SOAP-ENV:Envelope xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/" xmlns:ns1="http://tempuri.org/"><SOAP-ENV:Body><ns1:CheckCodeResponse><ns1:CheckCodeResult>valid</ns1:CheckCodeResult></ns1:CheckCodeResponse></SOAP-ENV:Body></SOAP-ENV:Envelope>'
+-
+    request:
+        method: POST
+        url: 'http://127.0.0.1:8080/soap'
+        headers:
+            Host: '127.0.0.1:8080'
+            Content-Type: 'text/xml; charset=utf-8;'
+            SOAPAction: 'http://tempuri.org/IAppService/PassCode'
+        body: "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<SOAP-ENV:Envelope xmlns:SOAP-ENV=\"http://schemas.xmlsoap.org/soap/envelope/\" xmlns:ns1=\"http://tempuri.org/\"><SOAP-ENV:Body><ns1:PassCode><ns1:Code>45787</ns1:Code></ns1:PassCode></SOAP-ENV:Body></SOAP-ENV:Envelope>\n"
+    response:
+        status:
+            http_version: '1.1'
+            code: '200'
+            message: OK
+        headers:
+            Cache-Control: private
+            Content-Length: '196'
+            Content-Type: 'text/xml; charset=utf-8'
+            Server: Microsoft-IIS/8.0
+            X-AspNet-Version: 4.0.30319
+            X-Powered-By: ASP.NET
+            Date: 'Wed, 10 Feb 2021 07:35:56 GMT'
+        body: '<?xml version="1.0" encoding="UTF-8"?>\n<SOAP-ENV:Envelope xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/" xmlns:ns1="http://tempuri.org/"><SOAP-ENV:Body><ns1:PassCodeResponse><ns1:PassCodeResult>valid</ns1:PassCodeResult></ns1:PassCodeResponse></SOAP-ENV:Body></SOAP-ENV:Envelope>'
