@@ -1,22 +1,27 @@
 <?php
 declare(strict_types=1);
 
-namespace Vcg\Configuration\Model;
+namespace Vcg\Configuration;
 
-use Vcg\Configuration\RawConfig;
+use Vcg\Configuration\Model\CassetteModel;
+use Vcg\Configuration\Model\CassettesHolderModel;
+use Vcg\Configuration\Model\RecordDefaultsModel;
+use Vcg\Configuration\Model\RecordModel;
+use Vcg\Configuration\Model\RequestModel;
+use Vcg\Configuration\Model\ResponseModel;
 
 class ModelsLoader
 {
-    private RawConfig $rawConfig;
+    private ConfigReader $configReader;
     private RecordDefaultsModel $recordDefaultsModel;
     /**
      * @var CassettesHolderModel[]
      */
     private array $cassettesSettings = [];
 
-    public function __construct(RawConfig $config)
+    public function __construct(ConfigReader $configReader)
     {
-        $this->rawConfig = $config;
+        $this->configReader = $configReader;
         $this->recordDefaultsModel = new RecordDefaultsModel();
     }
 
@@ -43,7 +48,7 @@ class ModelsLoader
 
     private function loadRecordDefaults(): void
     {
-        $recordDefaults = $this->rawConfig->getSettings('record-defaults');
+        $recordDefaults = $this->configReader->getSettings('record-defaults');
         $request = $recordDefaults['request'];
         $requestModel = (new RequestModel())
             ->setMethod($request['method'])
@@ -68,7 +73,7 @@ class ModelsLoader
 
     private function loadCassettesSettings(): void
     {
-        foreach ($this->rawConfig->getSettings('cassettes-settings') as $cassettesHolder) {
+        foreach ($this->configReader->getSettings('cassettes-settings') as $cassettesHolder) {
             $cassettesHolderModel = new CassettesHolderModel();
             $this->cassettesSettings[] = $cassettesHolderModel;
 

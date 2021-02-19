@@ -10,7 +10,6 @@ class CassetteModel
      * @var RecordModel[]
      */
     private array $recordsModels = [];
-    private CassettesHolderModel $cassettesHolderModel;
 
     public function getOutputFile(): string
     {
@@ -32,18 +31,6 @@ class CassetteModel
     public function addRecordModel(RecordModel $recordModel): self
     {
         $this->recordsModels[] = $recordModel;
-
-        return $this;
-    }
-
-    public function getCassettesHolderModel(): CassettesHolderModel
-    {
-        return $this->cassettesHolderModel;
-    }
-
-    public function setCassettesHolderModel(CassettesHolderModel $cassettesHolderModel): self
-    {
-        $this->cassettesHolderModel = $cassettesHolderModel;
 
         return $this;
     }

@@ -1,11 +1,14 @@
 <?php
 declare(strict_types=1);
 
-namespace Vcg\Maker;
+namespace Vcg\Core;
 
 use Vcg\Configuration\Configuration;
+use Vcg\ValueObject\Cassette;
+use Vcg\ValueObject\CassettesHolder;
+use Vcg\ValueObject\Record;
 
-class Collector
+class RecordDataCollector
 {
     private Configuration $configuration;
     /**
@@ -18,7 +21,7 @@ class Collector
         $this->configuration = $configuration;
     }
 
-    public function collect()
+    public function collect(): array
     {
         $recordDefaultsModel = $this->configuration->getRecordDefaults();
         foreach ($this->configuration->getCassettesSettings() as $cassettesHolderModel) {
@@ -47,10 +50,7 @@ class Collector
                 }
             }
         }
-    }
 
-    public function getCassettesHolders(): array
-    {
         return $this->cassettesHolder;
     }
 }

@@ -3,21 +3,18 @@ declare(strict_types=1);
 
 namespace Vcg\Tests\Writer;
 
-use Vcg\Maker\RecordOutputMaker;
+use Vcg\ValueObject\CassetteOutput;
 use Vcg\Tests\RecordTestCase;
-use Vcg\Writer\CassetteOutput;
-use Vcg\Writer\WriterPreprocessor;
+use Vcg\Core\WriterPreprocessor;
 
 class WriterPreprocessorTest extends RecordTestCase
 {
     public function testPreprocessor()
     {
-        $configuration = $this->createModelsConfiguration();
+        $configuration = $this->createConfiguration();
         $cassettesHolder = $this->createCassettesHolders($configuration);
 
-        $recordOutputMaker = new RecordOutputMaker();
-
-        $preprocessor = new WriterPreprocessor($recordOutputMaker);
+        $preprocessor = new WriterPreprocessor();
         $actual = $preprocessor->prepareCassettes($cassettesHolder);
         $expected = $this->expectedCassettesList();
         $this->assertEquals($expected, $actual);

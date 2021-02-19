@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-namespace Vcg\Writer;
+namespace Vcg\ValueObject;
 
 class CassetteOutput
 {

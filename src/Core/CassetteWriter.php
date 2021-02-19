@@ -1,7 +1,9 @@
 <?php
 declare(strict_types=1);
 
-namespace Vcg\Writer;
+namespace Vcg\Core;
+
+use Vcg\ValueObject\CassetteOutput;
 
 class CassetteWriter
 {

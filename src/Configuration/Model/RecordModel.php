@@ -7,7 +7,6 @@ class RecordModel
 {
     private string $requestBodyPath;
     private string $responseBodyPath;
-    private CassetteModel $cassetteModel;
     private array $appendItems = [];
     private array $rewriteItems = [];
 
@@ -31,18 +30,6 @@ class RecordModel
     public function setResponseBodyPath(string $responseBodyPath): self
     {
         $this->responseBodyPath = $responseBodyPath;
-
-        return $this;
-    }
-
-    public function getCassetteModel(): CassetteModel
-    {
-        return $this->cassetteModel;
-    }
-
-    public function setCassetteModel(CassetteModel $cassetteModel): self
-    {
-        $this->cassetteModel = $cassetteModel;
 
         return $this;
     }

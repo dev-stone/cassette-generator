@@ -4,32 +4,22 @@ declare(strict_types=1);
 namespace Vcg\Configuration;
 
 use Vcg\Configuration\Model\CassettesHolderModel;
-use Vcg\Configuration\Model\ModelsLoader;
 use Vcg\Configuration\Model\RecordDefaultsModel;
 
 class Configuration
 {
-    private RawConfig $rawConfig;
-    private RecordDefaultsModel $recordDefaults;
     /**
      * @var CassettesHolderModel[]
      */
     private array $cassettesSettings;
+    private RecordDefaultsModel $recordDefaults;
 
     public function __construct(string $configPath)
     {
-        $this->rawConfig = new RawConfig($configPath);
-        $modelsLoader = (new ModelsLoader($this->rawConfig))->load();
+        $configReader = new ConfigReader($configPath);
+        $modelsLoader = (new ModelsLoader($configReader))->load();
         $this->recordDefaults = $modelsLoader->getRecordDefaults();
         $this->cassettesSettings = $modelsLoader->getCassettesSettings();
-    }
-
-    /**
-     * @return RawConfig
-     */
-    public function getRawConfig(): RawConfig
-    {
-        return $this->rawConfig;
     }
 
     /**

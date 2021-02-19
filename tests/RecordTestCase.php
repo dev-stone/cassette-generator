@@ -11,15 +11,15 @@ use Vcg\Configuration\Model\RecordDefaultsModel;
 use Vcg\Configuration\Model\RecordModel;
 use Vcg\Configuration\Model\RequestModel;
 use Vcg\Configuration\Model\ResponseModel;
-use Vcg\Maker\Cassette;
-use Vcg\Maker\CassettesHolder;
-use Vcg\Maker\Record;
+use Vcg\ValueObject\Cassette;
+use Vcg\ValueObject\CassettesHolder;
+use Vcg\ValueObject\Record;
 
 class RecordTestCase extends TestCase
 {
-    protected function createModelsConfiguration(): Configuration
+    protected function createConfiguration(): Configuration
     {
-        return new Configuration(__DIR__ . '/data/models_config.yaml');
+        return new Configuration(__DIR__ . '/data/vcg_config.yaml');
     }
 
     protected function createRecordDefaults(): RecordDefaultsModel

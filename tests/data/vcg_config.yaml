@@ -1,4 +1,4 @@
-cassette-settings:
+record-defaults:
     request:
         method: POST
         url: "'http://127.0.0.1:8080/soap'"
@@ -19,25 +19,43 @@ cassette-settings:
             X-AspNet-Version: 4.0.30319
             X-Powered-By: ASP.NET
             Date: "'Wed, 10 Feb 2021 07:35:56 GMT'"
-tests-settings:
-    namespace_in: '/var/www/cassette-generator/tests/fixturesSource/'
-    namespace_out: '/var/www/cassette-generator/tests/fixtures/'
-    fixtures:
-        -
-            name: 'find_user'
-            request: 'find_user_request.xml'
-            response: 'find_user_response.xml'
-            output: 'find_user.yaml'
-            append:
-                'request|headers|SOAPAction': 'IAppService/FindUser'
-            rewrite:
-                'response|headers|Date':
-        -
-            name: 'user_login'
-            request: 'user_login_request.xml'
-            response: 'user_login_response.xml'
-            output: 'user_login.yaml'
-            append:
-                'request|headers|SOAPAction': 'IAppService/Login'
-            rewrite:
-                'response|headers|Date':
+cassettes-settings:
+    -
+        name: 'integration_tests'
+        input-dir: '/var/www/cassette-generator/tests/fixturesSource/'
+        output-dir: '/var/www/cassette-generator/tests/fixtures/IntegrationTests/'
+        cassettes:
+            -
+                output-file: 'login_process.yaml'
+                records:
+                    -
+                        request: 'find_user_request.xml'
+                        response: 'find_user_response.xml'
+                        append:
+                            'request|headers|SOAPAction': 'IAppService/FindUser'
+                        rewrite:
+                            'response|headers|Date':
+                    -
+                        request: 'user_login_request.xml'
+                        response: 'user_login_response.xml'
+                        append:
+                            'request|headers|SOAPAction': 'IAppService/Login'
+                        rewrite:
+                            'response|headers|Date':
+            -
+                output-file: 'registration_process.yaml'
+                records:
+                    -
+                        request: 'check_code_request.xml'
+                        response: 'check_code_response.xml'
+                        append:
+                            'request|headers|SOAPAction': 'IAppService/CheckCode'
+                        rewrite:
+                            'response|headers|Date':
+                    -
+                        request: 'pass_code_request.xml'
+                        response: 'pass_code_response.xml'
+                        append:
+                            'request|headers|SOAPAction': 'IAppService/PassCode'
+                        rewrite:
+                            'response|headers|Date':

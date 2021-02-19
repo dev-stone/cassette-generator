@@ -1,18 +1,18 @@
 <?php
 declare(strict_types=1);
 
-namespace Vcg\Writer;
+namespace Vcg\Core;
 
-use Vcg\Maker\CassettesHolder;
-use Vcg\Maker\RecordOutputMaker;
+use Vcg\ValueObject\CassetteOutput;
+use Vcg\ValueObject\CassettesHolder;
 
 class WriterPreprocessor
 {
     private RecordOutputMaker $recordOutputMaker;
 
-    public function __construct(RecordOutputMaker $recordOutputMaker)
+    public function __construct()
     {
-        $this->recordOutputMaker = $recordOutputMaker;
+        $this->recordOutputMaker = new RecordOutputMaker();
     }
 
     /**

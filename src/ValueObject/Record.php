@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-namespace Vcg\Maker;
+namespace Vcg\ValueObject;
 
 use Vcg\Configuration\Model\RecordDefaultsModel;
 

@@ -4,8 +4,8 @@ declare(strict_types=1);
 namespace Vcg\Tests\Maker;
 
 use Vcg\Configuration\Configuration;
-use Vcg\Maker\Record;
-use Vcg\Maker\RecordOutputMaker;
+use Vcg\ValueObject\Record;
+use Vcg\Core\RecordOutputMaker;
 use Vcg\Tests\RecordTestCase;
 
 class RecordTest extends RecordTestCase
@@ -14,13 +14,7 @@ class RecordTest extends RecordTestCase
 
     public function testRecordMaker()
     {
-        $recordDefaultsModel = $this->configuration->getRecordDefaults();
-        $record = (new Record())
-            ->setRecordDefaultsModel($recordDefaultsModel)
-            ->setRequestBodyPath('/var/www/cassette-generator/tests/fixturesSource/find_user_request.xml')
-            ->setResponseBodyPath('/var/www/cassette-generator/tests/fixturesSource/find_user_response.xml')
-            ->addAppendItem('request|headers|SOAPAction', 'IAppService/FindUser')
-            ->addRewriteItem('response|headers|Date');
+        $record = $this->createRecord();
         $recordMaker = new RecordOutputMaker();
         $recordMaker->make($record);
 
@@ -30,10 +24,17 @@ class RecordTest extends RecordTestCase
 
     protected function setUp(): void
     {
-        $this->configuration = new Configuration(__DIR__ . '/../data/models_config.yaml');
+        $this->configuration = $this->createConfiguration();
     }
 
     private function expectedRecord(): Record
+    {
+        $record = $this->createRecord();
+
+        return $record->setOutputData($this->expectedOutputData());
+    }
+
+    private function createRecord(): Record
     {
         $recordDefaultsModel = $this->configuration->getRecordDefaults();
 
@@ -42,8 +43,7 @@ class RecordTest extends RecordTestCase
             ->setRequestBodyPath('/var/www/cassette-generator/tests/fixturesSource/find_user_request.xml')
             ->setResponseBodyPath('/var/www/cassette-generator/tests/fixturesSource/find_user_response.xml')
             ->addAppendItem('request|headers|SOAPAction', 'IAppService/FindUser')
-            ->addRewriteItem('response|headers|Date')
-            ->setOutputData($this->expectedOutputData());
+            ->addRewriteItem('response|headers|Date');
     }
 
     private function expectedOutputData(): array

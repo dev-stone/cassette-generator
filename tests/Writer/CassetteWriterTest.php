@@ -3,23 +3,19 @@ declare(strict_types=1);
 
 namespace Vcg\Tests\Writer;
 
-use Vcg\Maker\Collector;
-use Vcg\Maker\RecordOutputMaker;
+use Vcg\Core\RecordDataCollector;
 use Vcg\Tests\RecordTestCase;
-use Vcg\Writer\CassetteWriter;
-use Vcg\Writer\WriterPreprocessor;
+use Vcg\Core\CassetteWriter;
+use Vcg\Core\WriterPreprocessor;
 
 class CassetteWriterTest extends RecordTestCase
 {
     public function testWriteCassettes()
     {
-        $configuration = $this->createModelsConfiguration();
-        $collector = new Collector($configuration);
-        $collector->collect();
-        $cassettesHolders = $collector->getCassettesHolders();
-        $recordOutputMaker = new RecordOutputMaker();
+        $configuration = $this->createConfiguration();
+        $cassettesHolders = (new RecordDataCollector($configuration))->collect();
 
-        $preprocessor = new WriterPreprocessor($recordOutputMaker);
+        $preprocessor = new WriterPreprocessor();
         $cassettesOutputs = $preprocessor->prepareCassettes($cassettesHolders);
 
         $cassettesWriter = new CassetteWriter();

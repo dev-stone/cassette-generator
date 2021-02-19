@@ -1,7 +1,9 @@
 <?php
 declare(strict_types=1);
 
-namespace Vcg\Maker;
+namespace Vcg\Core;
+
+use Vcg\ValueObject\Record;
 
 class RecordOutputMaker
 {

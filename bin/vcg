@@ -2,10 +2,9 @@
 <?php
 
 use Vcg\Configuration\Configuration;
-use Vcg\Maker\Collector;
-use Vcg\Maker\RecordOutputMaker;
-use Vcg\Writer\CassetteWriter;
-use Vcg\Writer\WriterPreprocessor;
+use Vcg\Core\RecordDataCollector;
+use Vcg\Core\CassetteWriter;
+use Vcg\Core\WriterPreprocessor;
 
 require 'vendor/autoload.php';
 
@@ -17,21 +16,15 @@ if (1 === $argc) {
 $configPath = $argv[1];
 
 if (!file_exists($configPath) || !is_file($configPath)) {
-    echo 'Config file not exist!' . PHP_EOL;
+    echo 'Configuration file not exist!' . PHP_EOL;
     return 1;
 }
 
 $configuration = new Configuration($configPath);
-$collector = new Collector($configuration);
-$collector->collect();
-$cassettesHolders = $collector->getCassettesHolders();
-$recordOutputMaker = new RecordOutputMaker();
-
-$preprocessor = new WriterPreprocessor($recordOutputMaker);
-$cassettesOutputs = $preprocessor->prepareCassettes($cassettesHolders);
+$cassettesHolders = (new RecordDataCollector($configuration))->collect();
+$cassettesOutputs = (new WriterPreprocessor())->prepareCassettes($cassettesHolders);
 
 $cassettesWriter = new CassetteWriter();
 $cassettesWriter->write($cassettesOutputs);
-
 
 echo 'Success.' . PHP_EOL;

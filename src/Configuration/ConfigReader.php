@@ -5,7 +5,7 @@ namespace Vcg\Configuration;
 
 use Symfony\Component\Yaml\Yaml;
 
-class RawConfig
+class ConfigReader
 {
     private string $configPath;
     private array $config = [];
@@ -13,7 +13,7 @@ class RawConfig
     public function __construct(string $configPath)
     {
         $this->configPath = $configPath;
-        $this->loadConfiguration();
+        $this->readConfiguration();
     }
 
     public function getSettings(string $key): array
@@ -23,7 +23,7 @@ class RawConfig
         return $this->config[$key];
     }
 
-    private function loadConfiguration(): void
+    private function readConfiguration(): void
     {
         $this->config = Yaml::parseFile($this->configPath);
     }
