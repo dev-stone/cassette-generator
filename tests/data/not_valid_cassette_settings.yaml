@@ -19,7 +19,7 @@ record-defaults:
             X-AspNet-Version: 4.0.30319
             X-Powered-By: ASP.NET
             Date: "'Wed, 10 Feb 2021 07:35:56 GMT'"
-cassettes-settings:
+castes-settings:
     -
         name: 'integration_tests'
         input-dir: '/var/www/cassette-generator/tests/fixturesInput/'

@@ -1,10 +1,10 @@
 <?php
 declare(strict_types=1);
 
-namespace Vcg\Tests\Writer;
+namespace Vcg\Tests\Unit\Core;
 
 use Vcg\ValueObject\CassetteOutput;
-use Vcg\Tests\RecordTestCase;
+use Vcg\Tests\Unit\RecordTestCase;
 use Vcg\Core\WriterPreprocessor;
 
 class WriterPreprocessorTest extends RecordTestCase
@@ -22,13 +22,13 @@ class WriterPreprocessorTest extends RecordTestCase
 
     private function expectedCassettesList(): array
     {
-        $expectedLoginCassette = file_get_contents(__DIR__ . '/../data/login_process_expected.yaml');
-        $expectedRegistrationCassette = file_get_contents(__DIR__ . '/../data/registration_process_expected.yaml');
+        $expectedLoginCassette = file_get_contents(__DIR__ . '/../../data/login_process_expected.yaml');
+        $expectedRegistrationCassette = file_get_contents(__DIR__ . '/../../data/registration_process_expected.yaml');
         $cassetteOutputLogin = (new CassetteOutput())
-            ->setOutputPath('/var/www/cassette-generator/tests/fixtures/IntegrationTests/login_process.yaml')
+            ->setOutputPath('/var/www/cassette-generator/tests/fixturesOutput/IntegrationTests/login_process.yaml')
             ->setOutputString($expectedLoginCassette);
         $cassetteOutputRegister = (new CassetteOutput())
-            ->setOutputPath('/var/www/cassette-generator/tests/fixtures/IntegrationTests/registration_process.yaml')
+            ->setOutputPath('/var/www/cassette-generator/tests/fixturesOutput/IntegrationTests/registration_process.yaml')
             ->setOutputString($expectedRegistrationCassette);
 
         return [$cassetteOutputLogin, $cassetteOutputRegister];

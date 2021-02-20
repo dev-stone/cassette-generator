@@ -1,9 +1,9 @@
 <?php
 declare(strict_types=1);
 
-namespace Vcg\Tests\Configuration;
+namespace Vcg\Tests\Unit\Configuration;
 
-use Vcg\Tests\RecordTestCase;
+use Vcg\Tests\Unit\RecordTestCase;
 
 class ConfigurationTest extends RecordTestCase
 {

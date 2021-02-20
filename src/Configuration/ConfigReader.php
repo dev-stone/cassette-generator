@@ -26,15 +26,20 @@ class ConfigReader
     private function readConfiguration(): void
     {
         $this->config = Yaml::parseFile($this->configPath);
+        $this->validateConfig();
     }
 
     private function validateSettings(string $key)
     {
-        if (!file_exists($this->configPath)) {
-            throw new \RuntimeException('Configuration file not found.');
-        }
         if (!array_key_exists($key, $this->config)) {
             throw new \RuntimeException(sprintf('Missing %s when load configuration file.', $key));
+        }
+    }
+
+    private function validateConfig()
+    {
+        if (empty($this->config)) {
+            throw new \RuntimeException('Configuration file empty!');
         }
     }
 }

@@ -1,12 +1,12 @@
 <?php
 declare(strict_types=1);
 
-namespace Vcg\Tests\Maker;
+namespace Vcg\Tests\Unit\Core;
 
 use Vcg\Core\RecordDataCollector;
-use Vcg\Tests\RecordTestCase;
+use Vcg\Tests\Unit\RecordTestCase;
 
-class CollectorTest extends RecordTestCase
+class RecordDataCollectorTest extends RecordTestCase
 {
     public function testMake()
     {

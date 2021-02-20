@@ -1,14 +1,14 @@
 <?php
 declare(strict_types=1);
 
-namespace Vcg\Tests\Maker;
+namespace Vcg\Tests\Unit\Core;
 
 use Vcg\Configuration\Configuration;
 use Vcg\ValueObject\Record;
 use Vcg\Core\RecordOutputMaker;
-use Vcg\Tests\RecordTestCase;
+use Vcg\Tests\Unit\RecordTestCase;
 
-class RecordTest extends RecordTestCase
+class RecordOutputMakerTest extends RecordTestCase
 {
     private Configuration $configuration;
 
@@ -40,8 +40,8 @@ class RecordTest extends RecordTestCase
 
         return (new Record())
             ->setRecordDefaultsModel($recordDefaultsModel)
-            ->setRequestBodyPath('/var/www/cassette-generator/tests/fixturesSource/find_user_request.xml')
-            ->setResponseBodyPath('/var/www/cassette-generator/tests/fixturesSource/find_user_response.xml')
+            ->setRequestBodyPath('/var/www/cassette-generator/tests/fixturesInput/find_user_request.xml')
+            ->setResponseBodyPath('/var/www/cassette-generator/tests/fixturesInput/find_user_response.xml')
             ->addAppendItem('request|headers|SOAPAction', 'IAppService/FindUser')
             ->addRewriteItem('response|headers|Date');
     }
