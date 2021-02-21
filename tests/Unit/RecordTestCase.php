@@ -52,13 +52,11 @@ class RecordTestCase extends TestCase
         $findUser = (new RecordModel())
             ->setRequestBodyPath('find_user_request.xml')
             ->setResponseBodyPath('find_user_response.xml')
-            ->addAppendItem('request|headers|SOAPAction', 'IAppService/FindUser')
-            ->addRewriteItems('response|headers|Date');
+            ->addAppendItem('request|headers|SOAPAction', 'IAppService/FindUser');
         $userLogin = (new RecordModel())
             ->setRequestBodyPath('user_login_request.xml')
             ->setResponseBodyPath('user_login_response.xml')
-            ->addAppendItem('request|headers|SOAPAction', 'IAppService/Login')
-            ->addRewriteItems('response|headers|Date');
+            ->addAppendItem('request|headers|SOAPAction', 'IAppService/Login');
         $cassetteLogin = (new CassetteModel())
             ->setOutputFile('login_process.yaml')
             ->addRecordModel($findUser)
@@ -67,13 +65,11 @@ class RecordTestCase extends TestCase
         $checkCode = (new RecordModel())
             ->setRequestBodyPath('check_code_request.xml')
             ->setResponseBodyPath('check_code_response.xml')
-            ->addAppendItem('request|headers|SOAPAction', 'IAppService/CheckCode')
-            ->addRewriteItems('response|headers|Date');
+            ->addAppendItem('request|headers|SOAPAction', 'IAppService/CheckCode');
         $passCode = (new RecordModel())
             ->setRequestBodyPath('pass_code_request.xml')
             ->setResponseBodyPath('pass_code_response.xml')
-            ->addAppendItem('request|headers|SOAPAction', 'IAppService/PassCode')
-            ->addRewriteItems('response|headers|Date');
+            ->addAppendItem('request|headers|SOAPAction', 'IAppService/PassCode');
         $cassetteRegister = (new CassetteModel())
             ->setOutputFile('registration_process.yaml')
             ->addRecordModel($checkCode)
@@ -101,26 +97,22 @@ class RecordTestCase extends TestCase
             ->setRecordDefaultsModel($recordDefaultsModel)
             ->setRequestBodyPath('/var/www/cassette-generator/tests/fixturesInput/find_user_request.xml')
             ->setResponseBodyPath('/var/www/cassette-generator/tests/fixturesInput/find_user_response.xml')
-            ->addAppendItem('request|headers|SOAPAction', 'IAppService/FindUser')
-            ->addRewriteItem('response|headers|Date');
+            ->addAppendItem('request|headers|SOAPAction', 'IAppService/FindUser');
         $userLoginRecord = (new Record())
             ->setRecordDefaultsModel($recordDefaultsModel)
             ->setRequestBodyPath('/var/www/cassette-generator/tests/fixturesInput/user_login_request.xml')
             ->setResponseBodyPath('/var/www/cassette-generator/tests/fixturesInput/user_login_response.xml')
-            ->addAppendItem('request|headers|SOAPAction', 'IAppService/Login')
-            ->addRewriteItem('response|headers|Date');
+            ->addAppendItem('request|headers|SOAPAction', 'IAppService/Login');
         $checkCodeRecord = (new Record())
             ->setRecordDefaultsModel($recordDefaultsModel)
             ->setRequestBodyPath('/var/www/cassette-generator/tests/fixturesInput/check_code_request.xml')
             ->setResponseBodyPath('/var/www/cassette-generator/tests/fixturesInput/check_code_response.xml')
-            ->addAppendItem('request|headers|SOAPAction', 'IAppService/CheckCode')
-            ->addRewriteItem('response|headers|Date');
+            ->addAppendItem('request|headers|SOAPAction', 'IAppService/CheckCode');
         $passCodeRecord = (new Record())
             ->setRecordDefaultsModel($recordDefaultsModel)
             ->setRequestBodyPath('/var/www/cassette-generator/tests/fixturesInput/pass_code_request.xml')
             ->setResponseBodyPath('/var/www/cassette-generator/tests/fixturesInput/pass_code_response.xml')
-            ->addAppendItem('request|headers|SOAPAction', 'IAppService/PassCode')
-            ->addRewriteItem('response|headers|Date');
+            ->addAppendItem('request|headers|SOAPAction', 'IAppService/PassCode');
 
         $loginCassette = (new Cassette())
             ->setOutputPath('/var/www/cassette-generator/tests/fixturesOutput/IntegrationTests/login_process.yaml')

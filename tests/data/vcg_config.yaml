@@ -33,15 +33,11 @@ cassettes-settings:
                         response: 'find_user_response.xml'
                         append:
                             'request|headers|SOAPAction': 'IAppService/FindUser'
-                        rewrite:
-                            'response|headers|Date':
                     -
                         request: 'user_login_request.xml'
                         response: 'user_login_response.xml'
                         append:
                             'request|headers|SOAPAction': 'IAppService/Login'
-                        rewrite:
-                            'response|headers|Date':
             -
                 output-file: 'registration_process.yaml'
                 records:
@@ -50,12 +46,8 @@ cassettes-settings:
                         response: 'check_code_response.xml'
                         append:
                             'request|headers|SOAPAction': 'IAppService/CheckCode'
-                        rewrite:
-                            'response|headers|Date':
                     -
                         request: 'pass_code_request.xml'
                         response: 'pass_code_response.xml'
                         append:
                             'request|headers|SOAPAction': 'IAppService/PassCode'
-                        rewrite:
-                            'response|headers|Date':

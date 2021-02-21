@@ -5,9 +5,12 @@ namespace Vcg\Tests\Unit\Validation;
 
 use PHPUnit\Framework\TestCase;
 use Vcg\Configuration\ConfigReader;
+use Vcg\Exception\DirectoryNotExistException;
 use Vcg\Exception\MissingConfigItemException;
 use Vcg\Exception\NoCassetteAddedException;
 use Vcg\Exception\NoRecordsAddedException;
+use Vcg\Exception\RecordAppendKeyException;
+use Vcg\Exception\RecordRewriteKeyException;
 use Vcg\Validation\ConfigReaderValidator;
 
 class ConfigReaderValidatorTest extends TestCase
@@ -91,10 +94,24 @@ class ConfigReaderValidatorTest extends TestCase
         $this->validateConfigReaderData();
     }
 
+    public function testCassettesHoldersInputDirExistValidation()
+    {
+        $this->expectException(DirectoryNotExistException::class);
+        $this->configReaderData['cassettes-settings'][0]['input-dir'] = '/not/exist/dir';
+        $this->validateConfigReaderData();
+    }
+
     public function testCassettesHoldersOutputDirValidation()
     {
         $this->expectException(MissingConfigItemException::class);
         unset($this->configReaderData['cassettes-settings'][0]['output-dir']);
+        $this->validateConfigReaderData();
+    }
+
+    public function testCassettesHoldersOutputDirExistValidation()
+    {
+        $this->expectException(DirectoryNotExistException::class);
+        $this->configReaderData['cassettes-settings'][0]['output-dir'] = '/not/exist/dir';
         $this->validateConfigReaderData();
     }
 
@@ -146,6 +163,28 @@ class ConfigReaderValidatorTest extends TestCase
     {
         $this->expectException(MissingConfigItemException::class);
         unset($this->configReaderData['cassettes-settings'][0]['cassettes'][1]['records'][1]['response']);
+        $this->validateConfigReaderData();
+    }
+
+    public function testRecordAppendValidation()
+    {
+        $this->expectException(RecordAppendKeyException::class);
+        unset($this->configReaderData['cassettes-settings'][0]['cassettes'][0]['records'][0]['append']);
+        unset($this->configReaderData['cassettes-settings'][0]['cassettes'][0]['records'][1]['append']);
+        unset($this->configReaderData['cassettes-settings'][0]['cassettes'][1]['records'][0]['append']);
+        unset($this->configReaderData['cassettes-settings'][0]['cassettes'][1]['records'][1]['append']);
+        $this->configReaderData['cassettes-settings'][0]['cassettes'][1]['records'][1]['append']['request|headers'] = 'value';
+        $this->validateConfigReaderData();
+    }
+
+    public function testRecordRewriteValidation()
+    {
+        $this->expectException(RecordRewriteKeyException::class);
+        unset($this->configReaderData['cassettes-settings'][0]['cassettes'][0]['records'][0]['rewrite']);
+        unset($this->configReaderData['cassettes-settings'][0]['cassettes'][0]['records'][1]['rewrite']);
+        unset($this->configReaderData['cassettes-settings'][0]['cassettes'][1]['records'][0]['rewrite']);
+        unset($this->configReaderData['cassettes-settings'][0]['cassettes'][1]['records'][1]['rewrite']);
+        $this->configReaderData['cassettes-settings'][0]['cassettes'][1]['records'][1]['rewrite']['request|headers'] = 'value';
         $this->validateConfigReaderData();
     }
 

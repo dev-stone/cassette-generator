@@ -1,0 +1,23 @@
+<SOAP-ENV:Envelope xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/">
+    <SOAP-ENV:Body>
+        <Fault>
+            <faultcode>Client</faultcode>
+            <faultstring xml:lang="en-US">BadConfirmCode</faultstring>
+            <detail>
+                <AppFault>
+                    <Code>108</Code>
+                    <Translations>
+                        <KeyValueOfstringstring>
+                            <Key>lt</Key>
+                            <Value>Nerasti vertimai</Value>
+                        </KeyValueOfstringstring>
+                        <KeyValueOfstringstring>
+                            <Key>en</Key>
+                            <Value>Translations not found</Value>
+                        </KeyValueOfstringstring>
+                    </Translations>
+                </AppFault>
+            </detail>
+        </Fault>
+    </SOAP-ENV:Body>
+</SOAP-ENV:Envelope>

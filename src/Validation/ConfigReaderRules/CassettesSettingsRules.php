@@ -4,9 +4,12 @@ declare(strict_types=1);
 namespace Vcg\Validation\ConfigReaderRules;
 
 use Vcg\Configuration\Config;
+use Vcg\Exception\DirectoryNotExistException;
 use Vcg\Exception\MissingConfigItemException;
 use Vcg\Exception\NoCassetteAddedException;
 use Vcg\Exception\NoRecordsAddedException;
+use Vcg\Exception\RecordAppendKeyException;
+use Vcg\Exception\RecordRewriteKeyException;
 
 class CassettesSettingsRules extends ConfigReaderRules
 {
@@ -34,7 +37,9 @@ class CassettesSettingsRules extends ConfigReaderRules
     {
         foreach ($this->configReaderData[Config::CASSETTES_SETTINGS] as $cassetteHolder) {
             $this->validateInputDir($cassetteHolder);
+            $this->validateInputDirExist($cassetteHolder);
             $this->validateOutputDir($cassetteHolder);
+            $this->validateOutputDirExist($cassetteHolder);
             $this->validateCassettes($cassetteHolder);
             $this->validateCassettesAdded($cassetteHolder);
             $this->validateCassettesItems($cassetteHolder);
@@ -47,10 +52,17 @@ class CassettesSettingsRules extends ConfigReaderRules
             $this->validateCassetteOutputFile($cassette);
             $this->validateCassetteRecords($cassette);
             $this->validateRecordsAdded($cassette);
-            foreach ($cassette[Config::RECORDS] as $record) {
-                $this->validateRecordRequest($record);
-                $this->validateRecordResponse($record);
-            }
+            $this->validateRecordsItems($cassette);
+        }
+    }
+
+    private function validateRecordsItems(array $cassette)
+    {
+        foreach ($cassette[Config::RECORDS] as $record) {
+            $this->validateRecordRequest($record);
+            $this->validateRecordResponse($record);
+            $this->validateRecordAppendKeys($record);
+            $this->validateRecordRewriteKeys($record);
         }
     }
 
@@ -59,9 +71,25 @@ class CassettesSettingsRules extends ConfigReaderRules
         $this->validateConfigKey(Config::INPUT_DIR, $cassetteHolder);
     }
 
+    private function validateInputDirExist(array $cassetteHolder)
+    {
+        $dir = $cassetteHolder[Config::INPUT_DIR];
+        if (!file_exists($dir)) {
+            throw new DirectoryNotExistException(sprintf('Input directory not exist %s', $dir));
+        }
+    }
+
     private function validateOutputDir(array $cassetteHolder)
     {
         $this->validateConfigKey(Config::OUTPUT_DIR, $cassetteHolder);
+    }
+
+    private function validateOutputDirExist(array $cassetteHolder)
+    {
+        $dir = $cassetteHolder[Config::OUTPUT_DIR];
+        if (!file_exists($dir)) {
+            throw new DirectoryNotExistException(sprintf('Output directory not exist %s', $dir));
+        }
     }
 
     private function validateCassettes(array $cassetteHolder)
@@ -101,6 +129,34 @@ class CassettesSettingsRules extends ConfigReaderRules
     private function validateRecordResponse(array $record)
     {
         $this->validateConfigKey(Config::RESPONSE, $record);
+    }
+
+    private function validateRecordAppendKeys(array $record)
+    {
+        if (!array_key_exists(Config::APPEND, $record)) {
+            return;
+        }
+
+        foreach ($record[Config::APPEND] as $key => $value) {
+            $applyParts = explode('|', $key);
+            if (3 !== count($applyParts)) {
+                throw new RecordAppendKeyException('Append key should consist three parts split by pipes');
+            }
+        }
+    }
+
+    private function validateRecordRewriteKeys(array $record)
+    {
+        if (!array_key_exists(Config::REWRITE, $record)) {
+            return;
+        }
+
+        foreach ($record[Config::REWRITE] as $key => $value) {
+            $rewriteParts = explode('|', $key);
+            if (3 !== count($rewriteParts)) {
+                throw new RecordRewriteKeyException('Rewrite key should consist three parts split by pipes');
+            }
+        }
     }
 
     private function validateConfigKey(string $key, array $data)

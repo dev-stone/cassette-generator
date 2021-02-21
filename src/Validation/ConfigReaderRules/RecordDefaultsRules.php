@@ -3,6 +3,8 @@ declare(strict_types=1);
 
 namespace Vcg\Validation\ConfigReaderRules;
 
+use Vcg\Configuration\Config;
+
 class RecordDefaultsRules extends ConfigReaderRules
 {
     public function validate()
@@ -19,41 +21,41 @@ class RecordDefaultsRules extends ConfigReaderRules
 
     private function validRecordsDefaults()
     {
-        $this->validateFirstLevel('record-defaults');
+        $this->validateFirstLevel(Config::RECORD_DEFAULTS);
     }
 
     private function validDefaultsRequest()
     {
-        $this->validateSecondLevel('record-defaults', 'request');
+        $this->validateSecondLevel(Config::RECORD_DEFAULTS, Config::REQUEST);
     }
 
     private function validDefaultsRequestMethod()
     {
-        $this->validateThirdLevel('record-defaults', 'request', 'method');
+        $this->validateThirdLevel(Config::RECORD_DEFAULTS, Config::REQUEST, Config::METHOD);
     }
 
     private function validDefaultsRequestUrl()
     {
-        $this->validateThirdLevel('record-defaults', 'request', 'url');
+        $this->validateThirdLevel(Config::RECORD_DEFAULTS, Config::REQUEST, Config::URL);
     }
 
     private function validDefaultsRequestHeaders()
     {
-        $this->validateThirdLevel('record-defaults', 'request', 'headers');
+        $this->validateThirdLevel(Config::RECORD_DEFAULTS, Config::REQUEST, Config::HEADERS);
     }
 
     private function validDefaultsResponse()
     {
-        $this->validateSecondLevel('record-defaults', 'response');
+        $this->validateSecondLevel(Config::RECORD_DEFAULTS, Config::RESPONSE);
     }
 
     private function validDefaultsResponseStatus()
     {
-        $this->validateThirdLevel('record-defaults', 'response', 'status');
+        $this->validateThirdLevel(Config::RECORD_DEFAULTS, Config::RESPONSE, Config::STATUS);
     }
 
     private function validDefaultsResponseHeaders()
     {
-        $this->validateThirdLevel('record-defaults', 'response', 'headers');
+        $this->validateThirdLevel(Config::RECORD_DEFAULTS, Config::RESPONSE, Config::HEADERS);
     }
 }

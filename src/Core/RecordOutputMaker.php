@@ -3,120 +3,45 @@ declare(strict_types=1);
 
 namespace Vcg\Core;
 
-use Vcg\Configuration\Config;
+use Vcg\Core\RecordOutputModifiers\AppendModifier;
+use Vcg\Core\RecordOutputModifiers\OutputDataCreator;
+use Vcg\Core\RecordOutputModifiers\RecordModifierInterface;
+use Vcg\Core\RecordOutputModifiers\RequestBodyModifier;
+use Vcg\Core\RecordOutputModifiers\ResponseBodyModifier;
+use Vcg\Core\RecordOutputModifiers\RewriteModifier;
 use Vcg\ValueObject\Record;
 
 class RecordOutputMaker
 {
+    /**
+     * @var RecordModifierInterface[]
+     */
+    private array $recordsModifiersList;
+    private OutputDataCreator $outputDataCreator;
+
+    public function __construct()
+    {
+        $this->outputDataCreator = new OutputDataCreator();
+        $this->recordsModifiersList = [
+            new AppendModifier(),
+            new RewriteModifier(),
+            new RequestBodyModifier(),
+            new ResponseBodyModifier(),
+        ];
+    }
+
     public function make(Record $record): self
     {
-        $this->makeOutputData($record)
-            ->appendData($record)
-            ->rewriteData($record)
-            ->makeRequestBody($record)
-            ->makeResponseBody($record);
+        $this->outputDataCreator->makeOutputData($record);
+        $this->applyModifiers($record);
 
         return $this;
     }
 
-    private function makeOutputData(Record $record): self
+    private function applyModifiers(Record $record)
     {
-        $recordDefaults = $record->getRecordDefaultsModel();
-        $requestModel = $recordDefaults->getRequestModel();
-        $responseModel = $recordDefaults->getResponseModel();
-        $outputData = [
-            Config::REQUEST => [
-                Config::METHOD => $requestModel->getMethod(),
-                Config::URL => $requestModel->getUrl()
-            ],
-            Config::RESPONSE => []
-        ];
-        foreach ($requestModel->getHeaders() as $key => $value) {
-            $outputData[Config::REQUEST][Config::HEADERS][$key] = $value;
+        foreach ($this->recordsModifiersList as $modifier) {
+            $modifier->apply($record);
         }
-        foreach ($responseModel->getStatus() as $key => $value) {
-            $outputData[Config::RESPONSE][Config::STATUS][$key] = $value;
-        }
-        foreach ($responseModel->getHeaders() as $key => $value) {
-            $outputData[Config::RESPONSE][Config::HEADERS][$key] = $value;
-        }
-
-        $record->setOutputData($outputData);
-
-        return $this;
-    }
-
-    private function appendData(Record $record): self
-    {
-        $outputData = $record->getOutputData();
-        foreach ($record->getAppendItems() as $append => $value) {
-            [$root, $list, $key] = explode('|', $append);
-            $outputItem = $outputData[$root][$list][$key];
-
-            $addQuote = '';
-            if (strrpos($outputItem, "'") === strlen($outputItem)-1) {
-                $addQuote = "'";
-                $outputItem = substr($outputItem, 0, -1);
-            }
-
-            $outputItem = $outputItem . $value . $addQuote;
-            $outputData[$root][$list][$key] = $outputItem;
-        }
-
-        $record->setOutputData($outputData);
-
-        return $this;
-    }
-
-    private function rewriteData(Record $record): self
-    {
-        $outputData = $record->getOutputData();
-        foreach ($record->getRewriteItems() as $rewrite => $value) {
-            /**
-             * @todo Rewrite feature
-             */
-        }
-
-//        $record->setOutputData($outputData);
-
-        return $this;
-    }
-
-    private function makeRequestBody(Record $record): self
-    {
-
-        $xmlContent = file_get_contents($record->getRequestBodyPath());
-        $xmlContent = $this->trimSpaces($xmlContent);
-        $xmlContent = str_replace('"', '\"', $xmlContent);
-        $xmlContent = $xmlContent . '\n';
-        $xmlContent = '"' . $xmlContent . '"';
-
-        $outputData = $record->getOutputData();
-        $outputData[Config::REQUEST][Config::BODY] = $xmlContent;
-        $record->setOutputData($outputData);
-
-        return $this;
-    }
-
-    private function makeResponseBody(Record $record): self
-    {
-        $xmlContent = file_get_contents($record->getResponseBodyPath());
-        $xmlContent = $this->trimSpaces($xmlContent);
-        $xmlContent = '\'' . $xmlContent . '\'';
-
-        $outputData = $record->getOutputData();
-        $outputData[Config::RESPONSE][Config::BODY] = $xmlContent;
-        $record->setOutputData($outputData);
-
-        return $this;
-    }
-
-    private function trimSpaces(string $xmlContent)
-    {
-        $xmlContent = trim($xmlContent);
-        $xmlContent = preg_replace('/>\s*/', '>', $xmlContent);
-        $xmlContent = preg_replace('/\s*</', '<', $xmlContent);
-
-        return str_replace('?><', '?>\n<', $xmlContent);
     }
 }

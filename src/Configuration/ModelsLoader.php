@@ -91,14 +91,20 @@ class ModelsLoader
                     $recordModel
                         ->setRequestBodyPath($record['request'])
                         ->setResponseBodyPath($record['response']);
-                    foreach ($record['append'] as $key => $value) {
-                        $recordModel->addAppendItem($key, $value);
+
+                    if (array_key_exists(Config::APPEND, $record)) {
+                        foreach ($record[Config::APPEND] as $key => $value) {
+                            $recordModel->addAppendItem($key, $value);
+                        }
                     }
-                    foreach ($record['rewrite'] as $key => $value) {
-                        $recordModel->addRewriteItems($key, $value);
+                    if (array_key_exists(Config::REWRITE, $record)) {
+                        foreach ($record['rewrite'] as $key => $value) {
+                            $recordModel->addRewriteItems($key, $value);
+                        }
                     }
                 }
             }
         }
     }
+
 }

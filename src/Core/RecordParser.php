@@ -23,16 +23,11 @@ class RecordParser
 
     public function parse(): string
     {
-        $this->writeLines();
-
-        return $this->yaml;
-    }
-
-    private function writeLines(): void
-    {
-        $this->beginLine();
+        $this->addBeginLine();
         $this->parseRequestLines();
         $this->parseResponseLines();
+
+        return $this->yaml;
     }
 
     private function parseRequestLines(): void
@@ -43,12 +38,12 @@ class RecordParser
         $headers = $request[Config::HEADERS] ?? [];
         $body = $request[Config::BODY] ?? null;
 
-        $this->requestLine();
-        $this->methodLine($method);
-        $this->urlLine($url);
-        $this->headersLine();
-        $this->linesList($headers);
-        $this->bodyLine($body);
+        $this->addRequestLine();
+        $this->addMethodLine($method);
+        $this->addUrlLine($url);
+        $this->addHeadersLine();
+        $this->addLinesList($headers);
+        $this->addBodyLine($body);
     }
 
     private function parseResponseLines(): void
@@ -58,62 +53,62 @@ class RecordParser
         $headers = $response[Config::HEADERS] ?? [];
         $body = $response[Config::BODY] ?? [];
 
-        $this->responseLine();
-        $this->statusLine();
-        $this->linesList($status);
-        $this->headersLine();
-        $this->linesList($headers);
-        $this->bodyLine($body);
+        $this->addResponseLine();
+        $this->addStatusLine();
+        $this->addLinesList($status);
+        $this->addHeadersLine();
+        $this->addLinesList($headers);
+        $this->addBodyLine($body);
     }
 
-    private function beginLine()
+    private function addBeginLine()
     {
         $this->yaml .= $this->mark;
     }
 
-    private function requestLine()
+    private function addRequestLine()
     {
-        $this->line(Config::REQUEST);
+        $this->addLine(Config::REQUEST);
     }
 
-    private function methodLine(string $value = null)
+    private function addMethodLine(string $value = null)
     {
-        $this->line(Config::METHOD, $value, $this->tab2);
+        $this->addLine(Config::METHOD, $value, $this->tab2);
     }
 
-    private function urlLine(string $value = null)
+    private function addUrlLine(string $value = null)
     {
-        $this->line(Config::URL, $value, $this->tab2);
+        $this->addLine(Config::URL, $value, $this->tab2);
     }
 
-    private function headersLine()
+    private function addHeadersLine()
     {
-        $this->line(Config::HEADERS, null, $this->tab2);
+        $this->addLine(Config::HEADERS, null, $this->tab2);
     }
 
-    private function bodyLine(string $value = null)
+    private function addBodyLine(string $value = null)
     {
-        $this->line(Config::BODY, $value, $this->tab2);
+        $this->addLine(Config::BODY, $value, $this->tab2);
     }
 
-    private function responseLine()
+    private function addResponseLine()
     {
-        $this->line(Config::RESPONSE);
+        $this->addLine(Config::RESPONSE);
     }
 
-    private function statusLine()
+    private function addStatusLine()
     {
-        $this->line(Config::STATUS, null, $this->tab2);
+        $this->addLine(Config::STATUS, null, $this->tab2);
     }
 
-    private function linesList(array $items)
+    private function addLinesList(array $items)
     {
         foreach ($items as $key => $value) {
-            $this->line($key, $value, $this->tab3);
+            $this->addLine($key, $value, $this->tab3);
         }
     }
 
-    private function line($key, $value = null, $tab = '    ')
+    private function addLine($key, $value = null, $tab = '    ')
     {
         $value = $value === null ? '' : " $value";
         $this->yaml .= $tab . $key. ':' . $value . PHP_EOL;

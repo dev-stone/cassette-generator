@@ -1,18 +1,18 @@
 <?php
 declare(strict_types=1);
 
-namespace Vcg\Tests\Unit\Core;
+namespace Vcg\Tests\Unit\Core\RecordOutputModifiers;
 
 use Vcg\Configuration\Configuration;
-use Vcg\ValueObject\Record;
 use Vcg\Core\RecordOutputMaker;
 use Vcg\Tests\Unit\RecordTestCase;
+use Vcg\ValueObject\Record;
 
-class RecordOutputMakerTest extends RecordTestCase
+class RecordOutputMakerShouldApplyRewriteTest extends RecordTestCase
 {
     private Configuration $configuration;
 
-    public function testRecordMaker()
+    public function testRewriteModifier()
     {
         $record = $this->createRecord();
         $recordMaker = new RecordOutputMaker();
@@ -42,7 +42,10 @@ class RecordOutputMakerTest extends RecordTestCase
             ->setRecordDefaultsModel($recordDefaultsModel)
             ->setRequestBodyPath('/var/www/cassette-generator/tests/fixturesInput/find_user_request.xml')
             ->setResponseBodyPath('/var/www/cassette-generator/tests/fixturesInput/find_user_response.xml')
-            ->addAppendItem('request|headers|SOAPAction', 'IAppService/FindUser');
+            ->addAppendItem('request|headers|SOAPAction', 'IAppService/FindUser')
+            ->addRewriteItem('response|headers|Date', "'2021-02-21 12:00:00'")
+            ->addRewriteItem('response|status|code', "'500'")
+            ->addRewriteItem('response|status|message', 'Server error');
     }
 
     private function expectedOutputData(): array
@@ -61,8 +64,8 @@ class RecordOutputMakerTest extends RecordTestCase
             'response' => [
                 'status' => [
                     'http_version' => "'1.1'",
-                    'code' => "'200'",
-                    'message' => 'OK',
+                    'code' => "'500'",
+                    'message' => 'Server error',
                 ],
                 'headers' => [
                     'Cache-Control' => 'private',
@@ -71,7 +74,7 @@ class RecordOutputMakerTest extends RecordTestCase
                     'Server' => 'Microsoft-IIS/8.0',
                     'X-AspNet-Version' => '4.0.30319',
                     'X-Powered-By' => 'ASP.NET',
-                    'Date' => "'Wed, 10 Feb 2021 07:35:56 GMT'",
+                    'Date' => "'2021-02-21 12:00:00'",
                 ],
                 'body' => '\'<?xml version="1.0" encoding="UTF-8"?>\n<SOAP-ENV:Envelope xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/" xmlns:ns1="http://tempuri.org/"><SOAP-ENV:Body><ns1:FindUserResponse><ns1:FindUserResult>true</ns1:FindUserResult></ns1:FindUserResponse></SOAP-ENV:Body></SOAP-ENV:Envelope>\''
             ]
