@@ -73,7 +73,7 @@ class ModelsLoader
 
     private function loadCassettesSettings(): void
     {
-        foreach ($this->configReader->getSettings('cassettes-settings') as $cassettesHolder) {
+        foreach ($this->configReader->getSettings(Config::CASSETTES_SETTINGS) as $cassettesHolder) {
             $cassettesHolderModel = new CassettesHolderModel();
             $this->cassettesSettings[] = $cassettesHolderModel;
 

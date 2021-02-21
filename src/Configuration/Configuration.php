@@ -5,6 +5,7 @@ namespace Vcg\Configuration;
 
 use Vcg\Configuration\Model\CassettesHolderModel;
 use Vcg\Configuration\Model\RecordDefaultsModel;
+use Vcg\Validation\ConfigReaderValidator;
 
 class Configuration
 {
@@ -17,6 +18,7 @@ class Configuration
     public function __construct(string $configPath)
     {
         $configReader = new ConfigReader($configPath);
+        (new ConfigReaderValidator($configReader))->validate();
         $modelsLoader = (new ModelsLoader($configReader))->load();
         $this->recordDefaults = $modelsLoader->getRecordDefaults();
         $this->cassettesSettings = $modelsLoader->getCassettesSettings();

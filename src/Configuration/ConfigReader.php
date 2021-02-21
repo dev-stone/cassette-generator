@@ -8,7 +8,7 @@ use Symfony\Component\Yaml\Yaml;
 class ConfigReader
 {
     private string $configPath;
-    private array $config = [];
+    private array $configData = [];
 
     public function __construct(string $configPath)
     {
@@ -18,28 +18,16 @@ class ConfigReader
 
     public function getSettings(string $key): array
     {
-        $this->validateSettings($key);
+        return $this->configData[$key];
+    }
 
-        return $this->config[$key];
+    public function getConfigData(): array
+    {
+        return $this->configData;
     }
 
     private function readConfiguration(): void
     {
-        $this->config = Yaml::parseFile($this->configPath);
-        $this->validateConfig();
-    }
-
-    private function validateSettings(string $key)
-    {
-        if (!array_key_exists($key, $this->config)) {
-            throw new \RuntimeException(sprintf('Missing %s when load configuration file.', $key));
-        }
-    }
-
-    private function validateConfig()
-    {
-        if (empty($this->config)) {
-            throw new \RuntimeException('Configuration file empty!');
-        }
+        $this->configData = Yaml::parseFile($this->configPath);
     }
 }

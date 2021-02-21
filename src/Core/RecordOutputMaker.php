@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace Vcg\Core;
 
+use Vcg\Configuration\Config;
 use Vcg\ValueObject\Record;
 
 class RecordOutputMaker
@@ -11,6 +12,7 @@ class RecordOutputMaker
     {
         $this->makeOutputData($record)
             ->appendData($record)
+            ->rewriteData($record)
             ->makeRequestBody($record)
             ->makeResponseBody($record);
 
@@ -23,20 +25,20 @@ class RecordOutputMaker
         $requestModel = $recordDefaults->getRequestModel();
         $responseModel = $recordDefaults->getResponseModel();
         $outputData = [
-            'request' => [
-                'method' => $requestModel->getMethod(),
-                'url' => $requestModel->getUrl()
+            Config::REQUEST => [
+                Config::METHOD => $requestModel->getMethod(),
+                Config::URL => $requestModel->getUrl()
             ],
-            'response' => []
+            Config::RESPONSE => []
         ];
         foreach ($requestModel->getHeaders() as $key => $value) {
-            $outputData['request']['headers'][$key] = $value;
+            $outputData[Config::REQUEST][Config::HEADERS][$key] = $value;
         }
         foreach ($responseModel->getStatus() as $key => $value) {
-            $outputData['response']['status'][$key] = $value;
+            $outputData[Config::RESPONSE][Config::STATUS][$key] = $value;
         }
         foreach ($responseModel->getHeaders() as $key => $value) {
-            $outputData['response']['headers'][$key] = $value;
+            $outputData[Config::RESPONSE][Config::HEADERS][$key] = $value;
         }
 
         $record->setOutputData($outputData);
@@ -66,6 +68,20 @@ class RecordOutputMaker
         return $this;
     }
 
+    private function rewriteData(Record $record): self
+    {
+        $outputData = $record->getOutputData();
+        foreach ($record->getRewriteItems() as $rewrite => $value) {
+            /**
+             * @todo Rewrite feature
+             */
+        }
+
+//        $record->setOutputData($outputData);
+
+        return $this;
+    }
+
     private function makeRequestBody(Record $record): self
     {
 
@@ -76,7 +92,7 @@ class RecordOutputMaker
         $xmlContent = '"' . $xmlContent . '"';
 
         $outputData = $record->getOutputData();
-        $outputData['request']['body'] = $xmlContent;
+        $outputData[Config::REQUEST][Config::BODY] = $xmlContent;
         $record->setOutputData($outputData);
 
         return $this;
@@ -89,7 +105,7 @@ class RecordOutputMaker
         $xmlContent = '\'' . $xmlContent . '\'';
 
         $outputData = $record->getOutputData();
-        $outputData['response']['body'] = $xmlContent;
+        $outputData[Config::RESPONSE][Config::BODY] = $xmlContent;
         $record->setOutputData($outputData);
 
         return $this;

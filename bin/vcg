@@ -12,18 +12,9 @@ if (1 === $argc) {
 
 $configPath = $argv[1];
 
-if (!file_exists($configPath) || !is_file($configPath)) {
-    echo 'Configuration file not exist!' . PHP_EOL;
-    return 1;
-}
-if (empty(file_get_contents($configPath))) {
-    echo 'Configuration file empty!' . PHP_EOL;
-    return 1;
-}
-
 try {
     (new Vcg($configPath))->run();
-} catch (Exception $exception) {
+} catch (Throwable $exception) {
     echo $exception->getMessage() . PHP_EOL;
     return 1;
 }

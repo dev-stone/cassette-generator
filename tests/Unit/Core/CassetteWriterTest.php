@@ -21,8 +21,8 @@ class CassetteWriterTest extends RecordTestCase
         $cassettesWriter = new CassetteWriter();
         $cassettesWriter->write($cassettesOutputs);
 
-        $expectedLoginContent = file_get_contents(__DIR__ . '/../../data/login_process_expected.yaml');
-        $expectedRegistrationContent = file_get_contents(__DIR__ . '/../../data/registration_process_expected.yaml');
+        $expectedLoginContent = file_get_contents(__DIR__ . '/../../data/CassettesExpected/login_process_expected.yaml');
+        $expectedRegistrationContent = file_get_contents(__DIR__ . '/../../data/CassettesExpected/registration_process_expected.yaml');
         $actualLoginContent = file_get_contents(__DIR__ . '/../../fixturesOutput/IntegrationTests/login_process.yaml');
         $actualRegistrationContent = file_get_contents(__DIR__ . '/../../fixturesOutput/IntegrationTests/registration_process.yaml');
 

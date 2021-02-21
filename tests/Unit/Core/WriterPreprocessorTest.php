@@ -22,8 +22,8 @@ class WriterPreprocessorTest extends RecordTestCase
 
     private function expectedCassettesList(): array
     {
-        $expectedLoginCassette = file_get_contents(__DIR__ . '/../../data/login_process_expected.yaml');
-        $expectedRegistrationCassette = file_get_contents(__DIR__ . '/../../data/registration_process_expected.yaml');
+        $expectedLoginCassette = file_get_contents(__DIR__ . '/../../data/CassettesExpected/login_process_expected.yaml');
+        $expectedRegistrationCassette = file_get_contents(__DIR__ . '/../../data/CassettesExpected/registration_process_expected.yaml');
         $cassetteOutputLogin = (new CassetteOutput())
             ->setOutputPath('/var/www/cassette-generator/tests/fixturesOutput/IntegrationTests/login_process.yaml')
             ->setOutputString($expectedLoginCassette);

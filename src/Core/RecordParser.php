@@ -3,6 +3,8 @@ declare(strict_types=1);
 
 namespace Vcg\Core;
 
+use Vcg\Configuration\Config;
+
 class RecordParser
 {
     private array $data;
@@ -35,11 +37,11 @@ class RecordParser
 
     private function parseRequestLines(): void
     {
-        $request = $this->data['request'] ?? [];
-        $method = $request['method'] ?? null;
-        $url = $request['url'] ?? null;
-        $headers = $request['headers'] ?? [];
-        $body = $request['body'] ?? null;
+        $request = $this->data[Config::REQUEST] ?? [];
+        $method = $request[Config::METHOD] ?? null;
+        $url = $request[Config::URL] ?? null;
+        $headers = $request[Config::HEADERS] ?? [];
+        $body = $request[Config::BODY] ?? null;
 
         $this->requestLine();
         $this->methodLine($method);
@@ -51,10 +53,10 @@ class RecordParser
 
     private function parseResponseLines(): void
     {
-        $response = $this->data['response'] ?? [];
-        $status = $response['status'] ?? [];
-        $headers = $response['headers'] ?? [];
-        $body = $response['body'] ?? [];
+        $response = $this->data[Config::RESPONSE] ?? [];
+        $status = $response[Config::STATUS] ?? [];
+        $headers = $response[Config::HEADERS] ?? [];
+        $body = $response[Config::BODY] ?? [];
 
         $this->responseLine();
         $this->statusLine();
@@ -71,37 +73,37 @@ class RecordParser
 
     private function requestLine()
     {
-        $this->line('request');
+        $this->line(Config::REQUEST);
     }
 
     private function methodLine(string $value = null)
     {
-        $this->line('method', $value, $this->tab2);
+        $this->line(Config::METHOD, $value, $this->tab2);
     }
 
     private function urlLine(string $value = null)
     {
-        $this->line('url', $value, $this->tab2);
+        $this->line(Config::URL, $value, $this->tab2);
     }
 
     private function headersLine()
     {
-        $this->line('headers', null, $this->tab2);
+        $this->line(Config::HEADERS, null, $this->tab2);
     }
 
     private function bodyLine(string $value = null)
     {
-        $this->line('body', $value, $this->tab2);
+        $this->line(Config::BODY, $value, $this->tab2);
     }
 
     private function responseLine()
     {
-        $this->line('response');
+        $this->line(Config::RESPONSE);
     }
 
     private function statusLine()
     {
-        $this->line('status', null, $this->tab2);
+        $this->line(Config::STATUS, null, $this->tab2);
     }
 
     private function linesList(array $items)
