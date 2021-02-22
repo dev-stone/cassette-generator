@@ -5,6 +5,7 @@ namespace Vcg\Configuration;
 
 use Vcg\Configuration\Model\CassettesHolderModel;
 use Vcg\Configuration\Model\RecordDefaultsModel;
+use Vcg\Configuration\ModelsLoader\ModelsLoader;
 use Vcg\Validation\ConfigReaderValidator;
 
 class Configuration

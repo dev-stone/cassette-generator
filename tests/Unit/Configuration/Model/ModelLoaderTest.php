@@ -4,7 +4,7 @@ declare(strict_types=1);
 namespace Vcg\Tests\Unit\Configuration\Model;
 
 use Vcg\Configuration\ConfigReader;
-use Vcg\Configuration\ModelsLoader;
+use Vcg\Configuration\ModelsLoader\ModelsLoader;
 use Vcg\Tests\Unit\RecordTestCase;
 
 class ModelLoaderTest extends RecordTestCase
