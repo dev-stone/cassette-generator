@@ -21,7 +21,7 @@ class VcgTest extends FunctionalTestCase
 
     public function testNotValidConfig()
     {
-        $this->expectException(MissingConfigItemException::class);
+        $this->expectException(\RuntimeException::class);
 
         $configPath = __DIR__ . '/../data/ConfigsCases/not_valid_records_defaults.yaml';
         (new Vcg($configPath))->run();
@@ -29,7 +29,7 @@ class VcgTest extends FunctionalTestCase
 
     public function testConfigNotExist()
     {
-        $this->expectException(ConfigurationNotExistException::class);
+        $this->expectException(\RuntimeException::class);
 
         $configPath = __DIR__ . '/../data/vcg_fig.yaml';
         (new Vcg($configPath))->run();
@@ -37,7 +37,7 @@ class VcgTest extends FunctionalTestCase
 
     public function testConfigEmpty()
     {
-        $this->expectException(EmptyConfigurationException::class);
+        $this->expectException(\RuntimeException::class);
 
         $configPath = __DIR__ . '/../data/ConfigsCases/file_empty.yaml';
         (new Vcg($configPath))->run();

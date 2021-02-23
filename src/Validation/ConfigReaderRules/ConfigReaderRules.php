@@ -20,7 +20,7 @@ abstract class ConfigReaderRules
     {
         if (!array_key_exists($key, $this->configReaderData)) {
             $message = sprintf('Missing %s when read configuration file.', $key);
-            throw new MissingConfigItemException($message);
+            throw new \RuntimeException($message);
         }
     }
 
@@ -28,7 +28,7 @@ abstract class ConfigReaderRules
     {
         if (!array_key_exists($key, $this->configReaderData[$parent])) {
             $message = sprintf('Missing %s %s when read configuration file.', $parent, $key);
-            throw new MissingConfigItemException($message);
+            throw new \RuntimeException($message);
         }
     }
 
@@ -36,7 +36,7 @@ abstract class ConfigReaderRules
     {
         if (!array_key_exists($key, $this->configReaderData[$parent][$item])) {
             $message = sprintf('Missing %s %s %s when read configuration file.', $parent, $item, $key);
-            throw new MissingConfigItemException($message);
+            throw new \RuntimeException($message);
         }
     }
 }

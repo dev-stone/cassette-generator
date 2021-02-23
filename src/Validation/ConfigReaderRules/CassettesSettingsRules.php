@@ -28,8 +28,7 @@ class CassettesSettingsRules extends ConfigReaderRules
     private function validCassettesHolderAdded()
     {
         if (0 === count($this->configReaderData[Config::CASSETTES_SETTINGS])) {
-            $message = sprintf('Should be at least one cassette holder under %s.', 'cassettes-settings');
-            throw new MissingConfigItemException($message);
+            throw new \RuntimeException('Should be at least one cassette holder under cassettes-settings.');
         }
     }
 
@@ -52,17 +51,19 @@ class CassettesSettingsRules extends ConfigReaderRules
             $this->validateCassetteOutputFile($cassette);
             $this->validateCassetteRecords($cassette);
             $this->validateRecordsAdded($cassette);
-            $this->validateRecordsItems($cassette);
+            $this->validateRecordsItems($cassetteHolder, $cassette);
         }
     }
 
-    private function validateRecordsItems(array $cassette)
+    private function validateRecordsItems(array $cassetteHolder, array $cassette)
     {
         foreach ($cassette[Config::RECORDS] as $record) {
             $this->validateRecordRequest($record);
             $this->validateRecordResponse($record);
             $this->validateRecordAppendKeys($record);
             $this->validateRecordRewriteKeys($record);
+            $this->validateRecordRequestFileExist($cassetteHolder, $record);
+            $this->validateRecordResponseFileExist($cassetteHolder, $record);
         }
     }
 
@@ -75,7 +76,7 @@ class CassettesSettingsRules extends ConfigReaderRules
     {
         $dir = $cassetteHolder[Config::INPUT_DIR];
         if (!file_exists($dir)) {
-            throw new DirectoryNotExistException(sprintf('Input directory not exist %s', $dir));
+            throw new \RuntimeException(sprintf('Input directory not exist: %s', $dir));
         }
     }
 
@@ -88,7 +89,7 @@ class CassettesSettingsRules extends ConfigReaderRules
     {
         $dir = $cassetteHolder[Config::OUTPUT_DIR];
         if (!file_exists($dir)) {
-            throw new DirectoryNotExistException(sprintf('Output directory not exist %s', $dir));
+            throw new \RuntimeException(sprintf('Output directory not exist: %s', $dir));
         }
     }
 
@@ -100,7 +101,7 @@ class CassettesSettingsRules extends ConfigReaderRules
     private function validateCassettesAdded(array $cassetteHolder)
     {
         if (0 === count($cassetteHolder[Config::CASSETTES])) {
-            throw new NoCassetteAddedException('You should add at least one cassette');
+            throw new \RuntimeException('You should add at least one cassette!');
         }
     }
 
@@ -117,7 +118,7 @@ class CassettesSettingsRules extends ConfigReaderRules
     private function validateRecordsAdded(array $cassette)
     {
         if (0 === count($cassette[Config::RECORDS])) {
-            throw new NoRecordsAddedException('You should add at least one record to cassette');
+            throw new \RuntimeException('You should add at least one record to cassette!');
         }
     }
 
@@ -140,7 +141,7 @@ class CassettesSettingsRules extends ConfigReaderRules
         foreach ($record[Config::APPEND] as $key => $value) {
             $applyParts = explode('|', $key);
             if (3 !== count($applyParts)) {
-                throw new RecordAppendKeyException('Append key should consist three parts split by pipes');
+                throw new \RuntimeException('Append key should consist three parts split by pipes!');
             }
         }
     }
@@ -154,8 +155,24 @@ class CassettesSettingsRules extends ConfigReaderRules
         foreach ($record[Config::REWRITE] as $key => $value) {
             $rewriteParts = explode('|', $key);
             if (3 !== count($rewriteParts)) {
-                throw new RecordRewriteKeyException('Rewrite key should consist three parts split by pipes');
+                throw new \RuntimeException('Rewrite key should consist three parts split by pipes');
             }
+        }
+    }
+
+    private function validateRecordRequestFileExist(array $cassetteHolder, array $record)
+    {
+        $filePath = $cassetteHolder[Config::INPUT_DIR] . $record[Config::REQUEST];
+        if (!file_exists($filePath)) {
+            throw new \RuntimeException(sprintf('Record request file not exist: %s', $filePath));
+        }
+    }
+
+    private function validateRecordResponseFileExist(array $cassetteHolder, array $record)
+    {
+        $filePath = $cassetteHolder[Config::INPUT_DIR] . $record[Config::RESPONSE];
+        if (!file_exists($filePath)) {
+            throw new \RuntimeException(sprintf('Record response file not exist: %s', $filePath));
         }
     }
 
@@ -163,7 +180,7 @@ class CassettesSettingsRules extends ConfigReaderRules
     {
         if (!array_key_exists($key, $data)) {
             $message = sprintf('Missing %s when read configuration file.', $key);
-            throw new MissingConfigItemException($message);
+            throw new \RuntimeException($message);
         }
     }
 }

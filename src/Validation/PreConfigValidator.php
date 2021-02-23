@@ -18,11 +18,11 @@ class PreConfigValidator
     public function validate()
     {
         if (!file_exists($this->configPath) || !is_file($this->configPath)) {
-            throw new ConfigurationNotExistException('Configuration file not exist!');
+            throw new \RuntimeException('Configuration file not exist!');
 
         }
         if (empty(file_get_contents($this->configPath))) {
-            throw new EmptyConfigurationException('Configuration file empty!');
+            throw new \RuntimeException('Configuration file empty!');
         }
     }
 }
