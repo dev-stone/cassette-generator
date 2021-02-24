@@ -4,9 +4,6 @@ declare(strict_types=1);
 namespace Vcg\Tests\Functional;
 
 use Vcg\Core\Vcg;
-use Vcg\Exception\ConfigurationNotExistException;
-use Vcg\Exception\EmptyConfigurationException;
-use Vcg\Exception\MissingConfigItemException;
 
 class VcgTest extends FunctionalTestCase
 {

@@ -6,6 +6,7 @@ namespace Vcg\Tests\Unit\Core;
 use Vcg\ValueObject\CassetteOutput;
 use Vcg\Tests\Unit\RecordTestCase;
 use Vcg\Core\WriterPreprocessor;
+use Vcg\ValueObject\CassetteOutputList;
 
 class WriterPreprocessorTest extends RecordTestCase
 {
@@ -20,7 +21,7 @@ class WriterPreprocessorTest extends RecordTestCase
         $this->assertEquals($expected, $actual);
     }
 
-    private function expectedCassettesList(): array
+    private function expectedCassettesList(): CassetteOutputList
     {
         $expectedLoginCassette = file_get_contents(__DIR__ . '/../../data/CassettesExpected/login_process_expected.yaml');
         $expectedRegistrationCassette = file_get_contents(__DIR__ . '/../../data/CassettesExpected/registration_process_expected.yaml');
@@ -31,6 +32,8 @@ class WriterPreprocessorTest extends RecordTestCase
             ->setOutputPath('/var/www/cassette-generator/tests/fixturesOutput/IntegrationTests/registration_process.yaml')
             ->setOutputString($expectedRegistrationCassette);
 
-        return [$cassetteOutputLogin, $cassetteOutputRegister];
+        return (new CassetteOutputList())
+            ->add($cassetteOutputLogin)
+            ->add($cassetteOutputRegister);
     }
 }

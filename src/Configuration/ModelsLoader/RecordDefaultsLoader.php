@@ -11,28 +11,40 @@ use Vcg\Configuration\Model\ResponseModel;
 
 class RecordDefaultsLoader
 {
-    private ConfigReader $configReader;
     private RecordDefaultsModel $recordDefaultsModel;
+    private array $settingsRecordDefaults;
 
     public function __construct(ConfigReader $configReader)
     {
-        $this->configReader = $configReader;
-        $this->recordDefaultsModel = new RecordDefaultsModel();
+        $this->settingsRecordDefaults = $configReader->getSettings(Config::RECORD_DEFAULTS);
     }
 
     public function load(): RecordDefaultsModel
     {
-        $recordDefaults = $this->configReader->getSettings(Config::RECORD_DEFAULTS);
-        $request = $recordDefaults[Config::REQUEST];
+        $this->recordDefaultsModel = new RecordDefaultsModel();
+
+        $this->loadRequestModel();
+        $this->loadResponseModel();
+
+        return $this->recordDefaultsModel;
+    }
+
+    private function loadRequestModel()
+    {
+        $request = $this->settingsRecordDefaults[Config::REQUEST];
         $requestModel = (new RequestModel())
             ->setMethod($request[Config::METHOD])
             ->setUrl($request[Config::URL]);
         foreach ($request[Config::HEADERS] as $key => $value) {
             $requestModel->addHeader($key, $value);
         }
+        $this->recordDefaultsModel->setRequestModel($requestModel);
+    }
 
+    private function loadResponseModel(): void
+    {
         $responseModel = new ResponseModel();
-        $response = $recordDefaults[Config::RESPONSE];
+        $response = $this->settingsRecordDefaults[Config::RESPONSE];
         foreach ($response[Config::STATUS] as $key => $value) {
             $responseModel->addStatus($key, $value);
         }
@@ -40,10 +52,6 @@ class RecordDefaultsLoader
             $responseModel->addHeader($key, $value);
         }
 
-        $this->recordDefaultsModel = (new RecordDefaultsModel())
-            ->setRequestModel($requestModel)
-            ->setResponseModel($responseModel);
-
-        return $this->recordDefaultsModel;
+        $this->recordDefaultsModel->setResponseModel($responseModel);
     }
 }

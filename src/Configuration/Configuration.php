@@ -3,17 +3,14 @@ declare(strict_types=1);
 
 namespace Vcg\Configuration;
 
-use Vcg\Configuration\Model\CassettesHolderModel;
+use Vcg\Configuration\Model\CassettesHolderModelList;
 use Vcg\Configuration\Model\RecordDefaultsModel;
 use Vcg\Configuration\ModelsLoader\ModelsLoader;
 use Vcg\Validation\ConfigReaderValidator;
 
 class Configuration
 {
-    /**
-     * @var CassettesHolderModel[]
-     */
-    private array $cassettesSettings;
+    private CassettesHolderModelList $cassettesHolderModelList;
     private RecordDefaultsModel $recordDefaults;
 
     public function __construct(string $configPath)
@@ -22,22 +19,16 @@ class Configuration
         (new ConfigReaderValidator($configReader))->validate();
         $modelsLoader = (new ModelsLoader($configReader))->load();
         $this->recordDefaults = $modelsLoader->getRecordDefaults();
-        $this->cassettesSettings = $modelsLoader->getCassettesSettings();
+        $this->cassettesHolderModelList = $modelsLoader->getCassettesSettings();
     }
 
-    /**
-     * @return RecordDefaultsModel
-     */
     public function getRecordDefaults(): RecordDefaultsModel
     {
         return $this->recordDefaults;
     }
 
-    /**
-     * @return CassettesHolderModel[]
-     */
-    public function getCassettesSettings(): array
+    public function getCassettesHolderModelList(): CassettesHolderModelList
     {
-        return $this->cassettesSettings;
+        return $this->cassettesHolderModelList;
     }
 }

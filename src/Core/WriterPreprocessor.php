@@ -3,8 +3,9 @@ declare(strict_types=1);
 
 namespace Vcg\Core;
 
+use Vcg\ValueObject\CassetteHolderList;
 use Vcg\ValueObject\CassetteOutput;
-use Vcg\ValueObject\CassettesHolder;
+use Vcg\ValueObject\CassetteOutputList;
 
 class WriterPreprocessor
 {
@@ -15,15 +16,11 @@ class WriterPreprocessor
         $this->recordOutputMaker = new RecordOutputMaker();
     }
 
-    /**
-     * @var CassettesHolder[] $cassettesHolders
-     * @return CassetteOutput[]
-     */
-    public function prepareCassettes(array $cassettesHolders): array
+    public function prepareCassettes(CassetteHolderList $cassetteHolderList): CassetteOutputList
     {
-        $cassettesOutputs = [];
+        $cassettesOutputList = new CassetteOutputList();
 
-        foreach ($cassettesHolders as $cassettesHolder) {
+        foreach ($cassetteHolderList as $cassettesHolder) {
             foreach ($cassettesHolder->getCassettes() as $cassette) {
                 $cassetteOutputString = '';
                 foreach ($cassette->getRecords() as $record) {
@@ -34,10 +31,10 @@ class WriterPreprocessor
                 $cassetteOutput = (new CassetteOutput())
                     ->setOutputPath($cassette->getOutputPath())
                     ->setOutputString($cassetteOutputString);
-                $cassettesOutputs[] = $cassetteOutput;
+                $cassettesOutputList->add($cassetteOutput);
             }
         }
 
-        return $cassettesOutputs;
+        return $cassettesOutputList;
     }
 }

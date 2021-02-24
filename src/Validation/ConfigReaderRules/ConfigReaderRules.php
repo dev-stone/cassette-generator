@@ -3,8 +3,6 @@ declare(strict_types=1);
 
 namespace Vcg\Validation\ConfigReaderRules;
 
-use Vcg\Exception\MissingConfigItemException;
-
 abstract class ConfigReaderRules
 {
     protected array $configReaderData;

@@ -7,29 +7,26 @@ use Vcg\Configuration\Config;
 use Vcg\Configuration\ConfigReader;
 use Vcg\Configuration\Model\CassetteModel;
 use Vcg\Configuration\Model\CassettesHolderModel;
+use Vcg\Configuration\Model\CassettesHolderModelList;
 use Vcg\Configuration\Model\RecordModel;
 
 class CassettesSettingsLoader
 {
     private ConfigReader $configReader;
-    /**
-     * @var CassettesHolderModel[]
-     */
-    private array $cassettesSettings = [];
+    private CassettesHolderModelList $cassettesHolderModelsList;
 
     public function __construct(ConfigReader $configReader)
     {
         $this->configReader = $configReader;
     }
 
-    /**
-     * @return CassettesHolderModel[]
-     */
-    public function load(): array
+    public function load(): CassettesHolderModelList
     {
+        $this->cassettesHolderModelsList = new CassettesHolderModelList();
+
         foreach ($this->configReader->getSettings(Config::CASSETTES_SETTINGS) as $cassettesHolder) {
             $cassettesHolderModel = new CassettesHolderModel();
-            $this->cassettesSettings[] = $cassettesHolderModel;
+            $this->cassettesHolderModelsList->add($cassettesHolderModel);
 
             $cassettesHolderModel
                 ->setName($cassettesHolder[Config::NAME])
@@ -60,6 +57,6 @@ class CassettesSettingsLoader
             }
         }
 
-        return $this->cassettesSettings;
+        return $this->cassettesHolderModelsList;
     }
 }

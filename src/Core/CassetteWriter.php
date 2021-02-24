@@ -4,15 +4,13 @@ declare(strict_types=1);
 namespace Vcg\Core;
 
 use Vcg\ValueObject\CassetteOutput;
+use Vcg\ValueObject\CassetteOutputList;
 
 class CassetteWriter
 {
-    /**
-     * @param CassetteOutput[] $cassettesOutputs
-     */
-    public function write(array $cassettesOutputs): void
+    public function write(CassetteOutputList $cassetteOutputList): void
     {
-        foreach ($cassettesOutputs as $cassetteOutput) {
+        foreach ($cassetteOutputList as $cassetteOutput) {
             file_put_contents($cassetteOutput->getOutputPath(), $cassetteOutput->getOutputString());
         }
     }

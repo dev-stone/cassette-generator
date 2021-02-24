@@ -5,28 +5,27 @@ namespace Vcg\Core;
 
 use Vcg\Configuration\Configuration;
 use Vcg\ValueObject\Cassette;
+use Vcg\ValueObject\CassetteHolderList;
 use Vcg\ValueObject\CassettesHolder;
 use Vcg\ValueObject\Record;
 
 class RecordDataCollector
 {
     private Configuration $configuration;
-    /**
-     * @var CassettesHolder[]
-     */
-    private array $cassettesHolder;
+    private CassetteHolderList $cassettesHolderList;
 
     public function __construct(Configuration $configuration)
     {
         $this->configuration = $configuration;
     }
 
-    public function collect(): array
+    public function collect(): CassetteHolderList
     {
         $recordDefaultsModel = $this->configuration->getRecordDefaults();
-        foreach ($this->configuration->getCassettesSettings() as $cassettesHolderModel) {
+        $this->cassettesHolderList = new CassetteHolderList();
+        foreach ($this->configuration->getCassettesHolderModelList() as $cassettesHolderModel) {
             $cassettesHolder = new CassettesHolder();
-            $this->cassettesHolder[] = $cassettesHolder;
+            $this->cassettesHolderList->add($cassettesHolder);
             foreach ($cassettesHolderModel->getCassettesModels() as $cassetteModel) {
                 $outputPath = $cassettesHolderModel->getOutputDir() . $cassetteModel->getOutputFile();
                 $cassette = (new Cassette())->setOutputPath($outputPath);
@@ -51,6 +50,6 @@ class RecordDataCollector
             }
         }
 
-        return $this->cassettesHolder;
+        return $this->cassettesHolderList;
     }
 }

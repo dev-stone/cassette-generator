@@ -4,7 +4,7 @@ declare(strict_types=1);
 namespace Vcg\Configuration\ModelsLoader;
 
 use Vcg\Configuration\ConfigReader;
-use Vcg\Configuration\Model\CassettesHolderModel;
+use Vcg\Configuration\Model\CassettesHolderModelList;
 use Vcg\Configuration\Model\RecordDefaultsModel;
 
 class ModelsLoader
@@ -12,10 +12,7 @@ class ModelsLoader
     private RecordDefaultsLoader $recordDefaultLoader;
     private CassettesSettingsLoader $cassettesSettingsLoader;
     private RecordDefaultsModel $recordDefaultsModel;
-    /**
-     * @var CassettesHolderModel[]
-     */
-    private array $cassettesSettings = [];
+    private CassettesHolderModelList $cassettesSettings;
 
     public function __construct(ConfigReader $configReader)
     {
@@ -36,10 +33,7 @@ class ModelsLoader
         return $this->recordDefaultsModel;
     }
 
-    /**
-     * @return CassettesHolderModel[]
-     */
-    public function getCassettesSettings(): array
+    public function getCassettesSettings(): CassettesHolderModelList
     {
         return $this->cassettesSettings;
     }

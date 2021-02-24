@@ -3,9 +3,6 @@ declare(strict_types=1);
 
 namespace Vcg\Validation;
 
-use Vcg\Exception\ConfigurationNotExistException;
-use Vcg\Exception\EmptyConfigurationException;
-
 class PreConfigValidator
 {
     private string $configPath;

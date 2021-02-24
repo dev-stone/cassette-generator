@@ -4,12 +4,6 @@ declare(strict_types=1);
 namespace Vcg\Validation\ConfigReaderRules;
 
 use Vcg\Configuration\Config;
-use Vcg\Exception\DirectoryNotExistException;
-use Vcg\Exception\MissingConfigItemException;
-use Vcg\Exception\NoCassetteAddedException;
-use Vcg\Exception\NoRecordsAddedException;
-use Vcg\Exception\RecordAppendKeyException;
-use Vcg\Exception\RecordRewriteKeyException;
 
 class CassettesSettingsRules extends ConfigReaderRules
 {

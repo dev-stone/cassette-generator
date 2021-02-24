@@ -7,11 +7,13 @@ use PHPUnit\Framework\TestCase;
 use Vcg\Configuration\Configuration;
 use Vcg\Configuration\Model\CassetteModel;
 use Vcg\Configuration\Model\CassettesHolderModel;
+use Vcg\Configuration\Model\CassettesHolderModelList;
 use Vcg\Configuration\Model\RecordDefaultsModel;
 use Vcg\Configuration\Model\RecordModel;
 use Vcg\Configuration\Model\RequestModel;
 use Vcg\Configuration\Model\ResponseModel;
 use Vcg\ValueObject\Cassette;
+use Vcg\ValueObject\CassetteHolderList;
 use Vcg\ValueObject\CassettesHolder;
 use Vcg\ValueObject\Record;
 
@@ -47,7 +49,7 @@ class RecordTestCase extends TestCase
             ->setResponseModel($responseModel);
     }
 
-    protected function createCassettesSettings(): array
+    protected function createCassettesSettings(): CassettesHolderModelList
     {
         $findUser = (new RecordModel())
             ->setRequestBodyPath('find_user_request.xml')
@@ -83,14 +85,10 @@ class RecordTestCase extends TestCase
             ->addCassetteModel($cassetteLogin)
             ->addCassetteModel($cassetteRegister);
 
-        return [$cassettesHolder];
+        return (new CassettesHolderModelList())->add($cassettesHolder);
     }
 
-    /**
-     * @param Configuration $configuration
-     * @return CassettesHolder[]
-     */
-    protected function createCassettesHolders(Configuration $configuration): array
+    protected function createCassettesHolders(Configuration $configuration): CassetteHolderList
     {
         $recordDefaultsModel = $configuration->getRecordDefaults();
         $findUserRecord = (new Record())
@@ -127,6 +125,6 @@ class RecordTestCase extends TestCase
             ->addCassette($loginCassette)
             ->addCassette($registerCassette);
 
-        return [$cassettesHolder];
+        return (new CassetteHolderList())->add($cassettesHolder);
     }
 }

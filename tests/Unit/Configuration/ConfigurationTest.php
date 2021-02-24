@@ -13,6 +13,6 @@ class ConfigurationTest extends RecordTestCase
         $expectedRecordDefaults = $this->createRecordDefaults();
         $expectedCassettesSettings = $this->createCassettesSettings();
         $this->assertEquals($expectedRecordDefaults, $configuration->getRecordDefaults());
-        $this->assertEquals($expectedCassettesSettings, $configuration->getCassettesSettings());
+        $this->assertEquals($expectedCassettesSettings, $configuration->getCassettesHolderModelList());
     }
 }
