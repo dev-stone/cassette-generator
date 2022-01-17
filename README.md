@@ -75,3 +75,21 @@ cassettes-settings:
                             'response|headers|Date':
 
 ```
+
+## Config reference
+
+### record-defaults
+In every record will be provided default information.
+
+### cassettes-settings
+Here you will provide configuration how your files structure will look like.
+Cassette will be written into files and every will have one or more records.
+`record-defaults` data will be provided into every record.
+
+`request` and `response` will try to look files from `input-dir` from cassettes holder.
+
+`append` will add data provided by `record-defaults` settings.
+
+`rewrite` will replace data provided by `record-defaults` settings.
+
+Every cassette will be written to directory `output-dir` and named by `output-file`.
