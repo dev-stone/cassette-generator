@@ -22,8 +22,8 @@ record-defaults:
 cassettes-settings:
     -
         name: 'integration_tests'
-        input-dir: '/var/www/cassette-generator/assets/'
-        output-dir: '/var/www/cassette-generator/output/'
+        input-dir: './assets/'
+        output-dir: './output/'
         cassettes:
             -
                 output-file: 'login_process.yaml'
