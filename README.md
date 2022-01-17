@@ -7,7 +7,7 @@ composer require --dev arlauskas/cassette-generator
 
 ## Usage
 ```shell
-bin/vcg vcg_config.yaml
+vendor/bin/vcg vcg_config.yaml
 ```
 
 ## Config example

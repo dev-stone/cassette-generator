@@ -7,19 +7,17 @@ use Vcg\Core\Vcg;
 
 class RewriteStatusTest extends FunctionalTestCase
 {
-    private string $failingDir;
+    protected function setUp(): void
+    {
+        $failingDir = __DIR__ . '/../fixturesOutput/Failing';
+        $this->removeFiles($failingDir);
+    }
 
     public function testRun()
     {
         $configPath = __DIR__ . '/../data/ConfigsCases/vcg_config_with_error.yaml';
         (new Vcg($configPath))->run();
         $this->assertFailingFilesRecorded();
-    }
-
-    protected function setUp(): void
-    {
-        $this->failingDir = __DIR__ . '/../fixturesOutput/Failing';
-        $this->removeFiles($this->failingDir);
     }
 
     private function assertFailingFilesRecorded(): void

@@ -9,6 +9,18 @@ class VcgTest extends FunctionalTestCase
 {
     private string $integrationTestsDir;
 
+    protected function setUp(): void
+    {
+        $this->integrationTestsDir = __DIR__ . '/../fixturesOutput/IntegrationTests';
+        $this->removeFiles($this->integrationTestsDir);
+        $this->assertFilesNotExist($this->integrationTestsDir);
+    }
+
+    protected function tearDown(): void
+    {
+        $this->removeFiles($this->integrationTestsDir);
+    }
+
     public function testRun()
     {
         $configPath = __DIR__ . '/../data/vcg_config.yaml';
@@ -38,17 +50,5 @@ class VcgTest extends FunctionalTestCase
 
         $configPath = __DIR__ . '/../data/ConfigsCases/file_empty.yaml';
         (new Vcg($configPath))->run();
-    }
-
-    protected function setUp(): void
-    {
-        $this->integrationTestsDir = __DIR__ . '/../fixturesOutput/IntegrationTests';
-        $this->removeFiles($this->integrationTestsDir);
-        $this->assertFilesNotExist($this->integrationTestsDir);
-    }
-
-    protected function tearDown(): void
-    {
-        $this->removeFiles($this->integrationTestsDir);
     }
 }

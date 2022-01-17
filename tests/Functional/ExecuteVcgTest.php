@@ -11,20 +11,51 @@ class ExecuteVcgTest extends FunctionalTestCase
     private ?int $returnValue;
     private ?array $output;
 
-    public function testVcgCommandRunSuccess()
+    protected function setUp(): void
     {
-        $this->executeVcgCommand($this->dataDir.'/vcg_config.yaml');
+        $testsDir = realpath(__DIR__.'/..');
+        $this->integrationTestsDir = $testsDir.'/fixturesOutput/IntegrationTests';
+        $this->dataDir = $testsDir.'/data';
+        $this->configCasesDir = $this->dataDir.'/ConfigsCases';
 
-        $this->assertReturnValue(0);
+        $this->removeFiles($this->integrationTestsDir);
+        $this->assertFilesNotExist($this->integrationTestsDir);
+    }
+
+    protected function tearDown(): void
+    {
+        $this->removeFiles($this->integrationTestsDir);
+    }
+
+    /**
+     * @dataProvider versionProvider
+     *
+     * @param string $version
+     * @return void
+     */
+    public function testVcgCommandRunSuccess(string $version)
+    {
+        $this->executeVcgCommand($this->dataDir.'/vcg_config.yaml', $version);
+
+        $this->assertReturnValueZero();
         $this->assertOutput(['Success.']);
         $this->assertFilesRecorded();
+    }
+
+    public function versionProvider(): array
+    {
+        return [
+            'PHP 7.4' => ['7.4'],
+            'PHP 8.0' => ['8.0'],
+            'PHP 8.1' => ['8.1'],
+        ];
     }
 
     public function testVcgCommandRunConfigFileNotFound()
     {
         $this->executeVcgCommand($this->configCasesDir.'/vcg_fig.yaml');
 
-        $this->assertReturnValue(0);
+        $this->assertReturnValueZero();
         $this->assertOutput(['Configuration file not exist!']);
         $this->assertFilesNotExist($this->integrationTestsDir);
     }
@@ -47,34 +78,19 @@ class ExecuteVcgTest extends FunctionalTestCase
         $this->assertOutput(['Configuration file empty!']);
     }
 
-    protected function setUp(): void
+    private function executeVcgCommand(string $configPath, string $version = '7.4')
     {
-        $testsDir = realpath(__DIR__.'/..');
-        $this->integrationTestsDir = $testsDir.'/fixturesOutput/IntegrationTests';
-        $this->dataDir = $testsDir.'/data';
-        $this->configCasesDir = $this->dataDir.'/ConfigsCases';
-
-        $this->removeFiles($this->integrationTestsDir);
-        $this->assertFilesNotExist($this->integrationTestsDir);
-    }
-
-    protected function tearDown(): void
-    {
-        $this->removeFiles($this->integrationTestsDir);
-    }
-
-    private function executeVcgCommand(string $configPath)
-    {
+        $php = 'php' . $version;
         $vcgPath = realpath(__DIR__ . '/../../bin/vcg');
 
-        $command = "php $vcgPath $configPath";
+        $command = "$php $vcgPath $configPath";
 
         exec($command, $this->output, $this->returnValue);
     }
 
-    private function assertReturnValue(int $returnValue)
+    private function assertReturnValueZero()
     {
-        $this->assertEquals($returnValue, $this->returnValue);
+        $this->assertEquals(0, $this->returnValue);
     }
 
     private function assertOutput(array $output)
