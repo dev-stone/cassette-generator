@@ -13,9 +13,9 @@ abstract class ListIterator implements \Iterator
         return current($this->items);
     }
 
-    public function next()
+    public function next(): void
     {
-        return next($this->items);
+        next($this->items);
     }
 
     public function key()
@@ -30,7 +30,7 @@ abstract class ListIterator implements \Iterator
         return $key !== null && $key !== false;
     }
 
-    public function rewind()
+    public function rewind(): void
     {
         reset($this->items);
     }

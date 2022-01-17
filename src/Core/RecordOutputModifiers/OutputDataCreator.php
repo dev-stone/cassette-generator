@@ -15,7 +15,7 @@ class OutputDataCreator
     private ResponseModel $responseModel;
     private array $outputData = [];
 
-    public function makeOutputData(Record $record)
+    public function makeOutputData(Record $record): void
     {
         $recordDefaults = $record->getRecordDefaultsModel();
         $this->requestModel = $recordDefaults->getRequestModel();

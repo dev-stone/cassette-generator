@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Vcg\Tests\Unit\Core;
@@ -12,7 +13,7 @@ class RecordOutputMakerTest extends RecordTestCase
 {
     private Configuration $configuration;
 
-    public function testRecordMaker()
+    public function testRecordMaker(): void
     {
         $record = $this->createRecord();
         $recordMaker = new RecordOutputMaker();

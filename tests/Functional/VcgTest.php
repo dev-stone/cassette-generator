@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Vcg\Tests\Functional;
@@ -21,14 +22,14 @@ class VcgTest extends FunctionalTestCase
         $this->removeFiles($this->integrationTestsDir);
     }
 
-    public function testRun()
+    public function testRun(): void
     {
         $configPath = __DIR__ . '/../data/vcg_config.yaml';
         (new Vcg($configPath))->run();
         $this->assertFilesRecorded();
     }
 
-    public function testNotValidConfig()
+    public function testNotValidConfig(): void
     {
         $this->expectException(\RuntimeException::class);
 
@@ -36,7 +37,7 @@ class VcgTest extends FunctionalTestCase
         (new Vcg($configPath))->run();
     }
 
-    public function testConfigNotExist()
+    public function testConfigNotExist(): void
     {
         $this->expectException(\RuntimeException::class);
 
@@ -44,7 +45,7 @@ class VcgTest extends FunctionalTestCase
         (new Vcg($configPath))->run();
     }
 
-    public function testConfigEmpty()
+    public function testConfigEmpty(): void
     {
         $this->expectException(\RuntimeException::class);
 

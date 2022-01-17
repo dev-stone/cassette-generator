@@ -1,0 +1,10 @@
+parameters:
+    level: 6
+    paths:
+      - src
+      - tests
+    checkMissingIterableValueType: false
+    checkGenericClassInNonGenericObjectType: false
+    ignoreErrors:
+      - '#Method Vcg\\Util\\ListIterator::current\(\) has no return type specified.#'
+      - '#Method Vcg\\Util\\ListIterator::key\(\) has no return type specified.#'

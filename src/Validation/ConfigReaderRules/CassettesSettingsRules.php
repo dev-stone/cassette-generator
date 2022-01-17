@@ -8,26 +8,26 @@ use Vcg\Configuration\ConfigEnum;
 
 class CassettesSettingsRules extends ConfigReaderRules
 {
-    public function validate()
+    public function validate(): void
     {
         $this->validCassettesSettings();
     }
 
-    private function validCassettesSettings()
+    private function validCassettesSettings(): void
     {
         $this->validateFirstLevel(ConfigEnum::CASSETTES_SETTINGS);
         $this->validCassettesHolderAdded();
         $this->validateCassettesHolders();
     }
 
-    private function validCassettesHolderAdded()
+    private function validCassettesHolderAdded(): void
     {
         if (0 === count($this->configReaderData[ConfigEnum::CASSETTES_SETTINGS])) {
             throw new \RuntimeException('Should be at least one cassette holder under cassettes-settings.');
         }
     }
 
-    private function validateCassettesHolders()
+    private function validateCassettesHolders(): void
     {
         foreach ($this->configReaderData[ConfigEnum::CASSETTES_SETTINGS] as $cassetteHolder) {
             $this->validateInputDir($cassetteHolder);
@@ -40,7 +40,7 @@ class CassettesSettingsRules extends ConfigReaderRules
         }
     }
 
-    private function validateCassettesItems(array $cassetteHolder)
+    private function validateCassettesItems(array $cassetteHolder): void
     {
         foreach ($cassetteHolder[ConfigEnum::CASSETTES] as $cassette) {
             $this->validateCassetteOutputFile($cassette);
@@ -50,7 +50,7 @@ class CassettesSettingsRules extends ConfigReaderRules
         }
     }
 
-    private function validateRecordsItems(array $cassetteHolder, array $cassette)
+    private function validateRecordsItems(array $cassetteHolder, array $cassette): void
     {
         foreach ($cassette[ConfigEnum::RECORDS] as $record) {
             $this->validateRecordRequest($record);
@@ -62,12 +62,12 @@ class CassettesSettingsRules extends ConfigReaderRules
         }
     }
 
-    private function validateInputDir(array $cassetteHolder)
+    private function validateInputDir(array $cassetteHolder): void
     {
         $this->validateConfigKey(ConfigEnum::INPUT_DIR, $cassetteHolder);
     }
 
-    private function validateInputDirExist(array $cassetteHolder)
+    private function validateInputDirExist(array $cassetteHolder): void
     {
         $dir = $cassetteHolder[ConfigEnum::INPUT_DIR];
         if (!file_exists($dir)) {
@@ -75,12 +75,12 @@ class CassettesSettingsRules extends ConfigReaderRules
         }
     }
 
-    private function validateOutputDir(array $cassetteHolder)
+    private function validateOutputDir(array $cassetteHolder): void
     {
         $this->validateConfigKey(ConfigEnum::OUTPUT_DIR, $cassetteHolder);
     }
 
-    private function validateOutputDirExist(array $cassetteHolder)
+    private function validateOutputDirExist(array $cassetteHolder): void
     {
         $dir = $cassetteHolder[ConfigEnum::OUTPUT_DIR];
         if (!file_exists($dir)) {
@@ -88,46 +88,46 @@ class CassettesSettingsRules extends ConfigReaderRules
         }
     }
 
-    private function validateCassettes(array $cassetteHolder)
+    private function validateCassettes(array $cassetteHolder): void
     {
         $this->validateConfigKey(ConfigEnum::CASSETTES, $cassetteHolder);
     }
 
-    private function validateCassettesAdded(array $cassetteHolder)
+    private function validateCassettesAdded(array $cassetteHolder): void
     {
         if (0 === count($cassetteHolder[ConfigEnum::CASSETTES])) {
             throw new \RuntimeException('You should add at least one cassette!');
         }
     }
 
-    private function validateCassetteOutputFile(array $cassette)
+    private function validateCassetteOutputFile(array $cassette): void
     {
         $this->validateConfigKey(ConfigEnum::OUTPUT_FILE, $cassette);
     }
 
-    private function validateCassetteRecords(array $cassette)
+    private function validateCassetteRecords(array $cassette): void
     {
         $this->validateConfigKey(ConfigEnum::RECORDS, $cassette);
     }
 
-    private function validateRecordsAdded(array $cassette)
+    private function validateRecordsAdded(array $cassette): void
     {
         if (0 === count($cassette[ConfigEnum::RECORDS])) {
             throw new \RuntimeException('You should add at least one record to cassette!');
         }
     }
 
-    private function validateRecordRequest(array $record)
+    private function validateRecordRequest(array $record): void
     {
         $this->validateConfigKey(ConfigEnum::REQUEST, $record);
     }
 
-    private function validateRecordResponse(array $record)
+    private function validateRecordResponse(array $record): void
     {
         $this->validateConfigKey(ConfigEnum::RESPONSE, $record);
     }
 
-    private function validateRecordAppendKeys(array $record)
+    private function validateRecordAppendKeys(array $record): void
     {
         if (!array_key_exists(ConfigEnum::APPEND, $record)) {
             return;
@@ -141,7 +141,7 @@ class CassettesSettingsRules extends ConfigReaderRules
         }
     }
 
-    private function validateRecordRewriteKeys(array $record)
+    private function validateRecordRewriteKeys(array $record): void
     {
         if (!array_key_exists(ConfigEnum::REWRITE, $record)) {
             return;
@@ -155,7 +155,7 @@ class CassettesSettingsRules extends ConfigReaderRules
         }
     }
 
-    private function validateRecordRequestFileExist(array $cassetteHolder, array $record)
+    private function validateRecordRequestFileExist(array $cassetteHolder, array $record): void
     {
         $filePath = $cassetteHolder[ConfigEnum::INPUT_DIR] . $record[ConfigEnum::REQUEST];
         if (!file_exists($filePath)) {
@@ -163,7 +163,7 @@ class CassettesSettingsRules extends ConfigReaderRules
         }
     }
 
-    private function validateRecordResponseFileExist(array $cassetteHolder, array $record)
+    private function validateRecordResponseFileExist(array $cassetteHolder, array $record): void
     {
         $filePath = $cassetteHolder[ConfigEnum::INPUT_DIR] . $record[ConfigEnum::RESPONSE];
         if (!file_exists($filePath)) {
@@ -171,7 +171,7 @@ class CassettesSettingsRules extends ConfigReaderRules
         }
     }
 
-    private function validateConfigKey(string $key, array $data)
+    private function validateConfigKey(string $key, array $data): void
     {
         if (!array_key_exists($key, $data)) {
             $message = sprintf('Missing %s when read configuration file.', $key);

@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Vcg\Tests\Unit\Core;
@@ -10,7 +11,7 @@ use Vcg\ValueObject\CassetteOutputList;
 
 class WriterPreprocessorTest extends RecordTestCase
 {
-    public function testPreprocessor()
+    public function testPreprocessor(): void
     {
         $configuration = $this->createConfiguration();
         $cassettesHolder = $this->createCassettesHolders($configuration);

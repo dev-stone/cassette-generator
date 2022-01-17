@@ -18,7 +18,7 @@ class Vcg
         $this->preConfigValidator = new PreConfigValidator($configPath);
     }
 
-    public function run()
+    public function run(): void
     {
         $this->preConfigValidator->validate();
         $configuration = new Configuration($this->configPath);

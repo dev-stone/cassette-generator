@@ -62,54 +62,54 @@ class RecordParser
         $this->addBodyLine($body);
     }
 
-    private function addBeginLine()
+    private function addBeginLine(): void
     {
         $this->yaml .= $this->mark;
     }
 
-    private function addRequestLine()
+    private function addRequestLine(): void
     {
         $this->addLine(ConfigEnum::REQUEST);
     }
 
-    private function addMethodLine(string $value = null)
+    private function addMethodLine(string $value = null): void
     {
         $this->addLine(ConfigEnum::METHOD, $value, $this->tab2);
     }
 
-    private function addUrlLine(string $value = null)
+    private function addUrlLine(string $value = null): void
     {
         $this->addLine(ConfigEnum::URL, $value, $this->tab2);
     }
 
-    private function addHeadersLine()
+    private function addHeadersLine(): void
     {
         $this->addLine(ConfigEnum::HEADERS, null, $this->tab2);
     }
 
-    private function addBodyLine(string $value = null)
+    private function addBodyLine(string $value = null): void
     {
         $this->addLine(ConfigEnum::BODY, $value, $this->tab2);
     }
 
-    private function addResponseLine()
+    private function addResponseLine(): void
     {
         $this->addLine(ConfigEnum::RESPONSE);
     }
 
-    private function addStatusLine()
+    private function addStatusLine(): void
     {
         $this->addLine(ConfigEnum::STATUS, null, $this->tab2);
     }
 
-    private function addLinesList(array $items)
+    private function addLinesList(array $items): void
     {
         foreach ($items as $key => $value) {
             $this->addLine($key, $value, $this->tab3);
         }
     }
 
-    private function addLine($key, $value = null, $tab = '    ')
+    private function addLine(string $key, string $value = null, string $tab = '    '): void
     {
         $value = $value === null ? '' : " $value";
         $this->yaml .= $tab . $key. ':' . $value . PHP_EOL;

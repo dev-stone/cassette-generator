@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Vcg\Tests\Unit\Core\RecordOutputModifiers;
@@ -12,7 +13,7 @@ class RecordOutputMakerShouldApplyRewriteTest extends RecordTestCase
 {
     private Configuration $configuration;
 
-    public function testRewriteModifier()
+    public function testRewriteModifier(): void
     {
         $record = $this->createRecord();
         $recordMaker = new RecordOutputMaker();

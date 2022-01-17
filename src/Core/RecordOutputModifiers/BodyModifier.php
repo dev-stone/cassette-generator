@@ -6,7 +6,7 @@ namespace Vcg\Core\RecordOutputModifiers;
 
 abstract class BodyModifier implements RecordModifierInterface
 {
-    protected function trimSpaces(string $xmlContent)
+    protected function trimSpaces(string $xmlContent): string
     {
         $xmlContent = trim($xmlContent);
         $xmlContent = preg_replace('/>\s*/', '>', $xmlContent);

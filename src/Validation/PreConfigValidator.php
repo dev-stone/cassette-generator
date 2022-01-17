@@ -13,7 +13,7 @@ class PreConfigValidator
         $this->configPath = $configPath;
     }
 
-    public function validate()
+    public function validate(): void
     {
         if (!file_exists($this->configPath) || !is_file($this->configPath)) {
             throw new \RuntimeException('Configuration file not exist!');

@@ -13,9 +13,9 @@ abstract class ConfigReaderRules
         $this->configReaderData = $configReaderData;
     }
 
-    abstract public function validate();
+    abstract public function validate(): void;
 
-    protected function validateFirstLevel(string $key)
+    protected function validateFirstLevel(string $key): void
     {
         if (!array_key_exists($key, $this->configReaderData)) {
             $message = sprintf('Missing %s when read configuration file.', $key);
@@ -23,7 +23,7 @@ abstract class ConfigReaderRules
         }
     }
 
-    protected function validateSecondLevel(string $parent, string $key)
+    protected function validateSecondLevel(string $parent, string $key): void
     {
         if (!array_key_exists($key, $this->configReaderData[$parent])) {
             $message = sprintf('Missing %s %s when read configuration file.', $parent, $key);
@@ -31,7 +31,7 @@ abstract class ConfigReaderRules
         }
     }
 
-    protected function validateThirdLevel(string $parent, string $item, string $key)
+    protected function validateThirdLevel(string $parent, string $item, string $key): void
     {
         if (!array_key_exists($key, $this->configReaderData[$parent][$item])) {
             $message = sprintf('Missing %s %s %s when read configuration file.', $parent, $item, $key);

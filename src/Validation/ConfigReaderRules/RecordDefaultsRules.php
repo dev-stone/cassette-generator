@@ -8,7 +8,7 @@ use Vcg\Configuration\ConfigEnum;
 
 class RecordDefaultsRules extends ConfigReaderRules
 {
-    public function validate()
+    public function validate(): void
     {
         $this->validRecordsDefaults();
         $this->validDefaultsRequest();
@@ -20,42 +20,42 @@ class RecordDefaultsRules extends ConfigReaderRules
         $this->validDefaultsResponseHeaders();
     }
 
-    private function validRecordsDefaults()
+    private function validRecordsDefaults(): void
     {
         $this->validateFirstLevel(ConfigEnum::RECORD_DEFAULTS);
     }
 
-    private function validDefaultsRequest()
+    private function validDefaultsRequest(): void
     {
         $this->validateSecondLevel(ConfigEnum::RECORD_DEFAULTS, ConfigEnum::REQUEST);
     }
 
-    private function validDefaultsRequestMethod()
+    private function validDefaultsRequestMethod(): void
     {
         $this->validateThirdLevel(ConfigEnum::RECORD_DEFAULTS, ConfigEnum::REQUEST, ConfigEnum::METHOD);
     }
 
-    private function validDefaultsRequestUrl()
+    private function validDefaultsRequestUrl(): void
     {
         $this->validateThirdLevel(ConfigEnum::RECORD_DEFAULTS, ConfigEnum::REQUEST, ConfigEnum::URL);
     }
 
-    private function validDefaultsRequestHeaders()
+    private function validDefaultsRequestHeaders(): void
     {
         $this->validateThirdLevel(ConfigEnum::RECORD_DEFAULTS, ConfigEnum::REQUEST, ConfigEnum::HEADERS);
     }
 
-    private function validDefaultsResponse()
+    private function validDefaultsResponse(): void
     {
         $this->validateSecondLevel(ConfigEnum::RECORD_DEFAULTS, ConfigEnum::RESPONSE);
     }
 
-    private function validDefaultsResponseStatus()
+    private function validDefaultsResponseStatus(): void
     {
         $this->validateThirdLevel(ConfigEnum::RECORD_DEFAULTS, ConfigEnum::RESPONSE, ConfigEnum::STATUS);
     }
 
-    private function validDefaultsResponseHeaders()
+    private function validDefaultsResponseHeaders(): void
     {
         $this->validateThirdLevel(ConfigEnum::RECORD_DEFAULTS, ConfigEnum::RESPONSE, ConfigEnum::HEADERS);
     }

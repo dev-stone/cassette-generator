@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Vcg\Tests\Functional;
@@ -8,8 +9,8 @@ class ExecuteVcgTest extends FunctionalTestCase
     private string $integrationTestsDir;
     private string $dataDir;
     private string $configCasesDir;
-    private ?int $returnValue;
-    private ?array $output;
+    private ?int $returnValue = null;
+    private ?array $output = null;
 
     protected function setUp(): void
     {
@@ -33,7 +34,7 @@ class ExecuteVcgTest extends FunctionalTestCase
      * @param string $version
      * @return void
      */
-    public function testVcgCommandRunSuccess(string $version)
+    public function testVcgCommandRunSuccess(string $version): void
     {
         $this->executeVcgCommand($this->dataDir.'/vcg_config.yaml', $version);
 
@@ -51,7 +52,7 @@ class ExecuteVcgTest extends FunctionalTestCase
         ];
     }
 
-    public function testVcgCommandRunConfigFileNotFound()
+    public function testVcgCommandRunConfigFileNotFound(): void
     {
         $this->executeVcgCommand($this->configCasesDir.'/vcg_fig.yaml');
 
@@ -60,25 +61,25 @@ class ExecuteVcgTest extends FunctionalTestCase
         $this->assertFilesNotExist($this->integrationTestsDir);
     }
 
-    public function testVcgCommandRunNotValidConfig()
+    public function testVcgCommandRunNotValidConfig(): void
     {
         $this->executeVcgCommand($this->configCasesDir.'/not_valid_records_defaults.yaml');
         $this->assertOutput(['Missing record-defaults when read configuration file.']);
     }
 
-    public function testNotValidConfigCassettesSettings()
+    public function testNotValidConfigCassettesSettings(): void
     {
         $this->executeVcgCommand($this->configCasesDir.'/not_valid_cassette_settings.yaml');
         $this->assertOutput(['Missing cassettes-settings when read configuration file.']);
     }
 
-    public function testEmptyConfig()
+    public function testEmptyConfig(): void
     {
         $this->executeVcgCommand($this->configCasesDir.'/file_empty.yaml');
         $this->assertOutput(['Configuration file empty!']);
     }
 
-    private function executeVcgCommand(string $configPath, string $version = '7.4')
+    private function executeVcgCommand(string $configPath, string $version = '7.4'): void
     {
         $php = 'php' . $version;
         $vcgPath = realpath(__DIR__ . '/../../bin/vcg');
@@ -88,12 +89,12 @@ class ExecuteVcgTest extends FunctionalTestCase
         exec($command, $this->output, $this->returnValue);
     }
 
-    private function assertReturnValueZero()
+    private function assertReturnValueZero(): void
     {
         $this->assertEquals(0, $this->returnValue);
     }
 
-    private function assertOutput(array $output)
+    private function assertOutput(array $output): void
     {
         $this->assertEquals($output, $this->output);
     }

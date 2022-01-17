@@ -30,7 +30,7 @@ class RecordDefaultsLoader
         return $this->recordDefaultsModel;
     }
 
-    private function loadRequestModel()
+    private function loadRequestModel(): void
     {
         $request = $this->settingsRecordDefaults[ConfigEnum::REQUEST];
         $requestModel = (new RequestModel())

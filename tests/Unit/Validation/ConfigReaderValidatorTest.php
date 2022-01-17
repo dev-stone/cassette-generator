@@ -1,128 +1,124 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Vcg\Tests\Unit\Validation;
 
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Vcg\Configuration\ConfigReader;
-use Vcg\Exception\DirectoryNotExistException;
-use Vcg\Exception\MissingConfigItemException;
-use Vcg\Exception\NoCassetteAddedException;
-use Vcg\Exception\NoRecordsAddedException;
-use Vcg\Exception\RecordAppendKeyException;
-use Vcg\Exception\RecordRewriteKeyException;
 use Vcg\Validation\ConfigReaderValidator;
 
 class ConfigReaderValidatorTest extends TestCase
 {
     private array $configReaderData;
 
-    public function testRecordDefaultValidation()
+    public function testRecordDefaultValidation(): void
     {
         $this->expectException(\RuntimeException::class);
         unset($this->configReaderData['record-defaults']);
         $this->validateConfigReaderData();
     }
 
-    public function testRequestRecordDefaultValidation()
+    public function testRequestRecordDefaultValidation(): void
     {
         $this->expectException(\RuntimeException::class);
         unset($this->configReaderData['record-defaults']['request']);
         $this->validateConfigReaderData();
     }
 
-    public function testMethodRequestRecordDefaultValidation()
+    public function testMethodRequestRecordDefaultValidation(): void
     {
         $this->expectException(\RuntimeException::class);
         unset($this->configReaderData['record-defaults']['request']['method']);
         $this->validateConfigReaderData();
     }
 
-    public function testUrlRequestRecordDefaultValidation()
+    public function testUrlRequestRecordDefaultValidation(): void
     {
         $this->expectException(\RuntimeException::class);
         unset($this->configReaderData['record-defaults']['request']['url']);
         $this->validateConfigReaderData();
     }
 
-    public function testHeadersRequestRecordDefaultValidation()
+    public function testHeadersRequestRecordDefaultValidation(): void
     {
         $this->expectException(\RuntimeException::class);
         unset($this->configReaderData['record-defaults']['request']['headers']);
         $this->validateConfigReaderData();
     }
 
-    public function testResponseRecordDefaultValidation()
+    public function testResponseRecordDefaultValidation(): void
     {
         $this->expectException(\RuntimeException::class);
         unset($this->configReaderData['record-defaults']['response']);
         $this->validateConfigReaderData();
     }
 
-    public function testStatusResponseRecordDefaultValidation()
+    public function testStatusResponseRecordDefaultValidation(): void
     {
         $this->expectException(\RuntimeException::class);
         unset($this->configReaderData['record-defaults']['response']['status']);
         $this->validateConfigReaderData();
     }
 
-    public function testHeadersResponseRecordDefaultValidation()
+    public function testHeadersResponseRecordDefaultValidation(): void
     {
         $this->expectException(\RuntimeException::class);
         unset($this->configReaderData['record-defaults']['response']['headers']);
         $this->validateConfigReaderData();
     }
 
-    public function testCassettesSettingsValidation()
+    public function testCassettesSettingsValidation(): void
     {
         $this->expectException(\RuntimeException::class);
         unset($this->configReaderData['cassettes-settings']);
         $this->validateConfigReaderData();
     }
 
-    public function testCassettesHoldersAddedValidation()
+    public function testCassettesHoldersAddedValidation(): void
     {
         $this->expectException(\RuntimeException::class);
         unset($this->configReaderData['cassettes-settings'][0]);
         $this->validateConfigReaderData();
     }
 
-    public function testCassettesHoldersInputDirValidation()
+    public function testCassettesHoldersInputDirValidation(): void
     {
         $this->expectException(\RuntimeException::class);
         unset($this->configReaderData['cassettes-settings'][0]['input-dir']);
         $this->validateConfigReaderData();
     }
 
-    public function testCassettesHoldersInputDirExistValidation()
+    public function testCassettesHoldersInputDirExistValidation(): void
     {
         $this->expectException(\RuntimeException::class);
         $this->configReaderData['cassettes-settings'][0]['input-dir'] = '/not/exist/dir';
         $this->validateConfigReaderData();
     }
 
-    public function testCassettesHoldersOutputDirValidation()
+    public function testCassettesHoldersOutputDirValidation(): void
     {
         $this->expectException(\RuntimeException::class);
         unset($this->configReaderData['cassettes-settings'][0]['output-dir']);
         $this->validateConfigReaderData();
     }
 
-    public function testCassettesHoldersOutputDirExistValidation()
+    public function testCassettesHoldersOutputDirExistValidation(): void
     {
         $this->expectException(\RuntimeException::class);
         $this->configReaderData['cassettes-settings'][0]['output-dir'] = '/not/exist/dir';
         $this->validateConfigReaderData();
     }
 
-    public function testCassettesHoldersCassettesValidation()
+    public function testCassettesHoldersCassettesValidation(): void
     {
         $this->expectException(\RuntimeException::class);
         unset($this->configReaderData['cassettes-settings'][0]['cassettes']);
         $this->validateConfigReaderData();
     }
 
-    public function testCassettesHoldersCassettesAddedValidation()
+    public function testCassettesHoldersCassettesAddedValidation(): void
     {
         $this->expectException(\RuntimeException::class);
         unset($this->configReaderData['cassettes-settings'][0]['cassettes'][0]);
@@ -130,21 +126,21 @@ class ConfigReaderValidatorTest extends TestCase
         $this->validateConfigReaderData();
     }
 
-    public function testCassetteOutputFileValidation()
+    public function testCassetteOutputFileValidation(): void
     {
         $this->expectException(\RuntimeException::class);
         unset($this->configReaderData['cassettes-settings'][0]['cassettes'][0]['output-file']);
         $this->validateConfigReaderData();
     }
 
-    public function testCassetteRecordsValidation()
+    public function testCassetteRecordsValidation(): void
     {
         $this->expectException(\RuntimeException::class);
         unset($this->configReaderData['cassettes-settings'][0]['cassettes'][1]['records']);
         $this->validateConfigReaderData();
     }
 
-    public function testCassetteRecordsAddedValidation()
+    public function testCassetteRecordsAddedValidation(): void
     {
         $this->expectException(\RuntimeException::class);
         unset($this->configReaderData['cassettes-settings'][0]['cassettes'][0]['records'][0]);
@@ -152,21 +148,21 @@ class ConfigReaderValidatorTest extends TestCase
         $this->validateConfigReaderData();
     }
 
-    public function testRecordRequestValidation()
+    public function testRecordRequestValidation(): void
     {
         $this->expectException(\RuntimeException::class);
         unset($this->configReaderData['cassettes-settings'][0]['cassettes'][0]['records'][0]['request']);
         $this->validateConfigReaderData();
     }
 
-    public function testRecordResponseValidation()
+    public function testRecordResponseValidation(): void
     {
         $this->expectException(\RuntimeException::class);
         unset($this->configReaderData['cassettes-settings'][0]['cassettes'][1]['records'][1]['response']);
         $this->validateConfigReaderData();
     }
 
-    public function testRecordAppendValidation()
+    public function testRecordAppendValidation(): void
     {
         $this->expectException(\RuntimeException::class);
         unset($this->configReaderData['cassettes-settings'][0]['cassettes'][0]['records'][0]['append']);
@@ -177,7 +173,7 @@ class ConfigReaderValidatorTest extends TestCase
         $this->validateConfigReaderData();
     }
 
-    public function testRecordRewriteValidation()
+    public function testRecordRewriteValidation(): void
     {
         $this->expectException(\RuntimeException::class);
         unset($this->configReaderData['cassettes-settings'][0]['cassettes'][0]['records'][0]['rewrite']);
@@ -188,14 +184,14 @@ class ConfigReaderValidatorTest extends TestCase
         $this->validateConfigReaderData();
     }
 
-    public function testRecordRequestFileExistValidation()
+    public function testRecordRequestFileExistValidation(): void
     {
         $this->expectException(\RuntimeException::class);
         $this->configReaderData['cassettes-settings'][0]['cassettes'][0]['records'][1]['request'] = 'not-exist.xml';
         $this->validateConfigReaderData();
     }
 
-    public function testRecordResponseFileExistValidation()
+    public function testRecordResponseFileExistValidation(): void
     {
         $this->expectException(\RuntimeException::class);
         $this->configReaderData['cassettes-settings'][0]['cassettes'][0]['records'][1]['response'] = 'not-exist.xml';
@@ -208,13 +204,17 @@ class ConfigReaderValidatorTest extends TestCase
         $this->configReaderData = $configReader->getConfigData();
     }
 
-    private function validateConfigReaderData()
+    private function validateConfigReaderData(): void
     {
         $configReader = $this->createConfigReaderMock($this->configReaderData);
         $configReaderValidator = new ConfigReaderValidator($configReader);
         $configReaderValidator->validate();
     }
 
+    /**
+     * @param array $configData
+     * @return MockObject|ConfigReader
+     */
     private function createConfigReaderMock(array $configData)
     {
         $configReader = $this->createMock(ConfigReader::class);

@@ -39,7 +39,7 @@ class RecordOutputMaker
         return $this;
     }
 
-    private function applyModifiers(Record $record)
+    private function applyModifiers(Record $record): void
     {
         foreach ($this->recordsModifiersList as $modifier) {
             $modifier->apply($record);

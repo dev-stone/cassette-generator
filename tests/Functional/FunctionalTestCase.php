@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Vcg\Tests\Functional;
@@ -7,7 +8,7 @@ use PHPUnit\Framework\TestCase;
 
 class FunctionalTestCase extends TestCase
 {
-    protected function removeFiles(string $filesDir):void
+    protected function removeFiles(string $filesDir): void
     {
         $allFiles = glob($filesDir.'/*');
         foreach ($allFiles as $file) {
@@ -17,14 +18,13 @@ class FunctionalTestCase extends TestCase
         }
     }
 
-    protected function assertFilesRecorded()
+    protected function assertFilesRecorded(): void
     {
         $this->assertLoginFilesRecorded();
         $this->assertRegistrationFilesRecorded();
-
     }
 
-    protected function assertFilesNotExist(string $filesDir)
+    protected function assertFilesNotExist(string $filesDir): void
     {
         $loginExist = file_exists($filesDir . '/login_process.yaml');
         $registrationExist = file_exists($filesDir.'/registration_process.yaml');
@@ -46,7 +46,7 @@ class FunctionalTestCase extends TestCase
         $this->assertFilesContentsEqual($registrationPathExpected, $registrationPathActual);
     }
 
-    protected function assertFilesContentsEqual(string $expected, string $actual)
+    protected function assertFilesContentsEqual(string $expected, string $actual): void
     {
         $expectedContent = file_get_contents($expected);
         $actualContent = file_get_contents($actual);

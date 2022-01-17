@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Vcg\Tests\Functional;
@@ -13,7 +14,7 @@ class RewriteStatusTest extends FunctionalTestCase
         $this->removeFiles($failingDir);
     }
 
-    public function testRun()
+    public function testRun(): void
     {
         $configPath = __DIR__ . '/../data/ConfigsCases/vcg_config_with_error.yaml';
         (new Vcg($configPath))->run();

@@ -10,9 +10,13 @@
         }
     ],
     "require": {
-        "php": "^7.4 || ^8.0 || ^8.1",
-        "phpunit/phpunit": "^8.5 || ^9.5",
+        "php": ">=7.4",
         "symfony/yaml": "^4.0 || ^5.0 || ^6.0"
+    },
+    "require-dev": {
+        "friendsofphp/php-cs-fixer": "^3.5",
+        "phpunit/phpunit": "^9.5",
+        "phpstan/phpstan": "^1.4"
     },
     "autoload": {
         "psr-4": {
@@ -25,8 +29,5 @@
         }
     },
     "bin": ["bin/vcg"],
-    "prefer-stable": true,
-    "require-dev": {
-        "friendsofphp/php-cs-fixer": "^3.5"
-    }
+    "prefer-stable": true
 }
