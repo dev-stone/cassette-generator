@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Vcg\Core\RecordOutputModifiers;
@@ -53,7 +54,6 @@ class OutputDataCreator
         $this->outputData[ConfigEnum::REQUEST][ConfigEnum::URL] = $this->requestModel->getUrl();
 
         return $this;
-
     }
 
     private function addRequestHeaders(): self
