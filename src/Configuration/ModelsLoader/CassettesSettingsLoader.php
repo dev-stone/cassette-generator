@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 namespace Vcg\Configuration\ModelsLoader;
 
-use Vcg\Configuration\Config;
+use Vcg\Configuration\ConfigEnum;
 use Vcg\Configuration\ConfigReader;
 use Vcg\Configuration\Model\CassetteModel;
 use Vcg\Configuration\Model\CassettesHolderModel;
@@ -24,32 +24,32 @@ class CassettesSettingsLoader
     {
         $this->cassettesHolderModelsList = new CassettesHolderModelList();
 
-        foreach ($this->configReader->getSettings(Config::CASSETTES_SETTINGS) as $cassettesHolder) {
+        foreach ($this->configReader->getSettings(ConfigEnum::CASSETTES_SETTINGS) as $cassettesHolder) {
             $cassettesHolderModel = new CassettesHolderModel();
             $this->cassettesHolderModelsList->add($cassettesHolderModel);
 
             $cassettesHolderModel
-                ->setName($cassettesHolder[Config::NAME])
-                ->setInputDir($cassettesHolder[Config::INPUT_DIR])
-                ->setOutputDir($cassettesHolder[Config::OUTPUT_DIR]);
-            foreach ($cassettesHolder[Config::CASSETTES] as $cassette) {
-                $cassetteModel = (new CassetteModel())->setOutputFile($cassette[Config::OUTPUT_FILE]);
+                ->setName($cassettesHolder[ConfigEnum::NAME])
+                ->setInputDir($cassettesHolder[ConfigEnum::INPUT_DIR])
+                ->setOutputDir($cassettesHolder[ConfigEnum::OUTPUT_DIR]);
+            foreach ($cassettesHolder[ConfigEnum::CASSETTES] as $cassette) {
+                $cassetteModel = (new CassetteModel())->setOutputFile($cassette[ConfigEnum::OUTPUT_FILE]);
                 $cassettesHolderModel->addCassetteModel($cassetteModel);
 
-                foreach ($cassette[Config::RECORDS] as $record) {
+                foreach ($cassette[ConfigEnum::RECORDS] as $record) {
                     $recordModel = new RecordModel();
                     $cassetteModel->addRecordModel($recordModel);
                     $recordModel
-                        ->setRequestBodyPath($record[Config::REQUEST])
-                        ->setResponseBodyPath($record[Config::RESPONSE]);
+                        ->setRequestBodyPath($record[ConfigEnum::REQUEST])
+                        ->setResponseBodyPath($record[ConfigEnum::RESPONSE]);
 
-                    if (array_key_exists(Config::APPEND, $record)) {
-                        foreach ($record[Config::APPEND] as $key => $value) {
+                    if (array_key_exists(ConfigEnum::APPEND, $record)) {
+                        foreach ($record[ConfigEnum::APPEND] as $key => $value) {
                             $recordModel->addAppendItem($key, $value);
                         }
                     }
-                    if (array_key_exists(Config::REWRITE, $record)) {
-                        foreach ($record[Config::REWRITE] as $key => $value) {
+                    if (array_key_exists(ConfigEnum::REWRITE, $record)) {
+                        foreach ($record[ConfigEnum::REWRITE] as $key => $value) {
                             $recordModel->addRewriteItems($key, $value);
                         }
                     }

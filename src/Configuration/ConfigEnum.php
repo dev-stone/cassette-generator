@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 namespace Vcg\Configuration;
 
-final class Config
+final class ConfigEnum
 {
     public const RECORD_DEFAULTS = 'record-defaults';
     public const REQUEST = 'request';

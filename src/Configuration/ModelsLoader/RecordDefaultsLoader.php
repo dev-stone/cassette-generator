@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 namespace Vcg\Configuration\ModelsLoader;
 
-use Vcg\Configuration\Config;
+use Vcg\Configuration\ConfigEnum;
 use Vcg\Configuration\ConfigReader;
 use Vcg\Configuration\Model\RecordDefaultsModel;
 use Vcg\Configuration\Model\RequestModel;
@@ -16,7 +16,7 @@ class RecordDefaultsLoader
 
     public function __construct(ConfigReader $configReader)
     {
-        $this->settingsRecordDefaults = $configReader->getSettings(Config::RECORD_DEFAULTS);
+        $this->settingsRecordDefaults = $configReader->getSettings(ConfigEnum::RECORD_DEFAULTS);
     }
 
     public function load(): RecordDefaultsModel
@@ -31,11 +31,11 @@ class RecordDefaultsLoader
 
     private function loadRequestModel()
     {
-        $request = $this->settingsRecordDefaults[Config::REQUEST];
+        $request = $this->settingsRecordDefaults[ConfigEnum::REQUEST];
         $requestModel = (new RequestModel())
-            ->setMethod($request[Config::METHOD])
-            ->setUrl($request[Config::URL]);
-        foreach ($request[Config::HEADERS] as $key => $value) {
+            ->setMethod($request[ConfigEnum::METHOD])
+            ->setUrl($request[ConfigEnum::URL]);
+        foreach ($request[ConfigEnum::HEADERS] as $key => $value) {
             $requestModel->addHeader($key, $value);
         }
         $this->recordDefaultsModel->setRequestModel($requestModel);
@@ -44,11 +44,11 @@ class RecordDefaultsLoader
     private function loadResponseModel(): void
     {
         $responseModel = new ResponseModel();
-        $response = $this->settingsRecordDefaults[Config::RESPONSE];
-        foreach ($response[Config::STATUS] as $key => $value) {
+        $response = $this->settingsRecordDefaults[ConfigEnum::RESPONSE];
+        foreach ($response[ConfigEnum::STATUS] as $key => $value) {
             $responseModel->addStatus($key, $value);
         }
-        foreach ($response[Config::HEADERS] as $key => $value) {
+        foreach ($response[ConfigEnum::HEADERS] as $key => $value) {
             $responseModel->addHeader($key, $value);
         }
 

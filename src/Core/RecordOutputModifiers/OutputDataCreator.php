@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 namespace Vcg\Core\RecordOutputModifiers;
 
-use Vcg\Configuration\Config;
+use Vcg\Configuration\ConfigEnum;
 use Vcg\Configuration\Model\RequestModel;
 use Vcg\Configuration\Model\ResponseModel;
 use Vcg\ValueObject\Record;
@@ -34,8 +34,8 @@ class OutputDataCreator
     private function initOutputData(): self
     {
         $this->outputData = [
-            Config::REQUEST => [],
-            Config::RESPONSE => []
+            ConfigEnum::REQUEST => [],
+            ConfigEnum::RESPONSE => []
         ];
 
         return $this;
@@ -43,14 +43,14 @@ class OutputDataCreator
 
     private function addRequestMethod(): self
     {
-        $this->outputData[Config::REQUEST][Config::METHOD] = $this->requestModel->getMethod();
+        $this->outputData[ConfigEnum::REQUEST][ConfigEnum::METHOD] = $this->requestModel->getMethod();
 
         return $this;
     }
 
     private function addRequestUrl(): self
     {
-        $this->outputData[Config::REQUEST][Config::URL] = $this->requestModel->getUrl();
+        $this->outputData[ConfigEnum::REQUEST][ConfigEnum::URL] = $this->requestModel->getUrl();
 
         return $this;
 
@@ -59,7 +59,7 @@ class OutputDataCreator
     private function addRequestHeaders(): self
     {
         foreach ($this->requestModel->getHeaders() as $key => $value) {
-            $this->outputData[Config::REQUEST][Config::HEADERS][$key] = $value;
+            $this->outputData[ConfigEnum::REQUEST][ConfigEnum::HEADERS][$key] = $value;
         }
 
         return $this;
@@ -68,7 +68,7 @@ class OutputDataCreator
     private function addResponseStatus(): self
     {
         foreach ($this->responseModel->getStatus() as $key => $value) {
-            $this->outputData[Config::RESPONSE][Config::STATUS][$key] = $value;
+            $this->outputData[ConfigEnum::RESPONSE][ConfigEnum::STATUS][$key] = $value;
         }
 
         return $this;
@@ -77,7 +77,7 @@ class OutputDataCreator
     private function addResponseHeaders(): self
     {
         foreach ($this->responseModel->getHeaders() as $key => $value) {
-            $this->outputData[Config::RESPONSE][Config::HEADERS][$key] = $value;
+            $this->outputData[ConfigEnum::RESPONSE][ConfigEnum::HEADERS][$key] = $value;
         }
 
         return $this;

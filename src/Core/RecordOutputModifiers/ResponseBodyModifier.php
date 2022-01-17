@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 namespace Vcg\Core\RecordOutputModifiers;
 
-use Vcg\Configuration\Config;
+use Vcg\Configuration\ConfigEnum;
 use Vcg\ValueObject\Record;
 
 class ResponseBodyModifier extends BodyModifier
@@ -16,7 +16,7 @@ class ResponseBodyModifier extends BodyModifier
         $xmlContent = '\'' . $xmlContent . '\'';
 
         $outputData = $record->getOutputData();
-        $outputData[Config::RESPONSE][Config::BODY] = $xmlContent;
+        $outputData[ConfigEnum::RESPONSE][ConfigEnum::BODY] = $xmlContent;
         $record->setOutputData($outputData);
     }
 }

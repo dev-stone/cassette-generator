@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 namespace Vcg\Core;
 
-use Vcg\Configuration\Config;
+use Vcg\Configuration\ConfigEnum;
 
 class RecordParser
 {
@@ -32,11 +32,11 @@ class RecordParser
 
     private function parseRequestLines(): void
     {
-        $request = $this->data[Config::REQUEST] ?? [];
-        $method = $request[Config::METHOD] ?? null;
-        $url = $request[Config::URL] ?? null;
-        $headers = $request[Config::HEADERS] ?? [];
-        $body = $request[Config::BODY] ?? null;
+        $request = $this->data[ConfigEnum::REQUEST] ?? [];
+        $method = $request[ConfigEnum::METHOD] ?? null;
+        $url = $request[ConfigEnum::URL] ?? null;
+        $headers = $request[ConfigEnum::HEADERS] ?? [];
+        $body = $request[ConfigEnum::BODY] ?? null;
 
         $this->addRequestLine();
         $this->addMethodLine($method);
@@ -48,10 +48,10 @@ class RecordParser
 
     private function parseResponseLines(): void
     {
-        $response = $this->data[Config::RESPONSE] ?? [];
-        $status = $response[Config::STATUS] ?? [];
-        $headers = $response[Config::HEADERS] ?? [];
-        $body = $response[Config::BODY] ?? [];
+        $response = $this->data[ConfigEnum::RESPONSE] ?? [];
+        $status = $response[ConfigEnum::STATUS] ?? [];
+        $headers = $response[ConfigEnum::HEADERS] ?? [];
+        $body = $response[ConfigEnum::BODY] ?? [];
 
         $this->addResponseLine();
         $this->addStatusLine();
@@ -68,37 +68,37 @@ class RecordParser
 
     private function addRequestLine()
     {
-        $this->addLine(Config::REQUEST);
+        $this->addLine(ConfigEnum::REQUEST);
     }
 
     private function addMethodLine(string $value = null)
     {
-        $this->addLine(Config::METHOD, $value, $this->tab2);
+        $this->addLine(ConfigEnum::METHOD, $value, $this->tab2);
     }
 
     private function addUrlLine(string $value = null)
     {
-        $this->addLine(Config::URL, $value, $this->tab2);
+        $this->addLine(ConfigEnum::URL, $value, $this->tab2);
     }
 
     private function addHeadersLine()
     {
-        $this->addLine(Config::HEADERS, null, $this->tab2);
+        $this->addLine(ConfigEnum::HEADERS, null, $this->tab2);
     }
 
     private function addBodyLine(string $value = null)
     {
-        $this->addLine(Config::BODY, $value, $this->tab2);
+        $this->addLine(ConfigEnum::BODY, $value, $this->tab2);
     }
 
     private function addResponseLine()
     {
-        $this->addLine(Config::RESPONSE);
+        $this->addLine(ConfigEnum::RESPONSE);
     }
 
     private function addStatusLine()
     {
-        $this->addLine(Config::STATUS, null, $this->tab2);
+        $this->addLine(ConfigEnum::STATUS, null, $this->tab2);
     }
 
     private function addLinesList(array $items)
