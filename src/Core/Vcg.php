@@ -23,7 +23,7 @@ class Vcg
         $this->preConfigValidator->validate();
         $configuration = new Configuration($this->configPath);
         $cassettesHolders = (new RecordDataCollector($configuration))->collect();
-        $cassettesOutputs = (new WriterPreprocessor())->prepareCassettes($cassettesHolders);
+        $cassettesOutputs = (new WriterPreprocessor())->prepareCassettesOutput($cassettesHolders);
 
         $cassettesWriter = new CassetteWriter();
         $cassettesWriter->write($cassettesOutputs);

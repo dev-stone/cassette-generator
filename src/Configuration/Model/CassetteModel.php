@@ -6,11 +6,24 @@ namespace Vcg\Configuration\Model;
 
 class CassetteModel
 {
+    private string $inputDir;
     private string $outputFile;
     /**
      * @var RecordModel[]
      */
     private array $recordsModels = [];
+
+    public function getInputDir(): string
+    {
+        return $this->inputDir;
+    }
+
+    public function setInputDir(string $inputDir): self
+    {
+        $this->inputDir = $inputDir;
+
+        return $this;
+    }
 
     public function getOutputFile(): string
     {

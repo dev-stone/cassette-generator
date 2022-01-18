@@ -4,38 +4,66 @@ declare(strict_types=1);
 
 namespace Vcg\Core;
 
+use Vcg\ValueObject\Cassette;
 use Vcg\ValueObject\CassetteHolderList;
 use Vcg\ValueObject\CassetteOutput;
 use Vcg\ValueObject\CassetteOutputList;
+use Vcg\ValueObject\CassettesHolder;
+use Vcg\ValueObject\Record;
 
 class WriterPreprocessor
 {
     private RecordOutputMaker $recordOutputMaker;
+    private CassetteOutputList $cassettesOutputList;
 
     public function __construct()
     {
         $this->recordOutputMaker = new RecordOutputMaker();
     }
 
-    public function prepareCassettes(CassetteHolderList $cassetteHolderList): CassetteOutputList
+    public function prepareCassettesOutput(CassetteHolderList $cassetteHolderList): CassetteOutputList
     {
-        $cassettesOutputList = new CassetteOutputList();
+        $this->cassettesOutputList = new CassetteOutputList();
 
         foreach ($cassetteHolderList as $cassettesHolder) {
-            foreach ($cassettesHolder->getCassettes() as $cassette) {
-                $cassetteOutputString = '';
-                foreach ($cassette->getRecords() as $record) {
-                    $this->recordOutputMaker->make($record);
-                    $recordParser = new RecordParser($record->getOutputData());
-                    $cassetteOutputString .= $recordParser->parse();
-                }
-                $cassetteOutput = (new CassetteOutput())
-                    ->setOutputPath($cassette->getOutputPath())
-                    ->setOutputString($cassetteOutputString);
-                $cassettesOutputList->add($cassetteOutput);
-            }
+            $this->processCassettesHolder($cassettesHolder);
         }
 
-        return $cassettesOutputList;
+        return $this->cassettesOutputList;
+    }
+
+    private function processCassettesHolder(CassettesHolder $cassettesHolder): void
+    {
+        foreach ($cassettesHolder->getCassettes() as $cassette) {
+            $this->processCassette($cassette);
+        }
+    }
+
+    private function processCassette(Cassette $cassette): void
+    {
+        $cassetteOutputString = $this->makeCassetteOutputString($cassette);
+        $cassetteOutput = (new CassetteOutput())
+            ->setOutputPath($cassette->getOutputPath())
+            ->setOutputString($cassetteOutputString);
+        $this->cassettesOutputList->add($cassetteOutput);
+    }
+
+    private function makeCassetteOutputString(Cassette $cassette): string
+    {
+        $cassetteOutputString = '';
+        foreach ($cassette->getRecords() as $record) {
+            $cassetteOutputString = $this->makeRecordOutputString($record, $cassetteOutputString);
+        }
+
+        return $cassetteOutputString;
+    }
+
+    private function makeRecordOutputString(Record $record, string $cassetteOutputString): string
+    {
+        $this->recordOutputMaker->make($record);
+        $recordParser = new RecordParser($record->getOutputData());
+        $cassetteOutputString .= $recordParser->parse();
+
+        return $cassetteOutputString;
     }
 }

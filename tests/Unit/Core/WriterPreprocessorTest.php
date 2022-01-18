@@ -17,7 +17,7 @@ class WriterPreprocessorTest extends RecordTestCase
         $cassettesHolder = $this->createCassettesHolders($configuration);
 
         $preprocessor = new WriterPreprocessor();
-        $actual = $preprocessor->prepareCassettes($cassettesHolder);
+        $actual = $preprocessor->prepareCassettesOutput($cassettesHolder);
         $expected = $this->expectedCassettesList();
         $this->assertEquals($expected, $actual);
     }

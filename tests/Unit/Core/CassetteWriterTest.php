@@ -17,7 +17,7 @@ class CassetteWriterTest extends RecordTestCase
         $cassettesHolders = (new RecordDataCollector($configuration))->collect();
 
         $preprocessor = new WriterPreprocessor();
-        $cassettesOutputs = $preprocessor->prepareCassettes($cassettesHolders);
+        $cassettesOutputs = $preprocessor->prepareCassettesOutput($cassettesHolders);
 
         $cassettesWriter = new CassetteWriter();
         $cassettesWriter->write($cassettesOutputs);
