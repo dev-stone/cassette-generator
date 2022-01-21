@@ -10,7 +10,9 @@ composer require --dev arlauskas/cassette-generator
 vendor/bin/vcg vcg_config.yaml
 ```
 
-## Config example
+## Configuration 
+
+### Config example
 ```yaml
 record-defaults:
     request:
@@ -75,6 +77,32 @@ cassettes-settings:
                             'response|headers|Date':
 
 ```
+
+### Request example
+```xml
+<?xml version="1.0" encoding="UTF-8"?>
+<SOAP-ENV:Envelope xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/" xmlns:ns1="http://tempuri.org/">
+    <SOAP-ENV:Body>
+        <ns1:FindUser>
+            <ns1:User>test@example.com</ns1:User>
+        </ns1:FindUser>
+    </SOAP-ENV:Body>
+</SOAP-ENV:Envelope>
+```
+
+### Response example
+
+```xml
+<?xml version="1.0" encoding="UTF-8"?>
+<SOAP-ENV:Envelope xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/" xmlns:ns1="http://tempuri.org/">
+    <SOAP-ENV:Body>
+        <ns1:FindUserResponse>
+            <ns1:FindUserResult>true</ns1:FindUserResult>
+        </ns1:FindUserResponse>
+    </SOAP-ENV:Body>
+</SOAP-ENV:Envelope>
+```
+
 
 ## Config reference
 
