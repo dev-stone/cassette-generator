@@ -10,9 +10,9 @@ composer require --dev arlauskas/cassette-generator
 vendor/bin/vcg vcg_config.yaml
 ```
 
-## Configuration 
+## Configuration example
 
-### Config example
+### vcg_config.yaml
 ```yaml
 record-defaults:
     request:
@@ -78,7 +78,7 @@ cassettes-settings:
 
 ```
 
-### Request example
+### find_user_request.xml
 ```xml
 <?xml version="1.0" encoding="UTF-8"?>
 <SOAP-ENV:Envelope xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/" xmlns:ns1="http://tempuri.org/">
@@ -90,7 +90,7 @@ cassettes-settings:
 </SOAP-ENV:Envelope>
 ```
 
-### Response example
+### find_user_response.xml
 
 ```xml
 <?xml version="1.0" encoding="UTF-8"?>
