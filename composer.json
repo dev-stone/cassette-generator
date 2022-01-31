@@ -28,6 +28,10 @@
             "Vcg\\Tests\\": "tests/"
         }
     },
+    "scripts": {
+        "phpstan": "phpstan analyse -c phpstan.neon",
+        "csfixer": " vendor/bin/php-cs-fixer fix src"
+    },
     "bin": ["bin/vcg"],
     "minimum-stability": "dev"
 }
