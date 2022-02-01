@@ -7,6 +7,7 @@ namespace Vcg\Core;
 use Vcg\Core\RecordOutputModifiers\AppendModifier;
 use Vcg\Core\RecordOutputModifiers\OutputDataCreator;
 use Vcg\Core\RecordOutputModifiers\RecordModifierInterface;
+use Vcg\Core\RecordOutputModifiers\ReplaceModifier;
 use Vcg\Core\RecordOutputModifiers\RequestBodyModifier;
 use Vcg\Core\RecordOutputModifiers\ResponseBodyModifier;
 use Vcg\Core\RecordOutputModifiers\RewriteModifier;
@@ -28,6 +29,7 @@ class RecordOutputMaker
             new RewriteModifier(),
             new RequestBodyModifier(),
             new ResponseBodyModifier(),
+            new ReplaceModifier(),
         ];
     }
 

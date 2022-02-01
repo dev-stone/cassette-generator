@@ -1,4 +1,4 @@
-<SOAP-ENV:Envelope xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/" xmlns:ns1="http://schemas.datacontract.org/2004/07/MaximaApp.Services.Contracts.AppService" xmlns:ns2="http://schemas.datacontract.org/2004/07/MaximaApp.Services.Contracts" xmlns:ns3="http://tempuri.org/">
+<SOAP-ENV:Envelope xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/" xmlns:ns1="http://schemas.datacontract.org" xmlns:ns2="http://schemas.datacontract.org" xmlns:ns3="http://tempuri.org/">
     <SOAP-ENV:Body>
         <ns3:GetGameCouponsResponse>
             <ns3:GetGameCouponsResult>

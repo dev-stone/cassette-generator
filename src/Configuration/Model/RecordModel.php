@@ -66,4 +66,9 @@ class RecordModel
 
         return $this;
     }
+
+    public function getReplaceItems(): array
+    {
+        return $this->replaceItems;
+    }
 }

@@ -4,18 +4,19 @@ declare(strict_types=1);
 
 namespace Vcg\Tests\Unit\Core;
 
+use PHPUnit\Framework\TestCase;
+use Vcg\Tests\Unit\VcgConfigFactory;
 use Vcg\ValueObject\CassetteOutput;
-use Vcg\Tests\Unit\RecordTestCase;
 use Vcg\Core\WriterPreprocessor;
 use Vcg\ValueObject\CassetteOutputList;
 
-class WriterPreprocessorTest extends RecordTestCase
+class WriterPreprocessorTest extends TestCase
 {
     public function testPreprocessor(): void
     {
         $dir = __DIR__ . '/../..';
-        $configuration = $this->createConfiguration();
-        $cassettesHolder = $this->createCassettesHolders($configuration, $dir);
+        $configuration = VcgConfigFactory::createConfiguration();
+        $cassettesHolder = VcgConfigFactory::createCassettesHolders($configuration, $dir);
 
         $preprocessor = new WriterPreprocessor();
         $actual = $preprocessor->prepareCassettesOutput($cassettesHolder);

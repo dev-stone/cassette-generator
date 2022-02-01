@@ -13,6 +13,7 @@ class Record
     private string $responseBodyPath;
     private array $appendItems = [];
     private array $rewriteItems = [];
+    private array $replaceItems = [];
     private array $outputData = [];
 
     public function getRecordDefaultsModel(): RecordDefaultsModel
@@ -73,6 +74,18 @@ class Record
         $this->rewriteItems[$key] = $value;
 
         return $this;
+    }
+
+    public function addReplaceItems(string $key, array $value = null): self
+    {
+        $this->replaceItems[$key] = $value;
+
+        return $this;
+    }
+
+    public function getReplaceItems(): array
+    {
+        return $this->replaceItems;
     }
 
     public function getOutputData(): array

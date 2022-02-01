@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Vcg\Tests\Unit;
 
-use PHPUnit\Framework\TestCase;
 use Vcg\Configuration\Configuration;
 use Vcg\Configuration\Model\CassetteModel;
 use Vcg\Configuration\Model\CassettesHolderModel;
@@ -18,14 +17,14 @@ use Vcg\ValueObject\CassetteHolderList;
 use Vcg\ValueObject\CassettesHolder;
 use Vcg\ValueObject\Record;
 
-class RecordTestCase extends TestCase
+class VcgConfigFactory
 {
-    protected function createConfiguration(): Configuration
+    public static function createConfiguration(): Configuration
     {
         return new Configuration(__DIR__ . '/../data/vcg_config.yaml');
     }
 
-    protected function createRecordDefaults(): RecordDefaultsModel
+    public static function createRecordDefaults(): RecordDefaultsModel
     {
         $requestModel = (new RequestModel())
             ->setMethod('POST')
@@ -50,7 +49,7 @@ class RecordTestCase extends TestCase
             ->setResponseModel($responseModel);
     }
 
-    protected function createCassettesSettings(): CassettesHolderModelList
+    public static function createCassettesSettings(): CassettesHolderModelList
     {
         $findUser = (new RecordModel())
             ->setRequestBodyPath('find_user_request.xml')
@@ -78,39 +77,41 @@ class RecordTestCase extends TestCase
             ->addRecordModel($checkCode)
             ->addRecordModel($passCode);
 
+        $dir = realpath(__DIR__ . '/../');
         $cassettesHolder = new CassettesHolderModel();
         $cassettesHolder
             ->setName('integration_tests')
-            ->setInputDir('/var/www/cassette-generator/tests/fixturesInput/')
-            ->setOutputDir('/var/www/cassette-generator/tests/fixturesOutput/IntegrationTests/')
+            ->setInputDir($dir . '/fixturesInput/')
+            ->setOutputDir($dir . '/fixturesOutput/IntegrationTests/')
             ->addCassetteModel($cassetteLogin)
             ->addCassetteModel($cassetteRegister);
 
         return (new CassettesHolderModelList())->add($cassettesHolder);
     }
 
-    protected function createCassettesHolders(Configuration $configuration, string $baseDir): CassetteHolderList
+    public static function createCassettesHolders(Configuration $configuration, string $baseDir): CassetteHolderList
     {
+        $dir = realpath($baseDir);
         $recordDefaultsModel = $configuration->getRecordDefaults();
         $findUserRecord = (new Record())
             ->setRecordDefaultsModel($recordDefaultsModel)
-            ->setRequestBodyPath(realpath($baseDir . '/fixturesInput/find_user_request.xml'))
-            ->setResponseBodyPath(realpath($baseDir . '/fixturesInput/find_user_response.xml'))
+            ->setRequestBodyPath($dir . '/fixturesInput/find_user_request.xml')
+            ->setResponseBodyPath($dir . '/fixturesInput/find_user_response.xml')
             ->addAppendItem('request|headers|SOAPAction', 'IAppService/FindUser');
         $userLoginRecord = (new Record())
             ->setRecordDefaultsModel($recordDefaultsModel)
-            ->setRequestBodyPath(realpath($baseDir . '/fixturesInput/user_login_request.xml'))
-            ->setResponseBodyPath(realpath($baseDir . '/fixturesInput/user_login_response.xml'))
+            ->setRequestBodyPath($dir . '/fixturesInput/user_login_request.xml')
+            ->setResponseBodyPath($dir . '/fixturesInput/user_login_response.xml')
             ->addAppendItem('request|headers|SOAPAction', 'IAppService/Login');
         $checkCodeRecord = (new Record())
             ->setRecordDefaultsModel($recordDefaultsModel)
-            ->setRequestBodyPath(realpath($baseDir . '/fixturesInput/check_code_request.xml'))
-            ->setResponseBodyPath(realpath($baseDir . '/fixturesInput/check_code_response.xml'))
+            ->setRequestBodyPath($dir . '/fixturesInput/check_code_request.xml')
+            ->setResponseBodyPath($dir . '/fixturesInput/check_code_response.xml')
             ->addAppendItem('request|headers|SOAPAction', 'IAppService/CheckCode');
         $passCodeRecord = (new Record())
             ->setRecordDefaultsModel($recordDefaultsModel)
-            ->setRequestBodyPath(realpath($baseDir . '/fixturesInput/pass_code_request.xml'))
-            ->setResponseBodyPath(realpath($baseDir . '/fixturesInput/pass_code_response.xml'))
+            ->setRequestBodyPath($dir . '/fixturesInput/pass_code_request.xml')
+            ->setResponseBodyPath($dir . '/fixturesInput/pass_code_response.xml')
             ->addAppendItem('request|headers|SOAPAction', 'IAppService/PassCode');
 
         $loginCassette = (new Cassette())

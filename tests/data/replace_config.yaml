@@ -35,5 +35,5 @@ cassettes-settings:
                             'request|headers|SOAPAction': 'IAppService/GetGameCoupons'
                         replace:
                             'response|body':
-                                - 'date|{{{dateFrom}}}|-2 day'
-                                - 'date|{{{dateTo}}}|+3 day'
+                                - 'date|{{{dateFrom}}}|-2 day|Y-m-d'
+                                - 'date|{{{dateTo}}}|+3 day|Y-m-d'

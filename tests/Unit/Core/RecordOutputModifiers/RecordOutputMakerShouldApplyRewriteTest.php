@@ -4,14 +4,20 @@ declare(strict_types=1);
 
 namespace Vcg\Tests\Unit\Core\RecordOutputModifiers;
 
+use PHPUnit\Framework\TestCase;
 use Vcg\Configuration\Configuration;
 use Vcg\Core\RecordOutputMaker;
-use Vcg\Tests\Unit\RecordTestCase;
+use Vcg\Tests\Unit\VcgConfigFactory;
 use Vcg\ValueObject\Record;
 
-class RecordOutputMakerShouldApplyRewriteTest extends RecordTestCase
+class RecordOutputMakerShouldApplyRewriteTest extends TestCase
 {
     private Configuration $configuration;
+
+    protected function setUp(): void
+    {
+        $this->configuration = VcgConfigFactory::createConfiguration();
+    }
 
     public function testRewriteModifier(): void
     {
@@ -21,11 +27,6 @@ class RecordOutputMakerShouldApplyRewriteTest extends RecordTestCase
 
         $expected = $this->expectedRecord();
         $this->assertEquals($expected, $record);
-    }
-
-    protected function setUp(): void
-    {
-        $this->configuration = $this->createConfiguration();
     }
 
     private function expectedRecord(): Record

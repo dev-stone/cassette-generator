@@ -4,18 +4,30 @@ declare(strict_types=1);
 
 namespace Vcg\Tests\Unit\Core;
 
+use PHPUnit\Framework\TestCase;
 use Vcg\Core\RecordDataCollector;
-use Vcg\Tests\Unit\RecordTestCase;
+use Vcg\Tests\Unit\ReplaceConfigFactory;
+use Vcg\Tests\Unit\VcgConfigFactory;
 
-class RecordDataCollectorTest extends RecordTestCase
+class RecordDataCollectorTest extends TestCase
 {
-    public function testMake(): void
+    public function testVcgCollect(): void
     {
-        $configuration = $this->createConfiguration();
+        $configuration = VcgConfigFactory::createConfiguration();
         $collector = new RecordDataCollector($configuration);
 
         $dir = __DIR__ . '/../..';
-        $expectedCassettesHolders = $this->createCassettesHolders($configuration, $dir);
+        $expectedCassettesHolders = VcgConfigFactory::createCassettesHolders($configuration, $dir);
+        $this->assertEquals($expectedCassettesHolders, $collector->collect());
+    }
+
+    public function testReplaceCollect(): void
+    {
+        $configuration = ReplaceConfigFactory::createConfiguration();
+        $collector = new RecordDataCollector($configuration);
+
+        $dir = __DIR__ . '/../..';
+        $expectedCassettesHolders = ReplaceConfigFactory::createCassettesHolders($configuration, $dir);
         $this->assertEquals($expectedCassettesHolders, $collector->collect());
     }
 }

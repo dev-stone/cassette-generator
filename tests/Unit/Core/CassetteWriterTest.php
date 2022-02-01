@@ -4,16 +4,17 @@ declare(strict_types=1);
 
 namespace Vcg\Tests\Unit\Core;
 
+use PHPUnit\Framework\TestCase;
 use Vcg\Core\RecordDataCollector;
-use Vcg\Tests\Unit\RecordTestCase;
 use Vcg\Core\CassetteWriter;
 use Vcg\Core\WriterPreprocessor;
+use Vcg\Tests\Unit\VcgConfigFactory;
 
-class CassetteWriterTest extends RecordTestCase
+class CassetteWriterTest extends TestCase
 {
     public function testWriteCassettes(): void
     {
-        $configuration = $this->createConfiguration();
+        $configuration = VcgConfigFactory::createConfiguration();
         $cassettesHolders = (new RecordDataCollector($configuration))->collect();
 
         $preprocessor = new WriterPreprocessor();

@@ -2,9 +2,8 @@
 
 declare(strict_types=1);
 
-namespace Vcg\Tests\Unit\Configuration;
+namespace Vcg\Tests\Unit;
 
-use PHPUnit\Framework\TestCase;
 use Vcg\Configuration\Configuration;
 use Vcg\Configuration\Model\CassetteModel;
 use Vcg\Configuration\Model\CassettesHolderModel;
@@ -13,18 +12,19 @@ use Vcg\Configuration\Model\RecordDefaultsModel;
 use Vcg\Configuration\Model\RecordModel;
 use Vcg\Configuration\Model\RequestModel;
 use Vcg\Configuration\Model\ResponseModel;
+use Vcg\ValueObject\Cassette;
+use Vcg\ValueObject\CassetteHolderList;
+use Vcg\ValueObject\CassettesHolder;
+use Vcg\ValueObject\Record;
 
-class ReplaceConfigTest extends TestCase
+class ReplaceConfigFactory
 {
-    public function testReplaceConfig(): void
+    public static function createConfiguration(): Configuration
     {
-        $configuration = new Configuration(__DIR__ . '/../../data/replace_config.yaml');
-
-        $this->assertEquals($this->expectedRecordDefaults(), $configuration->getRecordDefaults());
-        $this->assertEquals($this->expectedCassettesSettings(), $configuration->getCassettesHolderModelList());
+        return new Configuration(__DIR__ . '/../data/replace_config.yaml');
     }
 
-    private function expectedRecordDefaults(): RecordDefaultsModel
+    public static function createRecordDefaults(): RecordDefaultsModel
     {
         $requestModel = (new RequestModel())
             ->setMethod('POST')
@@ -49,15 +49,15 @@ class ReplaceConfigTest extends TestCase
             ->setResponseModel($responseModel);
     }
 
-    private function expectedCassettesSettings(): CassettesHolderModelList
+    public static function createCassettesSettings(): CassettesHolderModelList
     {
         $getCoupons = (new RecordModel())
             ->setRequestBodyPath('game_play_request.xml')
             ->setResponseBodyPath('game_play_response.xml')
             ->addAppendItem('request|headers|SOAPAction', 'IAppService/GetGameCoupons')
             ->addReplaceItems('response|body', [
-                'date|{{{dateFrom}}}|-2 day',
-                'date|{{{dateTo}}}|+3 day'
+                'date|{{{dateFrom}}}|-2 day|Y-m-d',
+                'date|{{{dateTo}}}|+3 day|Y-m-d'
             ]);
         $cassetteGamePlay = (new CassetteModel())
             ->setOutputFile('game_play.yaml')
@@ -71,5 +71,25 @@ class ReplaceConfigTest extends TestCase
             ->addCassetteModel($cassetteGamePlay);
 
         return (new CassettesHolderModelList())->add($cassettesHolder);
+    }
+
+    public static function createCassettesHolders(Configuration $configuration, string $baseDir): CassetteHolderList
+    {
+        $dir = realpath($baseDir);
+        $recordDefaultsModel = $configuration->getRecordDefaults();
+        $getCouponsRecord = (new Record())
+            ->setRecordDefaultsModel($recordDefaultsModel)
+            ->setRequestBodyPath($dir . '/fixturesInput/game_play_request.xml')
+            ->setResponseBodyPath(realpath($baseDir . '/fixturesInput/game_play_response.xml'))
+            ->addAppendItem('request|headers|SOAPAction', 'IAppService/GetGameCoupons');
+
+        $gamePlayCassette = (new Cassette())
+            ->setOutputPath($dir . '/fixturesOutput/IntegrationTests/game_play.yaml')
+            ->addRecord($getCouponsRecord);
+
+        $cassettesHolder = (new CassettesHolder())
+            ->addCassette($gamePlayCassette);
+
+        return (new CassetteHolderList())->add($cassettesHolder);
     }
 }
