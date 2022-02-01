@@ -13,8 +13,9 @@ class WriterPreprocessorTest extends RecordTestCase
 {
     public function testPreprocessor(): void
     {
+        $dir = __DIR__ . '/../..';
         $configuration = $this->createConfiguration();
-        $cassettesHolder = $this->createCassettesHolders($configuration);
+        $cassettesHolder = $this->createCassettesHolders($configuration, $dir);
 
         $preprocessor = new WriterPreprocessor();
         $actual = $preprocessor->prepareCassettesOutput($cassettesHolder);
@@ -26,11 +27,12 @@ class WriterPreprocessorTest extends RecordTestCase
     {
         $expectedLoginCassette = file_get_contents(__DIR__ . '/../../data/CassettesExpected/login_process_expected.yaml');
         $expectedRegistrationCassette = file_get_contents(__DIR__ . '/../../data/CassettesExpected/registration_process_expected.yaml');
+        $outputPath = realpath(__DIR__ . '/../../fixturesOutput/IntegrationTests');
         $cassetteOutputLogin = (new CassetteOutput())
-            ->setOutputPath('/var/www/cassette-generator/tests/fixturesOutput/IntegrationTests/login_process.yaml')
+            ->setOutputPath($outputPath . '/login_process.yaml')
             ->setOutputString($expectedLoginCassette);
         $cassetteOutputRegister = (new CassetteOutput())
-            ->setOutputPath('/var/www/cassette-generator/tests/fixturesOutput/IntegrationTests/registration_process.yaml')
+            ->setOutputPath($outputPath. '/registration_process.yaml')
             ->setOutputString($expectedRegistrationCassette);
 
         return (new CassetteOutputList())

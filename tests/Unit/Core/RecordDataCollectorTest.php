@@ -14,7 +14,8 @@ class RecordDataCollectorTest extends RecordTestCase
         $configuration = $this->createConfiguration();
         $collector = new RecordDataCollector($configuration);
 
-        $expectedCassettesHolders = $this->createCassettesHolders($configuration);
+        $dir = __DIR__ . '/../..';
+        $expectedCassettesHolders = $this->createCassettesHolders($configuration, $dir);
         $this->assertEquals($expectedCassettesHolders, $collector->collect());
     }
 }

@@ -89,36 +89,36 @@ class RecordTestCase extends TestCase
         return (new CassettesHolderModelList())->add($cassettesHolder);
     }
 
-    protected function createCassettesHolders(Configuration $configuration): CassetteHolderList
+    protected function createCassettesHolders(Configuration $configuration, string $baseDir): CassetteHolderList
     {
         $recordDefaultsModel = $configuration->getRecordDefaults();
         $findUserRecord = (new Record())
             ->setRecordDefaultsModel($recordDefaultsModel)
-            ->setRequestBodyPath('/var/www/cassette-generator/tests/fixturesInput/find_user_request.xml')
-            ->setResponseBodyPath('/var/www/cassette-generator/tests/fixturesInput/find_user_response.xml')
+            ->setRequestBodyPath(realpath($baseDir . '/fixturesInput/find_user_request.xml'))
+            ->setResponseBodyPath(realpath($baseDir . '/fixturesInput/find_user_response.xml'))
             ->addAppendItem('request|headers|SOAPAction', 'IAppService/FindUser');
         $userLoginRecord = (new Record())
             ->setRecordDefaultsModel($recordDefaultsModel)
-            ->setRequestBodyPath('/var/www/cassette-generator/tests/fixturesInput/user_login_request.xml')
-            ->setResponseBodyPath('/var/www/cassette-generator/tests/fixturesInput/user_login_response.xml')
+            ->setRequestBodyPath(realpath($baseDir . '/fixturesInput/user_login_request.xml'))
+            ->setResponseBodyPath(realpath($baseDir . '/fixturesInput/user_login_response.xml'))
             ->addAppendItem('request|headers|SOAPAction', 'IAppService/Login');
         $checkCodeRecord = (new Record())
             ->setRecordDefaultsModel($recordDefaultsModel)
-            ->setRequestBodyPath('/var/www/cassette-generator/tests/fixturesInput/check_code_request.xml')
-            ->setResponseBodyPath('/var/www/cassette-generator/tests/fixturesInput/check_code_response.xml')
+            ->setRequestBodyPath(realpath($baseDir . '/fixturesInput/check_code_request.xml'))
+            ->setResponseBodyPath(realpath($baseDir . '/fixturesInput/check_code_response.xml'))
             ->addAppendItem('request|headers|SOAPAction', 'IAppService/CheckCode');
         $passCodeRecord = (new Record())
             ->setRecordDefaultsModel($recordDefaultsModel)
-            ->setRequestBodyPath('/var/www/cassette-generator/tests/fixturesInput/pass_code_request.xml')
-            ->setResponseBodyPath('/var/www/cassette-generator/tests/fixturesInput/pass_code_response.xml')
+            ->setRequestBodyPath(realpath($baseDir . '/fixturesInput/pass_code_request.xml'))
+            ->setResponseBodyPath(realpath($baseDir . '/fixturesInput/pass_code_response.xml'))
             ->addAppendItem('request|headers|SOAPAction', 'IAppService/PassCode');
 
         $loginCassette = (new Cassette())
-            ->setOutputPath('/var/www/cassette-generator/tests/fixturesOutput/IntegrationTests/login_process.yaml')
+            ->setOutputPath(realpath($baseDir . '/fixturesOutput/IntegrationTests/login_process.yaml'))
             ->addRecord($findUserRecord)
             ->addRecord($userLoginRecord);
         $registerCassette = (new Cassette())
-            ->setOutputPath('/var/www/cassette-generator/tests/fixturesOutput/IntegrationTests/registration_process.yaml')
+            ->setOutputPath(realpath($baseDir . '/fixturesOutput/IntegrationTests/registration_process.yaml'))
             ->addRecord($checkCodeRecord)
             ->addRecord($passCodeRecord);
 

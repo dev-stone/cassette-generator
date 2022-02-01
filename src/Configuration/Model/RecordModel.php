@@ -10,6 +10,7 @@ class RecordModel
     private string $responseBodyPath;
     private array $appendItems = [];
     private array $rewriteItems = [];
+    private array $replaceItems = [];
 
     public function getRequestBodyPath(): string
     {
@@ -55,6 +56,13 @@ class RecordModel
     public function addRewriteItems(string $key, string $value = null): self
     {
         $this->rewriteItems[$key] = $value;
+
+        return $this;
+    }
+
+    public function addReplaceItems(string $key, array $value = null): self
+    {
+        $this->replaceItems[$key] = $value;
 
         return $this;
     }

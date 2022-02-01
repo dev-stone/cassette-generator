@@ -1,0 +1,39 @@
+record-defaults:
+    request:
+        method: POST
+        url: "'http://127.0.0.1:8080/soap'"
+        headers:
+            Host: "'127.0.0.1:8080'"
+            Content-Type: "'text/xml; charset=utf-8;'"
+            SOAPAction: "'http://tempuri.org/'"
+    response:
+        status:
+            http_version: "'1.1'"
+            code: "'200'"
+            message: OK
+        headers:
+            Cache-Control: private
+            Content-Length: "'196'"
+            Content-Type: "'text/xml; charset=utf-8'"
+            Server: Microsoft-IIS/8.0
+            X-AspNet-Version: 4.0.30319
+            X-Powered-By: ASP.NET
+            Date: "'Wed, 10 Feb 2021 07:35:56 GMT'"
+cassettes-settings:
+    -
+        name: 'replace_placeholder'
+        input-dir: '/var/www/cassette-generator/tests/fixturesInput/'
+        output-dir: '/var/www/cassette-generator/tests/fixturesOutput/IntegrationTests/'
+        cassettes:
+            -
+                output-file: 'game_play.yaml'
+                records:
+                    -
+                        request: 'game_play_request.xml'
+                        response: 'game_play_response.xml'
+                        append:
+                            'request|headers|SOAPAction': 'IAppService/GetGameCoupons'
+                        replace:
+                            'response|body':
+                                - 'date|{{{dateFrom}}}|-2 day'
+                                - 'date|{{{dateTo}}}|+3 day'

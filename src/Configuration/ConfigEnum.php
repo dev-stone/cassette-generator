@@ -23,4 +23,5 @@ final class ConfigEnum
     public const RECORDS = 'records';
     public const APPEND = 'append';
     public const REWRITE = 'rewrite';
+    public const REPLACE = 'replace';
 }

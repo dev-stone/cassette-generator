@@ -67,6 +67,7 @@ class CassettesSettingsLoader
 
         $this->addAppendItems($recordModel, $record);
         $this->addRewriteItems($recordModel, $record);
+        $this->addReplaceItems($recordModel, $record);
     }
 
     private function addAppendItems(RecordModel $recordModel, array $record): void
@@ -88,6 +89,17 @@ class CassettesSettingsLoader
 
         foreach ($record[ConfigEnum::REWRITE] as $key => $value) {
             $recordModel->addRewriteItems($key, $value);
+        }
+    }
+
+    private function addReplaceItems(RecordModel $recordModel, array $record): void
+    {
+        if (!array_key_exists(ConfigEnum::REPLACE, $record)) {
+            return;
+        }
+
+        foreach ($record[ConfigEnum::REPLACE] as $key => $value) {
+            $recordModel->addReplaceItems($key, $value);
         }
     }
 }

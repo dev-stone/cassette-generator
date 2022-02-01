@@ -1,0 +1,28 @@
+<SOAP-ENV:Envelope xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/" xmlns:ns1="http://schemas.datacontract.org/2004/07/MaximaApp.Services.Contracts.AppService" xmlns:ns2="http://schemas.datacontract.org/2004/07/MaximaApp.Services.Contracts" xmlns:ns3="http://tempuri.org/">
+    <SOAP-ENV:Body>
+        <ns3:GetGameCouponsResponse>
+            <ns3:GetGameCouponsResult>
+                <ns2:Coupons>
+                    <ns1:Coupon>
+                        <ns1:Id>44401</ns1:Id>
+                        <ns1:DateFrom>{{{dateFrom}}}</ns1:DateFrom>
+                        <ns1:DateTo>{{{dateTo}}}</ns1:DateTo>
+                        <ns1:IsCouponActivated>false</ns1:IsCouponActivated>
+                    </ns1:Coupon>
+                    <ns1:Coupon>
+                        <ns1:Id>44402</ns1:Id>
+                        <ns1:DateFrom>{{{dateFrom}}}</ns1:DateFrom>
+                        <ns1:DateTo>{{{dateTo}}}</ns1:DateTo>
+                        <ns1:IsCouponActivated>true</ns1:IsCouponActivated>
+                    </ns1:Coupon>
+                    <ns1:Coupon>
+                        <ns1:Id>44403</ns1:Id>
+                        <ns1:DateFrom>{{{dateFrom}}}</ns1:DateFrom>
+                        <ns1:DateTo>{{{dateTo}}}</ns1:DateTo>
+                        <ns1:IsCouponActivated>false</ns1:IsCouponActivated>
+                    </ns1:Coupon>
+                </ns2:Coupons>
+            </ns3:GetGameCouponsResult>
+        </ns3:GetGameCouponsResponse>
+    </SOAP-ENV:Body>
+</SOAP-ENV:Envelope>
