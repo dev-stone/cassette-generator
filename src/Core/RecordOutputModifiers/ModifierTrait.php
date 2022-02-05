@@ -7,9 +7,9 @@ namespace Vcg\Core\RecordOutputModifiers;
 trait ModifierTrait
 {
     protected array $outputData;
-    protected ?string $level1;
-    protected ?string $level2;
-    protected ?string $level3;
+    protected ?string $level1 = null;
+    protected ?string $level2 = null;
+    protected ?string $level3 = null;
 
     private function populateLevels(string $index): void
     {
@@ -36,12 +36,6 @@ trait ModifierTrait
             && $this->isValueLevel2nd();
     }
 
-    private function canModifyLevel3rd(): bool
-    {
-        return $this->hasLevel3rd()
-            && $this->isKeyExistLevel3d();
-    }
-
     private function hasLevel2nd(): bool
     {
         return null !== $this->level1
@@ -66,6 +60,12 @@ trait ModifierTrait
     private function setOutputItemLevel2nd(string $outputItem): void
     {
         $this->outputData[$this->level1][$this->level2] = $outputItem;
+    }
+
+    private function canModifyLevel3rd(): bool
+    {
+        return $this->hasLevel3rd()
+            && $this->isKeyExistLevel3d();
     }
 
     private function hasLevel3rd(): bool

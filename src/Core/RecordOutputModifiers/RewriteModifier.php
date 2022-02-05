@@ -13,7 +13,12 @@ class RewriteModifier implements RecordModifierInterface
     public function apply(Record $record): void
     {
         $this->outputData = $record->getOutputData();
+        $this->rewriteOutputDataItems($record);
+        $record->setOutputData($this->outputData);
+    }
 
+    private function rewriteOutputDataItems(Record $record): void
+    {
         foreach ($record->getRewriteItems() as $index => $value) {
             $this->populateLevels($index);
 
@@ -26,8 +31,6 @@ class RewriteModifier implements RecordModifierInterface
                 $this->rewriteLevel3rd($value);
             }
         }
-
-        $record->setOutputData($this->outputData);
     }
 
     protected function rewriteLevel2nd($value): void

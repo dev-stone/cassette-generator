@@ -13,8 +13,13 @@ class AppendModifier implements RecordModifierInterface
     public function apply(Record $record): void
     {
         $this->outputData = $record->getOutputData();
-        foreach ($record->getAppendItems() as $index => $value) {
+        $this->appendOutputDataItems($record);
+        $record->setOutputData($this->outputData);
+    }
 
+    private function appendOutputDataItems(Record $record): void
+    {
+        foreach ($record->getAppendItems() as $index => $value) {
             $this->populateLevels($index);
 
             if ($this->canModifyLevel2nd()) {
@@ -26,8 +31,6 @@ class AppendModifier implements RecordModifierInterface
                 $this->appendLevel3rd($value);
             }
         }
-
-        $record->setOutputData($this->outputData);
     }
 
     private function appendLevel2nd(string $value): void
