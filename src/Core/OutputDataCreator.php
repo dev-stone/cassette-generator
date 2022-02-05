@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Vcg\Core\RecordOutputModifiers;
+namespace Vcg\Core;
 
 use Vcg\Configuration\ConfigEnum;
 use Vcg\Configuration\Model\RequestModel;

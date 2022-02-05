@@ -8,23 +8,61 @@ use Vcg\ValueObject\Record;
 
 class AppendModifier implements RecordModifierInterface
 {
+    use ModifierTrait;
+
     public function apply(Record $record): void
     {
-        $outputData = $record->getOutputData();
-        foreach ($record->getAppendItems() as $append => $value) {
-            [$root, $list, $key] = explode('|', $append);
-            $outputItem = $outputData[$root][$list][$key];
+        $this->outputData = $record->getOutputData();
+        foreach ($record->getAppendItems() as $index => $value) {
 
-            $addQuote = '';
-            if (strrpos($outputItem, "'") === strlen($outputItem)-1) {
-                $addQuote = "'";
-                $outputItem = substr($outputItem, 0, -1);
+            $this->populateLevels($index);
+
+            if ($this->canModifyLevel2nd()) {
+                $this->appendLevel2nd($value);
+                continue;
             }
 
-            $outputItem = $outputItem . $value . $addQuote;
-            $outputData[$root][$list][$key] = $outputItem;
+            if ($this->canModifyLevel3rd()) {
+                $this->appendLevel3rd($value);
+            }
         }
 
-        $record->setOutputData($outputData);
+        $record->setOutputData($this->outputData);
+    }
+
+    private function appendLevel2nd(string $value): void
+    {
+        $outputItem = $this->getOutputItemLevel2nd();
+
+        $addQuote = '';
+        if ($this->isLastSymbolQuote($outputItem)) {
+            $this->removeLastSymbol($outputItem);
+            $addQuote = "'";
+        }
+
+        $this->setOutputItemLevel2nd($outputItem . $value . $addQuote);
+    }
+
+    private function appendLevel3rd(string $value): void
+    {
+        $outputItem = $this->getOutputItemLevel3rd();
+
+        $addQuote = '';
+        if ($this->isLastSymbolQuote($outputItem)) {
+            $this->removeLastSymbol($outputItem);
+            $addQuote = "'";
+        }
+
+        $this->setOutputItemLevel3rd($outputItem . $value . $addQuote);
+    }
+
+    private function isLastSymbolQuote(string $outputItem): bool
+    {
+        return strrpos($outputItem, "'") === strlen($outputItem) - 1;
+    }
+
+    private function removeLastSymbol(string &$outputItem)
+    {
+        $outputItem = substr($outputItem, 0, -1);
     }
 }

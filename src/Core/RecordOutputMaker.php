@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Vcg\Core;
 
 use Vcg\Core\RecordOutputModifiers\AppendModifier;
-use Vcg\Core\RecordOutputModifiers\OutputDataCreator;
 use Vcg\Core\RecordOutputModifiers\RecordModifierInterface;
 use Vcg\Core\RecordOutputModifiers\ReplaceModifier;
 use Vcg\Core\RecordOutputModifiers\RequestBodyModifier;
